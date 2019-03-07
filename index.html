@@ -12,21 +12,61 @@
   <body>
     <header><img src="imgs/galogo_xs.jpg" alt="" /></header>
     <div class="main">
-      <div class="login">
-        <h2>staff ID:</h2>
-        <input placeholder="Staff ID" type="text" />
-        <a href="#" id="cantFindID">Don't know your staff ID?</a>
+      <div class="page loginPage show">
+        <div class="findIDForm hidden">
+          <button id="closeIDForm">x</button>
+          <form action="#">
+            <input placeholder="Full Name" type="text" required />
+            <input placeholder="Date of Birth" type="text" required />
+            <button id="formBtn">Submit</button>
+          </form>
+        </div>
+        <div class="mainContent loginForm" id="loginPageContent">
+          <h2>staff ID:</h2>
+          <input placeholder="Staff ID" type="text" />
+          <a href="#" id="cantFindID">Don't know your staff ID?</a>
+          <button id="loginBtn" onclick="login()">Login</button>
+        </div>
       </div>
-      <div class="findIDForm hidden">
-        <button id="closeIDForm">x</button>
-        <form action="#">
-          <input placeholder="Full Name" type="text" required />
-          <input placeholder="Date of Birth" type="text" required />
-          <button id="formBtn">Submit</button>
-        </form>
+      <div class="page optionPage hidden">
+        <div class="mainContent options">
+          <button class="option">Report a Fault</button>
+          <button class="option">View a Fault</button>
+          <button class="option">Update a Fault</button>
+        </div>
       </div>
     </div>
-    <div class="bottom"><button>Login</button></div>
+    <div class="bottom">
+      <button id="backBtn" class="hidden" onclick="test2()">Back</button>
+    </div>
     <script type="text/javascript" src="js/main.js"></script>
+    <script>
+      function login() {
+        $(".loginPage")
+          .addClass("hidden")
+          .removeClass("show");
+        $(".optionPage")
+          .addClass("show")
+          .removeClass("hidden");
+
+        $("#backBtn")
+          .addClass("show")
+          .removeClass("hidden");
+      }
+      function test2() {
+        $(".loginPage")
+          .addClass("show")
+          .removeClass("hidden");
+        $(".optionPage")
+          .addClass("hidden")
+          .removeClass("show");
+        $("#loginBtn")
+          .addClass("show")
+          .removeClass("hidden");
+        $("#backBtn")
+          .addClass("hidden")
+          .removeClass("show");
+      }
+    </script>
   </body>
 </html>

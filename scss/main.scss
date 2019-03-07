@@ -6,7 +6,6 @@ html {
 }
 
 header {
-  border: black 2px solid;
   height: 60px;
   display: flex;
   align-items: center;
@@ -17,19 +16,41 @@ header {
 }
 
 .main {
-  border: black 2px solid;
+  border: none;
   height: calc(100vh - 150px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  .page {
+    grid-column: 1;
+    grid-row: 1;
+    background-color: none;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    .mainContent {
+      height: 200px;
+      width: 250px;
+      background-color: white;
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      * {
+        text-align: center;
+      }
+    }
+  }
 }
 
 .bottom {
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: center;
-  border: black 2px solid;
   height: 60px;
+  * {
+    grid-column: 1;
+    grid-row: 1;
+  }
   button {
     height: 40px;
     width: 250px;
@@ -37,11 +58,51 @@ header {
   }
 }
 
-.login {
-  border: $secondary_colour 2px solid;
-  display: grid;
-  justify-items: center;
-  align-items: center;
+.loginPage {
+  z-index: 1;
+  &.hidden {
+    transform: translate(-1000px);
+    transition: all 2s ease-in-out;
+  }
+  &.show {
+    transform: translate(0px);
+    transition: all 2s ease-in-out;
+  }
+}
+
+#loginBtn {
+  z-index: 1;
+  &.hidden {
+    transform: translate(-1000px);
+    transition: all 2s ease-in-out;
+  }
+  &.show {
+    transform: translate(0px);
+    transition: all 2s ease-in-out;
+  }
+}
+
+.optionPage {
+  &.hidden {
+    transform: translate(1000px);
+    transition: all 2s ease-in-out;
+  }
+  &.show {
+    transform: translate(0px);
+    transition: all 2s ease-in-out;
+  }
+}
+
+#backBtn {
+  z-index: 1;
+  &.show {
+    transform: translate(0px);
+    transition: all 2s ease-in-out;
+  }
+  &.hidden {
+    transform: translate(1000px);
+    transition: all 2s ease-in-out;
+  }
 }
 
 .findIDForm {
@@ -57,7 +118,6 @@ header {
   height: 0%;
   transition: 1s ease;
   visibility: hidden;
-
   * {
     margin: 5px;
   }
@@ -70,8 +130,8 @@ header {
     visibility: visible;
     height: 100%;
     opacity: 1;
+    z-index: 1;
   }
-
   form {
     * {
       width: 150px;
@@ -86,20 +146,18 @@ header {
       height: 35px;
       border-radius: 20px;
     }
-
     ::placeholder {
       color: $primary_colour;
     }
-
     input[type="text"] {
     }
     input[type="date"] {
     }
-
     #formBtn {
       width: 100px;
     }
   }
+
   #closeIDForm {
     position: absolute;
     top: 10px;
