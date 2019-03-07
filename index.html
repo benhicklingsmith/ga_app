@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>GA FMA</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/main.css" />
-    <title>GA Application</title>
-  </head>
-  <body>
-    <header><img src="imgs/galogo_xs.jpg" alt="" /></header>
-    <div class="main">
-      <div class="login">
-        <h2>staff ID:</h2>
-        <input placeholder="Staff ID" type="text" />
-        <a href="#" id="cantFindID">Don't know your staff ID?</a>
-      </div>
-      <div class="findIDForm hidden">
-        <button id="closeIDForm">x</button>
-        <form action="#">
-          <input placeholder="Full Name" type="text" required />
-          <input placeholder="Date of Birth" type="text" required />
-          <button id="formBtn">Submit</button>
-        </form>
-      </div>
-    </div>
-    <div class="bottom"><button>Login</button></div>
-    <script type="text/javascript" src="js/main.js"></script>
-  </body>
+    <head>
+        <title>GA FMA</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="css/main.css" />
+    </head>
+    <body>
+        <header><img src="imgs/galogo_xs.jpg" alt="" /></header>
+        <div class="main">
+            <div class="login">
+                <h2>staff ID:</h2>
+                <input placeholder="Staff ID" type="text" />
+                <a href="#" id="cantFindID">Don't know your staff ID?</a>
+            </div>
+            <div class="findIDForm hidden">
+                <button id="closeIDForm">x</button>
+                <form action="#">
+                    <input placeholder="Full Name" type="text" required />
+                    <input placeholder="Date of Birth" type="text" required />
+                    <button id="formBtn">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="bottom">
+            <button onclick="test('dummy data')">Login</button>
+        </div>
+        <script type="text/javascript" src="js/main.js"></script>
+    </body>
 </html>
