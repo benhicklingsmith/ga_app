@@ -1,5 +1,108 @@
-$primary_color: grey;
+$primary_colour: white;
+$secondary_colour: rgb(207, 0, 41);
 
-h1 {
-  color: $primary_color;
+html {
+  box-sizing: border-box;
+}
+
+header {
+  border: black 2px solid;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    height: calc(inherit - 20px);
+  }
+}
+
+.main {
+  border: black 2px solid;
+  height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: black 2px solid;
+  height: 60px;
+  button {
+    height: 40px;
+    width: 250px;
+    border-radius: 5px;
+  }
+}
+
+.login {
+  border: $secondary_colour 2px solid;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.findIDForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $secondary_colour;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 0%;
+  transition: 1s ease;
+  visibility: hidden;
+
+  * {
+    margin: 5px;
+  }
+
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+  &.show {
+    visibility: visible;
+    height: 100%;
+    opacity: 1;
+  }
+
+  form {
+    * {
+      width: 150px;
+      display: block;
+      margin: 10px auto;
+      text-align: center;
+      border: none;
+      background: none;
+      color: $primary_colour;
+      outline: none;
+      border: 2px solid $primary_colour;
+      height: 35px;
+      border-radius: 20px;
+    }
+
+    ::placeholder {
+      color: $primary_colour;
+    }
+
+    input[type="text"] {
+    }
+    input[type="date"] {
+    }
+
+    #formBtn {
+      width: 100px;
+    }
+  }
+  #closeIDForm {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
 }
