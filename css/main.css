@@ -2,7 +2,6 @@ html {
   box-sizing: border-box; }
 
 header {
-  border: black 2px solid;
   height: 60px;
   display: flex;
   align-items: center;
@@ -11,28 +10,75 @@ header {
     height: calc(inherit - 20px); }
 
 .main {
-  border: black 2px solid;
+  border: none;
   height: calc(100vh - 150px);
-  display: flex;
-  align-items: center;
-  justify-content: center; }
+  display: grid; }
+  .main .page {
+    grid-column: 1;
+    grid-row: 1;
+    background-color: none;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-content: center; }
+    .main .page .mainContent {
+      height: 200px;
+      width: 250px;
+      background-color: white;
+      display: grid;
+      justify-items: center;
+      align-items: center; }
+      .main .page .mainContent * {
+        text-align: center; }
 
 .bottom {
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: center;
-  border: black 2px solid;
   height: 60px; }
+  .bottom * {
+    grid-column: 1;
+    grid-row: 1; }
   .bottom button {
     height: 40px;
     width: 250px;
     border-radius: 5px; }
 
-.login {
-  border: #cf0029 2px solid;
-  display: grid;
-  justify-items: center;
-  align-items: center; }
+.loginPage {
+  z-index: 1; }
+  .loginPage.hidden {
+    transform: translate(-1000px);
+    transition: all 2s ease-in-out; }
+  .loginPage.show {
+    transform: translate(0px);
+    transition: all 2s ease-in-out; }
+
+#loginBtn {
+  z-index: 1; }
+  #loginBtn.hidden {
+    transform: translate(-1000px);
+    transition: all 2s ease-in-out; }
+  #loginBtn.show {
+    transform: translate(0px);
+    transition: all 2s ease-in-out; }
+
+.optionPage.hidden {
+  transform: translate(1000px);
+  transition: all 2s ease-in-out; }
+
+.optionPage.show {
+  transform: translate(0px);
+  transition: all 2s ease-in-out; }
+
+#backBtn {
+  z-index: 1; }
+  #backBtn.show {
+    transform: translate(0px);
+    transition: all 2s ease-in-out; }
+  #backBtn.hidden {
+    transform: translate(1000px);
+    transition: all 2s ease-in-out; }
 
 .findIDForm {
   display: flex;
@@ -55,7 +101,8 @@ header {
   .findIDForm.show {
     visibility: visible;
     height: 100%;
-    opacity: 1; }
+    opacity: 1;
+    z-index: 1; }
   .findIDForm form * {
     width: 150px;
     display: block;
