@@ -51,15 +51,8 @@ header {
   .section.scrollable {
     overflow: scroll; }
 
-#findIDForm {
-  grid-template-rows: 30px auto; }
-  #findIDForm * {
-    border: black 2px solid; }
-
-.step {
-  display: none; }
-  .step.current {
-    display: grid; }
+.optionBtn:focus {
+  background-color: grey; }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   form.large {
