@@ -3,26 +3,21 @@ body {
   height: 100%;
   min-width: 300px;
   margin: 0;
-  padding: 0;
-}
-html *,
-body * {
-  box-sizing: border-box;
-}
+  padding: 0; }
+  html *,
+  body * {
+    box-sizing: border-box; }
 
 header {
   text-align: center;
   border: black 2px solid;
   height: 70px;
-  margin: 0px 0px 10px 0px;
-}
-header h1 {
-  color: red;
-}
+  margin: 0px 0px 10px 0px; }
+  header h1 {
+    color: red; }
 
 .main {
-  height: calc(100% - 160px);
-}
+  height: calc(100% - 160px); }
 
 .footer {
   height: 70px;
@@ -34,89 +29,38 @@ header h1 {
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%;
-}
+  width: 100%; }
 
 .section {
   height: 100%;
   display: none;
-  border: black 2px solid;
-  background-color: white;
-}
-.section.current {
-  display: grid;
-}
-.section .sectionArea {
-  background-color: blue;
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
-  display: grid;
-  align-self: center;
-  justify-self: center;
-}
-.section.scrollable {
-  overflow: scroll;
-}
-
-form {
-  display: grid;
-  grid-gap: 10px;
-  background-color: darkgrey;
-  align-self: center;
-  justify-self: center;
-  border: red 2px solid;
-  margin-bottom: 10px;
-}
-form * {
-  text-align: center;
-  padding: 0;
-  margin: 0;
-}
-form.small {
-  width: 280px;
-  height: 280px;
-}
-form.large {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  margin-top: 10px;
-}
-form.large div {
-  width: 100%;
-  display: none;
-  background-color: #505252;
-}
-form.large div * {
-  align-self: center;
-  justify-self: center;
-  margin-bottom: 10px;
-}
-form.large div img {
-  width: calc(100% - 20px);
-}
-form.large div.current {
-  display: grid;
-}
+  border: black 2px solid; }
+  .section.current {
+    display: grid; }
+  .section .sectionArea {
+    border: 2px solid black;
+    display: grid;
+    align-self: center;
+    justify-self: center; }
+    .section .sectionArea.large {
+      width: calc(100% - 50px);
+      height: calc(100% - 50px); }
+    .section .sectionArea.small {
+      width: 280px;
+      height: 280px; }
+  .section.scrollable {
+    overflow: scroll; }
 
 #findIDForm {
-  grid-template-rows: 30px auto;
-}
-#findIDForm * {
-  border: black 2px solid;
-}
+  grid-template-rows: 30px auto; }
+  #findIDForm * {
+    border: black 2px solid; }
 
 .step {
-  display: none;
-}
-.step.current {
-  display: grid;
-}
+  display: none; }
+  .step.current {
+    display: grid; }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   form.large {
-    width: 70%;
-  }
-}
-
-/*# sourceMappingURL=main.css.map */
+    width: 70%; } }

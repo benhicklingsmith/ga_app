@@ -5,14 +5,14 @@ body {
   margin: 0;
   padding: 0;
   * {
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
 }
 
 header {
   text-align: center;
   border: black 2px solid;
-  height: 70px; 
+  height: 70px;
   h1 {
     color: red;
   }
@@ -40,63 +40,69 @@ header {
   height: 100%;
   display: none;
   border: black 2px solid;
-  background-color: white;
   &.current {
     display: grid;
   }
   .sectionArea {
-    background-color: blue;
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
+    border: 2px solid black;
+
     display: grid;
     align-self: center;
     justify-self: center;
+    &.large {
+      width: calc(100% - 50px);
+      height: calc(100% - 50px);
+    }
+    &.small {
+      width: 280px;
+      height: 280px;
+    }
   }
   &.scrollable {
     overflow: scroll;
   }
 }
 
-form {
-  display: grid;
-  grid-gap: 10px;
-  background-color: darkgrey;
-  align-self: center;
-  justify-self: center;
-  border: red 2px solid;
-  margin-bottom: 10px;
-  * {
-    text-align: center;
-    padding: 0;
-    margin: 0;
-  }
-  &.small {
-    width: 280px;
-    height: 280px;
-  }
-  &.large {
-    display: grid;
-    height: 100%;
-    width: 100%;
-    margin-top: 10px;
-    div {
-      width: 100%;
-      display: none;
-      background-color: rgb(80, 82, 82);
-      * {
-        align-self: center;
-        justify-self: center;
-        margin-bottom: 10px;
-      }
-      img {
-        width: calc(100% - 20px);
-      }
-      &.current {
-        display: grid;
-      }
-    }
-  }
-}
+// form {
+//   display: grid;
+//   grid-gap: 10px;
+//   background-color: darkgrey;
+//   align-self: center;
+//   justify-self: center;
+//   border: red 2px solid;
+//   margin-bottom: 10px;
+//   * {
+//     text-align: center;
+//     padding: 0;
+//     margin: 0;
+//   }
+//   &.small {
+//     width: 280px;
+//     height: 280px;
+//   }
+//   &.large {
+//     display: grid;
+//     height: 100%;
+//     width: 100%;
+//     margin-top: 10px;
+//     div {
+//       width: 100%;
+//       display: none;
+//       background-color: rgb(80, 82, 82);
+//       * {
+//         align-self: center;
+//         justify-self: center;
+//         margin-bottom: 10px;
+//       }
+//       img {
+//         width: calc(100% - 20px);
+//       }
+//       &.current {
+//         display: grid;
+//       }
+//     }
+//   }
+// }
 
 #findIDForm {
   grid-template-rows: 30px auto;
