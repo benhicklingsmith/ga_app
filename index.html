@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/main.css" />
-    <title>GA Application</title>
   </head>
   <body>
     <header><img src="imgs/galogo_xs.jpg" alt="" /></header>
     <div class="main">
+        
       <div class="page loginPage show">
         <div class="findIDForm hidden">
           <button id="closeIDForm">x</button>
@@ -28,6 +28,7 @@
           <button id="loginBtn" onclick="login()">Login</button>
         </div>
       </div>
+        
       <div class="page optionPage hidden">
         <div class="mainContent options">
           <button class="option">Report a Fault</button>
@@ -35,10 +36,13 @@
           <button class="option">Update a Fault</button>
         </div>
       </div>
+        
     </div>
+    
     <div class="bottom">
       <button id="backBtn" class="hidden" onclick="test2()">Back</button>
     </div>
+    
     <script type="text/javascript" src="js/main.js"></script>
     <script>
       function login() {
