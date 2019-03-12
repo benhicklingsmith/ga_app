@@ -15,52 +15,69 @@
     </header>
     <div class="main">
       <!-- Login Page -->
-      <div class="section login">
+      <div class="section login current">
         <div class="sectionArea small">
           <h2>Staff Login</h2>
           <input type="text" name="staffID" placeholder="Staff ID" />
           <a href="#" id="cantFindID">Can't remember your staff ID?</a>
         </div>
         <div class="footer">
-          <button id="footerBtn1" onclick="login('fromLogin')">Login</button>
+          <button onclick="switchPages('login','options')">
+            Login
+          </button>
         </div>
       </div>
 
       <!-- If "cant remember id" link clicked, this page loads -->
       <div class="section findID">
         <div class="sectionArea small">
-          <input type="button" value="X" onclick="closeFindID()" />
+          <input
+            type="button"
+            value="X"
+            onclick="switchPages('findID','login')"
+          />
           <input type="text" name="name" placeholder="Full Name" required />
           <input type="text" name="DOB" placeholder="Date of Birth" required />
         </div>
         <div class="footer">
-          <button id="footerBtn1" onclick="login('fromID')">Login</button>
+          <button onclick="switchPages('findID','options')">
+            Login
+          </button>
         </div>
       </div>
 
+      <!-- Task options -->
       <div class="section options">
         <div class="sectionArea small">
           <input
             type="button"
             name="Report"
-            class="next action-button"
+            class="optionBtn"
             value="Report a Fault"
+            onfocus="setPath('rf-1')"
           />
           <input
             type="button"
             name="View"
-            class="next action-button"
+            class="optionBtn"
             value="View a Fault"
+            onfocus="setPath('vf-1')"
           />
           <input
             type="button"
             name="Update"
-            class="next action-button"
+            class="optionBtn"
             value="Update a Fault"
+            onfocus="setPath('uf-1')"
           />
-        </div>
+      </div>
         <div class="footer">
-          <button id="footerBtn1" onclick="login('fromID')">Login</button>
+          <button onclick="switchPages('options','login')">
+            Back
+          </button>
+          <button id="pathBtn">
+              Next
+            </button>
         </div>
       </div>
 
@@ -76,11 +93,16 @@
           <a href="" id="unknownCar">Don't know the carriage number?</a>
         </div>
         <div class="footer">
-          <button id="footerBtn1" onclick="login('fromLogin')">Next</button>
+          <button onclick="switchPages('rf-1','options')">
+            Back
+          </button>
+          <button onclick="switchPages('rf-1','rf-2')">
+            Next
+          </button>
         </div>
       </div>
 
-      <div class="section rf-2 current">
+      <div class="section rf-2">
         <div class="sectionArea large">
           <h3>Report a Fault - Step 2</h3>
           <h3>
@@ -104,25 +126,40 @@
           />
         </div>
         <div class="footer">
-          <button id="footerBtn1" onclick="login('fromID')">Login</button>
+          <button onclick="switchPages('rf-2','rf-1')">
+            Back
+          </button>
+          <button onclick="switchPages('rf-2','rf-3')">
+            Next
+          </button>
         </div>
       </div>
 
       <div class="section rf-3">
         <div class="sectionArea large">
           <h3>Report a Fault - Step 3</h3>
+          <div class="numberPad">
           <h3>Please select your seat number:</h3>
-          <input type="button" value="1-10" />
-          <input type="button" value="11-20" />
-          <input type="button" value="21-30" />
-          <input type="button" value="31-40" />
-          <input type="button" value="41-50" />
-          <input type="button" value="51-60" />
+          <button class="numberPadBtn">1</button>
+          <button class="numberPadBtn">2</button>
+          <button class="numberPadBtn">3</button>
+          <button class="numberPadBtn">4</button>
+          <button class="numberPadBtn">5</button>
+          <button class="numberPadBtn">6</button>
+          <button class="numberPadBtn">7</button>
+          <button class="numberPadBtn">8</button>
+          <button class="numberPadBtn">9</button>
+          <button class="numberPadBtn">&#171</button>
+        </div>
           <h4>Chosen seat:</h4>
         </div>
         <div class="footer">
-          <button id="footerBtn1" onclick="login('fromID')">Back</button>
-          <button id="footerBtn1" onclick="login('fromID')">Next</button>
+          <button onclick="switchPages('rf-3','rf-2')">
+            Back
+          </button>
+          <button onclick="switchPages('rf-3','rf-4')">
+            Next
+          </button>
         </div>
       </div>
 
@@ -138,7 +175,12 @@
           <input type="text" name="" />
         </div>
         <div class="footer">
-          <button id="footerBtn1" onclick="login('fromID')">Login</button>
+          <button onclick="switchPages('rf-4','rf-3')">
+            Back
+          </button>
+          <button onclick="switchPages('rf-4','rf-5')">
+            Next
+          </button>
         </div>
       </div>
 
@@ -154,7 +196,12 @@
           <img src="https://source.unsplash.com/random/320x568" alt="" />
         </div>
         <div class="footer">
-          <button id="footerBtn1" onclick="login('fromID')">Login</button>
+          <button onclick="switchPages('rf-5','rf-4')">
+            Back
+          </button>
+          <button onclick="switchPages('rf-5','rf-6')">
+            Submit
+          </button>
         </div>
       </div>
     </div>

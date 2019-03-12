@@ -63,59 +63,9 @@ header {
   }
 }
 
-// form {
-//   display: grid;
-//   grid-gap: 10px;
-//   background-color: darkgrey;
-//   align-self: center;
-//   justify-self: center;
-//   border: red 2px solid;
-//   margin-bottom: 10px;
-//   * {
-//     text-align: center;
-//     padding: 0;
-//     margin: 0;
-//   }
-//   &.small {
-//     width: 280px;
-//     height: 280px;
-//   }
-//   &.large {
-//     display: grid;
-//     height: 100%;
-//     width: 100%;
-//     margin-top: 10px;
-//     div {
-//       width: 100%;
-//       display: none;
-//       background-color: rgb(80, 82, 82);
-//       * {
-//         align-self: center;
-//         justify-self: center;
-//         margin-bottom: 10px;
-//       }
-//       img {
-//         width: calc(100% - 20px);
-//       }
-//       &.current {
-//         display: grid;
-//       }
-//     }
-//   }
-// }
-
-#findIDForm {
-  grid-template-rows: 30px auto;
-
-  * {
-    border: black 2px solid;
-  }
-}
-
-.step {
-  display: none;
-  &.current {
-    display: grid;
+.optionBtn {
+  &:focus {
+    background-color: grey;
   }
 }
 
