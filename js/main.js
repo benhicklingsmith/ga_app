@@ -1,27 +1,13 @@
-function test(input) {
-    // convert the parameters to a JSON data string
-    
-    var json = JSON.stringify(input);
-    
-    $.ajax({
-        url: "http://localhost:8081/get_staff",
-        type: "POST",
-        data: json,
-        success: function (rt) {
-            var json = JSON.parse(rt);
-            console.log(json);
-        },
-        error: function () {
-            console.log("error");
-            //alert("error");
-        }
-    });
-}
-;
-
-document.getElementById("cantFindID").addEventListener("click", function() {
+$(function(){
+    document.getElementById("cantFindID").addEventListener("click", function() {
   findID();
 });
+})
+
+function switchPages(from, to){
+    $("." + from).removeClass("current");
+    $("." + to).addClass("current");
+}
 
 function findID() {
   $(".login").removeClass("current");
@@ -69,3 +55,24 @@ function previous(to) {
     $("#footerBtn1").append("Login");
   }
 }
+
+function test(input) {
+    // convert the parameters to a JSON data string
+    
+    var json = JSON.stringify(input);
+    
+    $.ajax({
+        url: "http://localhost:8081/get_staff",
+        type: "POST",
+        data: json,
+        success: function (rt) {
+            var json = JSON.parse(rt);
+            console.log(json);
+        },
+        error: function () {
+            console.log("error");
+            //alert("error");
+        }
+    });
+}
+;
