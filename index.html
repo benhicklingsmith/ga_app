@@ -1,72 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>GA FMA</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/main.css" />
-    <title>GA Application</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Document</title>
   </head>
   <body>
-    <header><img src="imgs/galogo_xs.jpg" alt="" /></header>
+    <header>
+      <h1>Greater Anglia</h1>
+    </header>
     <div class="main">
-      <div class="page loginPage show">
-        <div class="findIDForm hidden">
-          <button id="closeIDForm">x</button>
-          <form action="#">
-            <input placeholder="Full Name" type="text" required />
-            <input placeholder="Date of Birth" type="text" required />
-            <button id="formBtn">Submit</button>
+      <div class="section login current">
+        <div class="sectionArea">
+          <form action="" class="form small">
+            <h2>Staff Login</h2>
+            <input type="text" name="staffID" id="" placeholder="Staff ID" />
+            <a href="#" id="cantFindID">Can't remember your staff ID?</a>
           </form>
         </div>
-        <div class="mainContent loginForm" id="loginPageContent">
-          <h2>staff ID:</h2>
-          <input placeholder="Staff ID" type="text" />
-          <a href="#" id="cantFindID">Don't know your staff ID?</a>
-          <button id="loginBtn" onclick="login()">Login</button>
+      </div>
+      <div class="section findID">
+        <div class="sectionArea">
+          <form action="" class="form small" id="findIDForm">
+            <input type="button" value="X" onclick="closeFindID()" />
+            <input type="text" name="name" placeholder="Full Name" required />
+            <input type="text" name="DOB" placeholder="Date of Birth" required />
+          </form>
         </div>
       </div>
-      <div class="page optionPage hidden">
-        <div class="mainContent options">
-          <button class="option">Report a Fault</button>
-          <button class="option">View a Fault</button>
-          <button class="option">Update a Fault</button>
-        </div>
+      <div class="section scrollable app">
+      <div class="step options current">
+        <form action="" class="form small">
+          <input
+            type="button"
+            name="Report"
+            class="next action-button"
+            value="Report a Fault"
+          />
+          <input
+            type="button"
+            name="View"
+            class="next action-button"
+            value="View a Fault"
+          />
+          <input
+            type="button"
+            name="Update"
+            class="next action-button"
+            value="Update a Fault"
+          />
+        </form>
+      </div>
+      <div class="step reportFault">
+        <form class="form large">
+          <div class="">
+            <h3 id="fieldTitle">Report a Fault - Step 1</h3>
+            <input
+              type="text"
+              name="CarriageNumber"
+              placeholder="Carriage Number"
+              id="carNum"
+            />
+            <a href="" id="unknownCar">Don't know the carriage number?</a>
+          </div>
+          <div class="">
+            <h3>Report a Fault - Step 2</h3>
+            <h3>
+              Select the category that best fits the fault, if no category is
+              suitable please select other
+            </h3>
+            <input
+              type="button"
+              class="faultOption"
+              value="Heating/Air Conditioning"
+            />
+            <input type="button" class="faultOption" value="Toilet" />
+            <input type="button" class="faultOption" value="Wifi" />
+            <input type="button" class="faultOption" value="Door/Window" />
+            <input type="button" class="faultOption" value="Seat" />
+            <input type="button" class="faultOption" value="Other" />
+            <input
+              type="text"
+              name="faultDescription"
+              placeholder="Fault Description"
+            />
+            <!--<input type="file" accept="image/*" capture />-->
+          </div>
+          <div class="">
+            <h3>Report a Fault - Step 3</h3>
+            <h3>Please select your seat number:</h3>
+            <input type="button" value="1-10" />
+            <input type="button" value="11-20" />
+            <input type="button" value="21-30" />
+            <input type="button" value="31-40" />
+            <input type="button" value="41-50" />
+            <input type="button" value="51-60" />
+            <h4>Chosen seat:</h4>
+          </div>
+          <div class="">
+            <h3>Report a Fault - Step 3</h3>
+            <h3>Please select the region of the train the fault was in:</h3>
+            <input type="button" value="Option 1" />
+            <input type="button" value="Option 2" />
+            <input type="button" value="Option 3" />
+            <input type="button" value="Option 4" />
+            <h4>Please state the seat row:</h4>
+            <input type="text" name="" />
+          </div>
+          <div class="">
+            <h3>Report a Fault - Step 4</h3>
+            <h3>Summary</h3>
+            <h4>Carriage:</h4>
+            <h4>Category:</h4>
+            <h4>Description:</h4>
+            <h4>Location:</h4>
+            <h4>Image:</h4>
+            <img src="https://source.unsplash.com/random/320x568" alt="" />
+          </div>
+        </form>
       </div>
     </div>
-    <div class="bottom">
-      <button id="backBtn" class="hidden" onclick="test2()">Back</button>
-    </div>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script>
-      function login() {
-        $(".loginPage")
-          .addClass("hidden")
-          .removeClass("show");
-        $(".optionPage")
-          .addClass("show")
-          .removeClass("hidden");
-
-        $("#backBtn")
-          .addClass("show")
-          .removeClass("hidden");
-      }
-      function test2() {
-        $(".loginPage")
-          .addClass("show")
-          .removeClass("hidden");
-        $(".optionPage")
-          .addClass("hidden")
-          .removeClass("show");
-        $("#loginBtn")
-          .addClass("show")
-          .removeClass("hidden");
-        $("#backBtn")
-          .addClass("hidden")
-          .removeClass("show");
-      }
-    </script>
+    <footer>
+      <button id="footerBtn1" onclick="login('fromLogin')">Login</button>
+    </footer>
   </body>
+  <script type="text/javascript" src="js/main.js"></script>
 </html>
