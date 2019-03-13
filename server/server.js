@@ -31,7 +31,8 @@ process.on('uncaughtException', function (err) {
 http.createServer(async function (req, res) {
     console.log(req.url);
     console.log(req.method);
-
+    console.log(this.address());
+    
     // Website you wish to allow to connect
     // add this line to address the cross-domain XHR issue.
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -55,6 +56,7 @@ http.createServer(async function (req, res) {
     switch (req.url) {
         case '/check_id':
             if (req.method === 'POST') {
+                
                 console.log("data sent to server");
                 req.on('data', async function (data) {
                     //convert incoming data 

@@ -67,3 +67,13 @@ function checkStaffID() {
 }
 ;
 
+function typeNum(num) {
+    if (num === '-1') {
+        $('#seatNo').text(function (_, txt) {
+            return txt.slice(0, -1);
+        });
+    } else {
+        $('#seatNo').append(num);
+    }
+}
+
