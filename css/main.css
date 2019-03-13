@@ -3,21 +3,26 @@ body {
   height: 100%;
   min-width: 300px;
   margin: 0;
-  padding: 0; }
-  html *,
-  body * {
-    box-sizing: border-box; }
+  padding: 0;
+}
+html *,
+body * {
+  box-sizing: border-box;
+}
 
 header {
   text-align: center;
   border: black 2px solid;
   height: 70px;
-  margin: 0px 0px 10px 0px; }
-  header h1 {
-    color: red; }
+  margin: 0px 0px 10px 0px;
+}
+header h1 {
+  color: red;
+}
 
 .main {
-  height: calc(100% - 160px); }
+  height: calc(100% - 160px);
+}
 
 .footer {
   height: 70px;
@@ -29,31 +34,43 @@ header {
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%; }
+  width: 100%;
+}
 
 .section {
   height: 100%;
   display: none;
-  border: black 2px solid; }
-  .section.current {
-    display: grid; }
-  .section .sectionArea {
-    border: 2px solid black;
-    display: grid;
-    align-self: center;
-    justify-self: center; }
-    .section .sectionArea.large {
-      width: calc(100% - 50px);
-      height: calc(100% - 50px); }
-    .section .sectionArea.small {
-      width: 280px;
-      height: 280px; }
-  .section.scrollable {
-    overflow: scroll; }
+  border: black 2px solid;
+}
+.section.current {
+  display: grid;
+}
+.section .sectionArea {
+  border: 2px solid black;
+  display: grid;
+  align-self: center;
+  justify-self: center;
+}
+.section .sectionArea.large {
+  width: calc(100% - 50px);
+  height: calc(100% - 50px);
+}
+.section .sectionArea.small {
+  width: 280px;
+  height: 280px;
+}
+.section.scrollable {
+  overflow: scroll;
+}
 
 .optionBtn:focus {
-  background-color: grey; }
+  background-color: grey;
+}
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   form.large {
-    width: 70%; } }
+    width: 70%;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */

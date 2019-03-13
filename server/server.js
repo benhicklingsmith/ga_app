@@ -72,4 +72,4 @@ http.createServer(async function (req, res) {
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end('error');
     }
-}).listen(8081); // listen to port 8081
+}).listen(8081, "0.0.0.0"); // listen to port 8081
