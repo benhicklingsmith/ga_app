@@ -11,15 +11,16 @@ var http = require('http');
 var host = '127.0.0.1';
 var port = 5432;
 
-/* uni login
+/* uni login*/
 var user = 'student';
 var database = 'studentdb';
 var password = 'dbpassword';
-*/
+
+
 /* Jasmine login */
-var user = 'postgres';
-var database = 'postgres';
-var password = 'password';
+//var user = 'postgres';
+//var database = 'postgres';
+//var password = 'password';
 
 // the quick and dirty trick which prevents crashing.
 process.on('uncaughtException', function (err) {
@@ -45,7 +46,7 @@ http.createServer(async function (req, res) {
     await client.connect();
     
     //set search path
-    const sqlquery1 = "SET SEARCH_PATH TO " +  /*(if uni computer)"studentdb, " + */ "ga_app;";
+    const sqlquery1 = "SET SEARCH_PATH TO " +  /*(if uni computer)"studentdb, " + */ "studentdb, ga_app;";
     console.log(sqlquery1);
     const res2 = client.query(sqlquery1);
 
@@ -83,7 +84,7 @@ http.createServer(async function (req, res) {
                     sqlQuery = "";
                 });
             }
-        
+            break;
         default:
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end('error');

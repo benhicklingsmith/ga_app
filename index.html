@@ -18,11 +18,11 @@
       <div class="section login current fade">
         <div class="sectionArea small">
           <h2>Staff Login</h2>
-          <input type="text" name="staffID" placeholder="Staff ID" />
+          <input id='idInputBox' type="text" name="staffID" placeholder="Staff ID" />
           <a href="#" id="cantFindID">Can't remember your staff ID?</a>
         </div>
         <div class="footer">
-          <button onclick="switchPages('login','options')">
+          <button onclick="login('login')">
             Login
           </button>
         </div>
@@ -147,7 +147,7 @@
                     <h4>Add an Image: </h4>
                     <input type="file" accept="image/*">
                 </div>
-                <div class="footer">
+                <div class="footer split">
                     <button onclick="switchPages('rf-3', 'rf-2')">
                         Back
                     </button>
@@ -199,7 +199,7 @@
 
       <div class="section rf-5 scrollable">
         <div class="sectionArea large">
-          <h3>Report a Fault - Step 4</h3>
+          <h3>Report a Fault - Step 5</h3>
           <h3>Summary</h3>
           <h4>Carriage:</h4>
           <h4>Category:</h4>
