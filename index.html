@@ -45,25 +45,21 @@
 
       <!-- Task options -->
       <div class="section options">
-        <div class="sectionArea small">         
+        <div class="sectionArea small">
+
           <button class="optionBtn"
           value="Report a Fault"
-          onfocus="setPath('rf-1')">Report a Fault</button>          
+          onclick="switchPages('options','rf-1')">Report a Fault</button>
+
           <button class="optionBtn"
           value="View a Fault"
-          onfocus="setPath('vf-1')">View a Fault</button> 
+          onclick="switchPages('options','vf-1')">View a Fault</button>
+
           <button class="optionBtn"
           value="Update a Fault"
-          onfocus="setPath('uf-1')">Update a Fault</button>
+          onclick="switchPages('options','uf-1')">Update a Fault</button>
+
       </div>
-        <div class="footer split">
-          <button class="leftBtn" onclick="switchPages('options','login')">
-            Back
-          </button>
-          <button class="rightBtn" id="pathBtn">
-              Next
-            </button>
-        </div>
       </div>
 
       <div class="section rf-1">
@@ -79,13 +75,14 @@
             placeholder="Carriage Number"
             id="carNum"
           />
+          <h5 class= "issue">A carriage with that ID does not exist</h5>
           <a href="" id="unknownCar">Don't know the carriage number?</a>
         </div>
         <div class="footer split">
-          <button onclick="switchPages('rf-1','options')">
+          <button onclick="switchPages('rf-1','options'); clearIssues()">
             Back
           </button>
-          <button onclick="switchPages('rf-1','rf-2')">
+          <button onclick="checkCar()">
             Next
           </button>
         </div>

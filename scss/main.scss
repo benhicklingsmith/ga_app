@@ -5,13 +5,13 @@ body {
   margin: 0;
   padding: 0;
   * {
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
   font-family: sans-serif;
 }
 
 header {
-  display: grid; 
+  display: grid;
   * {
     align-self: center;
     justify-self: center;
@@ -105,6 +105,13 @@ button {
 .optionBtn {
   &:focus {
     background-color: rgb(201, 54, 54);
+  }
+}
+
+.issue {
+  display: none;
+  &.show {
+    display: block;
   }
 }
 
