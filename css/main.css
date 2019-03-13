@@ -32,6 +32,10 @@ button {
   color: white;
   background-color: #b1aeae; }
 
+.numberPad {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
 .footer {
   padding: 5px;
   height: 70px;

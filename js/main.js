@@ -67,6 +67,7 @@ function checkCar() {
   }
 }
 
+<<<<<<< HEAD
 function checkStaffID() {
   var userID = $("#idInputBox").val();
   var json = JSON.stringify(userID);
@@ -89,3 +90,15 @@ function checkStaffID() {
     }
   });
 }
+=======
+function typeNum(num) {
+    if (num === '-1') {
+        $('#seatNo').text(function (_, txt) {
+            return txt.slice(0, -1);
+        });
+    } else {
+        $('#seatNo').append(num);
+    }
+}
+
+>>>>>>> 2fb1814c6ab11a68386bbe6209a28aabe8c8b0d7
