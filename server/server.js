@@ -8,11 +8,18 @@ console.log("server running\n");
 
 var http = require('http');
 
-var user = 'student';
 var host = '127.0.0.1';
+var port = 5432;
+
+/* uni login
+var user = 'student';
 var database = 'studentdb';
 var password = 'dbpassword';
-var port = 5432;
+*/
+/* Jasmine login */
+var user = 'postgres';
+var database = 'postgres';
+var password = 'password';
 
 // the quick and dirty trick which prevents crashing.
 process.on('uncaughtException', function (err) {
@@ -38,36 +45,45 @@ http.createServer(async function (req, res) {
     await client.connect();
     
     //set search path
-    const sqlquery1 = "SET SEARCH_PATH TO studentdb, ga_app_test;";
+    const sqlquery1 = "SET SEARCH_PATH TO " +  /*(if uni computer)"studentdb, " + */ "ga_app;";
     console.log(sqlquery1);
     const res2 = client.query(sqlquery1);
 
+    var sqlQuery;
+
     switch (req.url) {
-        case '/get_staff':
+        case '/check_id':
             if (req.method === 'POST') {
                 console.log("data sent to server");
                 req.on('data', async function (data) {
                     //convert incoming data 
-                    //nb - currently no data being used so unnecassary step at the moment (ben 07/03)
                     console.log("unparsed data -  " + data);
                     var json = JSON.parse(data);
                     console.log("parsed data - " + json);
-                    json = "done";
                     
-                    //query database
-                    const sqlQuery = "SELECT * FROM staff;";
+                    //check if staff id entered is in the database
+                    sqlQuery = "SELECT * FROM check_ID("+ json + ");";
                     console.log(sqlQuery)
                     const sqlQueryResult = await client.query(sqlQuery);
                     var result = sqlQueryResult.rows;
-                    console.log(result);
                     
                     //prepare data in json format for transfer to front end
+                    // returns boolean
                     var json_res = JSON.stringify(result);
                     console.log(json_res);
                     res.end(json_res);
+                    // 
                 });
             }
             break;
+        case '/check_name':
+            if (req.method == 'POST'){
+                req.on('data', async function(data){
+                    var json = JSON.parse(data);
+                    sqlQuery = "";
+                });
+            }
+        
         default:
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end('error');
