@@ -9,11 +9,12 @@ DROP TABLE IF EXISTS staff;
 DROP TABLE IF EXISTS station;
 
 CREATE TABLE carriageClass(
-	carriageClass VARCHAR(2),
-	carriageLetter CHAR,
-	numberOfSeats SMALLINT,
+    carriageClass VARCHAR(2),
+    carriageLetter CHAR,
+    numberOfSeats SMALLINT,
     toilet BOOLEAN,
-	CONSTRAINT carriageClass_pk PRIMARY KEY (carriageClass)
+    plugSockets BOOLEAN,
+    CONSTRAINT carriageClass_pk PRIMARY KEY (carriageClass)
 );
 
 CREATE TABLE carriage(
@@ -83,3 +84,18 @@ CREATE TABLE journey(
     CONSTRAINT journey_fk3 FOREIGN KEY (carriageNo) REFERENCES carriage
 );
 -- information to identify a train if they don't know the carriage number
+
+CREATE OR REPLACE FUNCTION check_ID(IN INTEGER)
+RETURNS BOOLEAN AS $$
+DECLARE id INTEGER:= $1;
+BEGIN
+IF id IN (SELECT staffID FROM staff) 
+THEN RETURN TRUE;
+END IF;
+IF id NOT IN (SELECT staffID FROM staff) 
+THEN RETURN FALSE;
+END IF;
+ END;$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE

@@ -1,25 +1,25 @@
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet)
-	VALUES ('I1','B', 56, true);
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet)
-	VALUES ('I2','C', 56, true);
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet)
-	VALUES ('I3','D', 58, true);
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet)
-	VALUES ('I4','E', 42, true);
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet)
-	VALUES ('I5','F', 46, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
+    VALUES ('I1','B', 56, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
+    VALUES ('I2','C', 56, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
+    VALUES ('I3','D', 58, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
+    VALUES ('I4','E', 42, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
+    VALUES ('I5','F', 46, true, true);
 -- intercity trains
 
-INSERT INTO carriageClass(carriageClass, toilet)
-	VALUES ('R1', true);
-INSERT INTO carriageClass(carriageClass, toilet)
-	VALUES ('R2', false);
-INSERT INTO carriageClass(carriageClass, toilet)
-	VALUES ('R3', false);
-INSERT INTO carriageClass(carriageClass, toilet)
-	VALUES ('R4', true);
-INSERT INTO carriageClass(carriageClass, toilet)
-	VALUES ('R5', true);
+INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
+    VALUES ('R1', true, true);
+INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
+    VALUES ('R2', false, false);
+INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
+    VALUES ('R3', false, false);
+INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
+    VALUES ('R4', true, false);
+INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
+    VALUES ('R5', true, false);
 -- rural trains
 
 INSERT INTO carriage(carriageNo,carriageClass) 

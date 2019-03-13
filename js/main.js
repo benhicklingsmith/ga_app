@@ -42,17 +42,26 @@ function test(input) {
 
   var json = JSON.stringify(input);
 
-  $.ajax({
-    url: "http://localhost:8081/get_staff",
-    type: "POST",
-    data: json,
-    success: function(rt) {
-      var json = JSON.parse(rt);
-      console.log(json);
-    },
-    error: function() {
-      console.log("error");
-      //alert("error");
-    }
-  });
+  function checkStaffID(){
+    var userID = $('#idInputBox').val();
+    var json = JSON.stringify(userID);
+    var output = {};
+    $.ajax({
+        url: "http://localhost:8081/get_staff",
+        type: "POST",
+        data: json,
+        success: function (rt) {
+          output = JSON.parse(rt)[0];
+          var id_exists = output.check_id;
+          if(id_exists){
+            localStorage.setItem('userID',userID);
+            switchPages('login','options');
+          }
+        },
+        error: function () {
+            console.log("error");
+            //alert("error");
+        }
+    });
+};
 }
