@@ -6,60 +6,36 @@ $(function() {
 
 function setPath(path) {
   $("#pathBtn").removeAttr("onclick");
-  $("#pathBtn").attr("onclick", "switchPages('options', '" + path + "')");
+  $("#pathBtn").attr(
+    "onclick",
+    "switchPages('options', '" + path + "'); clearPath()"
+  );
+}
+
+function clearPath() {
+  $("#pathBtn").removeAttr("onclick");
 }
 
 function switchPages(from, to) {
-  $("." + from).removeClass("current");
-  $("." + to).addClass("current");
+  var classFrom = $("." + from);
+  var classTo = $("." + to);
+
+  setTimeout(function() {
+    classFrom.removeClass("fade");
+  }, 0);
+
+  setTimeout(function() {
+    classFrom.removeClass("current");
+  }, 500);
+
+  setTimeout(function() {
+    classTo.addClass("current");
+  }, 500);
+
+  setTimeout(function() {
+    classTo.addClass("fade");
+  }, 1000);
 }
-
-// function findID() {
-//   $(".login").removeClass("current");
-//   $(".findID").addClass("current");
-//   $("#footerBtn1").removeAttr("onclick");
-//   $("#footerBtn1").attr("onclick", "login('fromID')");
-// }
-
-// function closeFindID() {
-//   $(".findID").removeClass("current");
-//   $(".login").addClass("current");
-//   $("#footerBtn1").removeAttr("onclick");
-//   $("#footerBtn1").attr("onclick", "login('fromLogin')");
-// }
-
-// function login(from) {
-//   if (from === "fromLogin") {
-//     var idExists = true;
-//   if the database contains the staff id from the login page then set the local/session storage, add current to the app section and change the login button to 'previous'. If it doesn't add a 'can't find id, please try again' underneath the staff id input
-//     if (idExists) {
-//       $(".login").removeClass("current");
-//       $(".app").addClass("current");
-//       $("#footerBtn1").empty();
-//       $("#footerBtn1").append("Previous");
-//       $("#footerBtn1").removeAttr("onclick");
-//       $("#footerBtn1").attr("onclick", "previous('loginPage')");
-//     }
-//   } else if (from === "fromID") {
-//     $(".findID").removeClass("current");
-//     $(".app").addClass("current");
-//     $("#footerBtn1").empty();
-//     $("#footerBtn1").append("Previous");
-//     $("#footerBtn1").removeAttr("onclick");
-//     $("#footerBtn1").attr("onclick", "previous('loginPage')");
-//   }
-// }
-
-// function previous(to) {
-//   if (to === "loginPage") {
-//     $(".app").removeClass("current");
-//     $(".login").addClass("current");
-//     $("#footerBtn1").removeAttr("onclick");
-//     $("#footerBtn1").attr("onclick", "login('fromLogin')");
-//     $("#footerBtn1").empty();
-//     $("#footerBtn1").append("Login");
-//   }
-// }
 
 function test(input) {
   // convert the parameters to a JSON data string

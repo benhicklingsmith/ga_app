@@ -11,11 +11,11 @@
   </head>
   <body>
     <header>
-      <h1>Greater Anglia</h1>
+      <img src="imgs/galogo_xs.jpg" alt="ga">
     </header>
     <div class="main">
       <!-- Login Page -->
-      <div class="section login current">
+      <div class="section login current fade">
         <div class="sectionArea small">
           <h2>Staff Login</h2>
           <input type="text" name="staffID" placeholder="Staff ID" />
@@ -31,11 +31,8 @@
       <!-- If "cant remember id" link clicked, this page loads -->
       <div class="section findID">
         <div class="sectionArea small">
-          <input
-            type="button"
-            value="X"
-            onclick="switchPages('findID','login')"
-          />
+          <button value="X"
+          onclick="switchPages('findID','login')">X</button>
           <input type="text" name="name" placeholder="Full Name" required />
           <input type="text" name="DOB" placeholder="Date of Birth" required />
         </div>
@@ -48,34 +45,22 @@
 
       <!-- Task options -->
       <div class="section options">
-        <div class="sectionArea small">
-          <input
-            type="button"
-            name="Report"
-            class="optionBtn"
-            value="Report a Fault"
-            onfocus="setPath('rf-1')"
-          />
-          <input
-            type="button"
-            name="View"
-            class="optionBtn"
-            value="View a Fault"
-            onfocus="setPath('vf-1')"
-          />
-          <input
-            type="button"
-            name="Update"
-            class="optionBtn"
-            value="Update a Fault"
-            onfocus="setPath('uf-1')"
-          />
+        <div class="sectionArea small">         
+          <button class="optionBtn"
+          value="Report a Fault"
+          onfocus="setPath('rf-1')">Report a Fault</button>          
+          <button class="optionBtn"
+          value="View a Fault"
+          onfocus="setPath('vf-1')">View a Fault</button> 
+          <button class="optionBtn"
+          value="Update a Fault"
+          onfocus="setPath('uf-1')">Update a Fault</button>
       </div>
-        <div class="footer">
-          <button onclick="switchPages('options','login')">
+        <div class="footer split">
+          <button class="leftBtn" onclick="switchPages('options','login')">
             Back
           </button>
-          <button id="pathBtn">
+          <button class="rightBtn" id="pathBtn">
               Next
             </button>
         </div>
@@ -92,7 +77,7 @@
           />
           <a href="" id="unknownCar">Don't know the carriage number?</a>
         </div>
-        <div class="footer">
+        <div class="footer split">
           <button onclick="switchPages('rf-1','options')">
             Back
           </button>
@@ -125,7 +110,7 @@
             placeholder="Fault Description"
           />
         </div>
-        <div class="footer">
+        <div class="footer split">
           <button onclick="switchPages('rf-2','rf-1')">
             Back
           </button>
@@ -138,22 +123,8 @@
       <div class="section rf-3">
         <div class="sectionArea large">
           <h3>Report a Fault - Step 3</h3>
-          <div class="numberPad">
-          <h3>Please select your seat number:</h3>
-          <button class="numberPadBtn">1</button>
-          <button class="numberPadBtn">2</button>
-          <button class="numberPadBtn">3</button>
-          <button class="numberPadBtn">4</button>
-          <button class="numberPadBtn">5</button>
-          <button class="numberPadBtn">6</button>
-          <button class="numberPadBtn">7</button>
-          <button class="numberPadBtn">8</button>
-          <button class="numberPadBtn">9</button>
-          <button class="numberPadBtn">&#171</button>
         </div>
-          <h4>Chosen seat:</h4>
-        </div>
-        <div class="footer">
+        <div class="footer split">
           <button onclick="switchPages('rf-3','rf-2')">
             Back
           </button>
@@ -165,16 +136,31 @@
 
       <div class="section rf-4">
         <div class="sectionArea large">
-          <h3>Report a Fault - Step 3</h3>
-          <h3>Please select the region of the train the fault was in:</h3>
-          <input type="button" value="Option 1" />
-          <input type="button" value="Option 2" />
-          <input type="button" value="Option 3" />
-          <input type="button" value="Option 4" />
-          <h4>Please state the seat row:</h4>
-          <input type="text" name="" />
+          <h3>Report a Fault - Step 4</h3>         
+          <div class="numberPad">
+              <h3>Please select your seat number:</h3>
+              <button class="numberPadBtn">1</button>
+              <button class="numberPadBtn">2</button>
+              <button class="numberPadBtn">3</button>
+              <button class="numberPadBtn">4</button>
+              <button class="numberPadBtn">5</button>
+              <button class="numberPadBtn">6</button>
+              <button class="numberPadBtn">7</button>
+              <button class="numberPadBtn">8</button>
+              <button class="numberPadBtn">9</button>
+              <button class="numberPadBtn">&#171</button>
+            </div>
+          <div class="region">
+            <h3>Please select the region of the train the fault was in:</h3>
+            <input type="button" value="Option 1" />
+            <input type="button" value="Option 2" />
+            <input type="button" value="Option 3" />
+            <input type="button" value="Option 4" />
+            <h4>Please state the seat row:</h4>
+            <input type="text" name="" />
+          </div>
         </div>
-        <div class="footer">
+        <div class="footer split">
           <button onclick="switchPages('rf-4','rf-3')">
             Back
           </button>
@@ -193,9 +179,9 @@
           <h4>Description:</h4>
           <h4>Location:</h4>
           <h4>Image:</h4>
-          <img src="https://source.unsplash.com/random/320x568" alt="" />
+          <img src="https://source.unsplash.com/random/320x568" alt="" />     
         </div>
-        <div class="footer">
+        <div class="footer split">
           <button onclick="switchPages('rf-5','rf-4')">
             Back
           </button>
@@ -204,6 +190,18 @@
           </button>
         </div>
       </div>
+
+      <div class="section rf-6">
+        <div class="sectionArea large">
+          <h3>Your fault has been reported successfully</h3>
+        </div>
+        <div class="footer">
+            <button onclick="switchPages('rf-6','options')">
+                Return to options
+              </button>
+            </div>
+      </div>
+      
     </div>
   </body>
 </html>
