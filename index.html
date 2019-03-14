@@ -18,7 +18,7 @@
     <div class="main">
 
         <!-- Login Page -->
-        <div class="section login current fade">
+        <div class="section login">
             <div class="sectionArea small">
                 <h2>Staff Login</h2>
                 <input id='idInputBox' type="text" name="staffID" placeholder="Staff ID" />
@@ -137,14 +137,14 @@
             </div>
         </div>
 
-        <div class="section rf-4">
+        <div class="section rf-4  current fade">
             <!-- This page asks user to further identify where the fault is. Different page loads
                           depending on the type of the carriage/type of fault. If it has seat numbers then the user has to 
                           select the seat number closest to the fault or select the section of the train closest
                           to the fault. -->
             <div class="sectionArea large">
                 <h3>Report a Fault - Step 4</h3>
-                <div class="faultLocator seats" id="seats">
+                <div class="faultLocator seats show" id="seats">
                     <h3>Please select your seat number:</h3>
                     <h3 id="seatNo">Seat Number: </h3>
                     <div class="numberPad">
@@ -208,6 +208,22 @@
             </div>
             <div class="footer">
                 <button onclick="switchPages('rf-6', 'options')">
+                    Return to options
+                </button>
+            </div>
+        </div>
+        
+        <div class="section vf-1">
+            <div class="footer">
+                <button onclick="switchPages('vf-1', 'options')">
+                    Return to options
+                </button>
+            </div>
+        </div>
+        
+        <div class="section uf-1">
+            <div class="footer">
+                <button onclick="switchPages('uf-1', 'options')">
                     Return to options
                 </button>
             </div>
