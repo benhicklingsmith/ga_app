@@ -1,5 +1,5 @@
-$(function() {
-  document.getElementById("cantFindID").addEventListener("click", function() {
+$(function () {
+  document.getElementById("cantFindID").addEventListener("click", function () {
     switchPages("login", "findID");
   });
 });
@@ -20,19 +20,19 @@ function switchPages(from, to) {
   var classFrom = $("." + from);
   var classTo = $("." + to);
 
-  setTimeout(function() {
+  setTimeout(function () {
     classFrom.removeClass("fade");
   }, 0);
 
-  setTimeout(function() {
+  setTimeout(function () {
     classFrom.removeClass("current");
   }, 500);
 
-  setTimeout(function() {
+  setTimeout(function () {
     classTo.addClass("current");
   }, 500);
 
-  setTimeout(function() {
+  setTimeout(function () {
     classTo.addClass("fade");
   }, 1000);
 }
@@ -40,18 +40,29 @@ function switchPages(from, to) {
 function login(from) {
   if (from === "login") {
     // checkStaffID();
+    // switchPages function temporary
     switchPages("login", "options");
+  } else if (from === "findID") {
+    // need to check staffID using name and ID
+    // switchPages function temporary
+    switchPages("findID", "options");
   }
 }
 
 function clearIssues() {
-  setTimeout(function() {
+  setTimeout(function () {
     $(".issue").removeClass("show");
   }, 500);
 }
 
-function checkCar() {
-  var carExists = false;
+// Run this function on success of AJAX and pass it the outcome:
+// - first check whether the carriage number exists
+// - if it does it sets the local storage, removes any previous issue messages
+// - and sets the location input of step 4
+// - if the carriage number doesn't exist it displays 'can't find carriage number' message
+function checkCar(carExists) {
+  // temp carExists variable
+  var carExists = true;
   if (carExists) {
     var carDetails = new Object();
     carDetails.seats = 56;
@@ -62,12 +73,18 @@ function checkCar() {
     localStorage.setItem("carDetails", JSON.stringify(carDetails));
     $(".issue").removeClass("show");
     switchPages("rf-1", "rf-2");
+    if (carDetails.seats > 0) {
+      $("#region").removeClass("show");
+      $("#seats").addClass("show");
+    } else {
+      $("#region").addClass("show");
+      $("#seats").removeClass("show");
+    }
   } else {
     $(".issue").addClass("show");
   }
 }
 
-<<<<<<< HEAD
 function checkStaffID() {
   var userID = $("#idInputBox").val();
   var json = JSON.stringify(userID);
@@ -76,7 +93,7 @@ function checkStaffID() {
     url: "http://localhost:8081/check_id",
     type: "POST",
     data: json,
-    success: function(rt) {
+    success: function (rt) {
       output = JSON.parse(rt)[0];
       var id_exists = output.check_id;
       if (id_exists) {
@@ -84,21 +101,24 @@ function checkStaffID() {
         switchPages("login", "options");
       }
     },
-    error: function() {
+    error: function () {
       console.log("error");
       //alert("error");
     }
   });
 }
-=======
+
 function typeNum(num) {
-    if (num === '-1') {
-        $('#seatNo').text(function (_, txt) {
-            return txt.slice(0, -1);
-        });
-    } else {
-        $('#seatNo').append(num);
-    }
+  if (num === "-1") {
+    $("#seatNo").text(function (_, txt) {
+      return txt.slice(0, -1);
+    });
+  } else {
+    $("#seatNo").append(num);
+  }
 }
 
->>>>>>> 2fb1814c6ab11a68386bbe6209a28aabe8c8b0d7
+function setFaultType(type) {
+  $(".faultOption").removeClass("show");
+  $("#" + type).addClass('show');
+}
