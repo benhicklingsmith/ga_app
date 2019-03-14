@@ -109,11 +109,16 @@ function checkStaffID() {
 }
 
 function typeNum(num) {
-  if (num === "-1") {
+  var seatNoStr = $('#seatNo').text();
+  var carriageDetails = localStorage.getItem('carDetails');
+  console.log(carriageDetails);
+  var maxSeatNo = carriageDetails.seats;
+  console.log(maxSeatNo);
+  if (num === "-1" && seatNoStr !== 'Seat Number: ') {
     $("#seatNo").text(function (_, txt) {
       return txt.slice(0, -1);
     });
-  } else {
+  } else if (num !== "-1") {
     $("#seatNo").append(num);
   }
 }

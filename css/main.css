@@ -36,8 +36,11 @@ button {
 
 .numberPad {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-areas: "1 2 3" "4 5 6" "7 8 9" "0 minus minus";
   grid-gap: 5px; }
+  .numberPad #minus {
+    background-color: #c93636;
+    grid-area: minus; }
 
 .footer {
   padding: 10px 10px 10px 10px;
