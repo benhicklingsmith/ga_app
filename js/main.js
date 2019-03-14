@@ -115,17 +115,21 @@ function typeNum(num) {
 
     //calculate the seat number that the user is trying to input
     //get the current number shown on the screen
-    var currentSeatStr = $("#seatNo").text();
+    var seatNoStr = $("#seatNo").text();
+    var currentSeatStr = seatNoStr.split(": ").pop();
+    
     //append new digit
     var newSeatStr = currentSeatStr + num;
+    
     //parse to int to allow for comparison with max seat number
     var newSeatInt = parseInt(newSeatStr);
 
-    //compare attempted inpt with max seat no. If new input is within valid range, 
-    //continue and display new number. otherwise display error message.
+    //compare attempted input with max seat no. If new input is within valid range, 
+    //continue and display new number. if the current string does not have any seat number,
+    //do not delete anything. otherwise display error message.
     if (newSeatInt <= maxSeats) {
         console.log('valid seat');
-        if (num === "-1" && newSeatStr !== 'Seat Number: ') {
+        if (num === "-1" && seatNoStr !== 'Seat Number: ') {
             $("#seatNo").text(function (_, txt) {
                 return txt.slice(0, -1);
             });
