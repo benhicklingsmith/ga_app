@@ -4,6 +4,7 @@ $(function () {
   });
 });
 
+
 function setPath(path) {
   $("#pathBtn").removeAttr("onclick");
   $("#pathBtn").attr(
