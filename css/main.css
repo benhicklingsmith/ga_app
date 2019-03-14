@@ -4,22 +4,27 @@ body {
   min-width: 300px;
   margin: 0;
   padding: 0;
-  font-family: sans-serif; }
-  html *,
-  body * {
-    box-sizing: border-box; }
+  font-family: sans-serif;
+}
+html *,
+body * {
+  box-sizing: border-box;
+}
 
 header {
   display: grid;
   box-shadow: 0px 0px 13px 3px #dba2a2;
   height: 70px;
-  margin: 0px 0px 10px 0px; }
-  header * {
-    align-self: center;
-    justify-self: center; }
+  margin: 0px 0px 10px 0px;
+}
+header * {
+  align-self: center;
+  justify-self: center;
+}
 
 .main {
-  height: calc(100% - 80px); }
+  height: calc(100% - 80px);
+}
 
 button {
   width: 100%;
@@ -30,14 +35,17 @@ button {
   justify-self: center;
   font-size: 1.5rem;
   color: white;
-  background-color: #b1aeae; }
-  button.show {
-    background-color: #c93636; }
+  background-color: #b1aeae;
+}
+button.show {
+  background-color: #c93636;
+}
 
 .numberPad {
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-gap: 5px; }
+  grid-gap: 5px;
+}
 
 .footer {
   padding: 10px 10px 10px 10px;
@@ -50,54 +58,75 @@ button {
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%; }
-  .footer.split {
-    grid-template-columns: 35% 65%; }
-    .footer.split * {
-      justify-self: left;
-      width: calc(100% - 5px); }
-  .footer button {
-    background-color: #c93636; }
+  width: 100%;
+}
+.footer.split {
+  grid-template-columns: 35% 65%;
+}
+.footer.split * {
+  justify-self: left;
+  width: calc(100% - 5px);
+}
+.footer button {
+  background-color: #c93636;
+}
 
 .section {
   height: calc(100% - 70px);
   display: none;
   transition: opacity 0.5s;
   opacity: 0;
-  overflow: scroll; }
-  .section.footless {
-    height: 100%; }
-  .section.current {
-    display: grid; }
-  .section.fade {
-    opacity: 1; }
-  .section .sectionArea {
-    display: grid;
-    align-self: end;
-    justify-self: center;
-    margin: 10px;
-    width: calc(100% - 20px); }
-    .section .sectionArea.small {
-      grid-gap: 10px; }
-  .section.rf-5 img {
-    border-radius: 5px;
-    width: 100%; }
+  overflow: scroll;
+}
+.section.footless {
+  height: 100%;
+}
+.section.current {
+  display: grid;
+}
+.section.fade {
+  opacity: 1;
+}
+.section .sectionArea {
+  display: grid;
+  align-self: end;
+  justify-self: center;
+  margin: 10px;
+  width: calc(100% - 20px);
+}
+.section .sectionArea.small {
+  grid-gap: 10px;
+}
+.section.rf-5 img {
+  border-radius: 5px;
+  width: 100%;
+}
 
 .optionBtn {
-  height: 60px; }
-  .optionBtn:focus {
-    background-color: #c93636; }
+  height: 60px;
+}
+.optionBtn:focus {
+  background-color: #c93636;
+}
 
 .issue {
-  display: none; }
-  .issue.show {
-    display: block; }
+  display: none;
+}
+.issue.show {
+  display: block;
+}
 
 .faultLocator {
-  display: none; }
-  .faultLocator.show {
-    display: grid; }
+  display: none;
+}
+.faultLocator.show {
+  display: grid;
+}
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   form.large {
-    width: 70%; } }
+    width: 70%;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
