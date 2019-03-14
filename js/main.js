@@ -112,7 +112,7 @@ function typeNum(num) {
     //get the maximum seat capacity for the carriage from the object in  local storage
     var carriage = JSON.parse(localStorage.getItem('carDetails'));
     var maxSeats = carriage.seats;
-    
+
     //calculate the seat number that the user is trying to input
     //get the current number shown on the screen
     var currentSeatStr = $("#seatNo").text();
@@ -125,18 +125,16 @@ function typeNum(num) {
     //continue and display new number. otherwise display error message.
     if (newSeatInt <= maxSeats) {
         console.log('valid seat');
-        if (num === "-1") {
+        if (num === "-1" && newSeatStr !== 'Seat Number: ') {
             $("#seatNo").text(function (_, txt) {
                 return txt.slice(0, -1);
             });
-
-        } else {
+        } else if (num !== "-1") {
             $("#seatNo").append(num);
         }
     } else {
         console.log('seat number too large');
     }
-
 }
 
 function setFaultType(type) {
