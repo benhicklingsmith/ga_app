@@ -78,8 +78,6 @@ button {
   height: 60px;
 }
 
-
-
 .footer {
   padding: 10px 10px 10px 10px;
   height: 80px;
@@ -101,7 +99,7 @@ button {
   }
   button {
     background-color: $primary_colour;
-    &:focus {
+    &:active {
       background-color: darken($primary_colour, 10%);
     }
   }
@@ -156,6 +154,13 @@ button {
 }
 
 .faultLocator {
+  display: none;
+  &.show {
+    display: grid;
+  }
+}
+
+#otherCategory{
   display: none;
   &.show {
     display: grid;

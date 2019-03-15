@@ -60,21 +60,25 @@ function clearIssues() {
 }
 
 // Run this function on success of AJAX and pass it the outcome:
-// - if the carriage number exists set the local storage, remove any previous issue messages, set the fault options available to the user in step 2 and set the location input of step 4
+// - if the carriage number exists set the local storage, remove any previous issue messages, set the switchPages function for the next button, set the fault options available to the user in step 2 and set the location input of step 4
 // - if the carriage number doesn't exist it displays 'can't find carriage number' message
 function checkCar(carExists) {
     // temp carExists variable
     var carExists = true;
     if (carExists) {
         var carDetails = new Object();
+        var reportFault = new Object();
         carDetails.seats = 0;
         carDetails.toilet = true;
         carDetails.displayPanel = true;
         carDetails.socket = true;
         carDetails.wifi = false;
+        reportFault.carriage = $('#carNum').val();
         localStorage.setItem("carDetails", JSON.stringify(carDetails));
+        localStorage.setItem('reportFault', JSON.stringify(reportFault));
+
         $(".issue").removeClass("show");
-        switchPages("rf-1", "rf-2");
+
         if (carDetails.seats > 0) {
             $("#region").removeClass("show");
             $("#seats").addClass("show");
@@ -103,6 +107,8 @@ function checkCar(carExists) {
         if (optionParity === 1) {
             $('#other').css("grid-column", "span 2");
         }
+
+        switchPages("rf-1", "rf-2");
 
     } else {
         $(".issue").addClass("show");
@@ -170,6 +176,15 @@ function typeNum(num) {
 function setFaultType(type) {
     $(".faultOption").removeClass("show");
     $("#" + type).addClass('show');
+
+    if (type === 'other') {
+        $("#otherCategory").addClass('show');
+    }
+    else {
+        $("#otherCategory").removeClass('show');
+    }
+
+
     var otherInput = $('#otherCategory').val();
 
     // set the fault locating method
@@ -191,8 +206,8 @@ function setFaultType(type) {
 // Called when the user selects 'Next'. Checks to ensure that an option has been selected in step 2 and if 'other' is selected it checks to make sure a description is provided
 function checkInput() {
     if ($('#other').hasClass('show') && $('#otherCategory').val() === '') {
-        alert('Please enter a description');
+        alert('Please enter a fault category');
     } else if ($('.faultOption.show').length === 0) {
-        alert('Please select an option');
+        alert('Please select an fault category');
     }
 }
