@@ -18,7 +18,7 @@
     <div class="main">
 
         <!-- Login Page -->
-        <div class="section login current fade">
+        <div class="section login">
             <div class="sectionArea small">
                 <h2>Staff Login</h2>
                 <input id='idInputBox' type="text" name="staffID" placeholder="Staff ID" />
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div class="section rf-1">
+        <div class="section rf-1 current fade">
             <!-- Page 1 
                               Enter carriage Number. If they dont know it they can choose 
                               to enter different details about the train to locate it. 
@@ -70,10 +70,10 @@
                 <h5 class="issue">A carriage with that ID does not exist</h5>
             </div>
             <div class="footer split">
-                <button class="leftBtn" onclick="switchPages('rf-1','options'); clearIssues()">
+                <button class="leftBtn" id="rf-1Back" onclick="switchPages('rf-1','options'); clearIssues()">
                     Back
                 </button>
-                <button class="rightBtn" onclick="getCarriageDetails()">
+                <button class="rightBtn" id="rf-1Next" onclick="getCarriageDetails()">
                     Next
                 </button>
             </div>
@@ -90,19 +90,36 @@
                     Select the category that best fits the fault, if no category is
                     suitable please select other
                 </h3>
-                <button class="faultOption" id="HVAC" onclick="setFaultType('HVAC')">HVAC</button>
-                <button class="faultOption" id="toilet" onclick="setFaultType('toilet')">Toilet</button>
-                <button class="faultOption" id="wifi" onclick="setFaultType('wifi')">Wifi</button>
-                <button class="faultOption" id="doorWindow" onclick="setFaultType('doorWindow')">Door/Window</button>
-                <button class="faultOption" id="seat" onclick="setFaultType('seat')">Seat</button>
-                <button class="faultOption" id="other" onclick="setFaultType('other')">Other</button>
+                <div class="faultOptions">
+
+                    <button class="faultOption" id="wifi" onclick="setFaultType('wifi')">Wifi</button>
+
+                    <button class="faultOption" id="socket" onclick="setFaultType('socket')">Socket</button>
+
+                    <button class="faultOption" id="toilet" onclick="setFaultType('toilet')">Toilet</button>
+
+                    <button class="faultOption" id="displayPanel" onclick="setFaultType('displayPanel')">Display
+                        Panel</button>
+
+                    <button class="faultOption" id="HVAC" onclick="setFaultType('HVAC')">HVAC</button>
+
+                    <button class="faultOption" id="doorWindow"
+                        onclick="setFaultType('doorWindow')">Door/Window</button>
+
+                    <button class="faultOption" id="seat" onclick="setFaultType('seat')">Seat</button>
+
+                    <button class="faultOption" id="other" onclick="setFaultType('other')">Other</button>
+
+                </div>
+
                 <input type="text" name="faultDescription" placeholder="Fault Category" id="otherCategory" />
+
             </div>
             <div class="footer split">
-                <button class="leftBtn" onclick="switchPages('rf-2', 'rf-1')">
+                <button class="leftBtn" id="rf-2Back" onclick="switchPages('rf-2', 'rf-1')">
                     Back
                 </button>
-                <button class="rightBtn" onclick="switchPages('rf-2', 'rf-3')">
+                <button class="rightBtn" id="rf-2Next" onclick="checkInput()">
                     Next
                 </button>
             </div>
@@ -144,9 +161,9 @@
                           to the fault. -->
             <div class="sectionArea large">
                 <h3>Report a Fault - Step 4</h3>
-                <div class="faultLocator seats" id="seats">
+                <div class="faultLocator seats show" id="seats">
                     <h3>Please select your seat number:</h3>
-                    <h3 id="seatNo">Seat Number - </h3>
+                    <h3 id="seatNo">Seat Number: </h3>
                     <div class="numberPad">
                         <button class="numberPadBtn" onclick="typeNum('1')">1</button>
                         <button class="numberPadBtn" onclick="typeNum('2')">2</button>
@@ -157,8 +174,8 @@
                         <button class="numberPadBtn" onclick="typeNum('7')">7</button>
                         <button class="numberPadBtn" onclick="typeNum('8')">8</button>
                         <button class="numberPadBtn" onclick="typeNum('9')">9</button>
-                        <button class="numberPadBtn" onclick="typeNum('-1')">&#171</button>
                         <button class="numberPadBtn" onclick="typeNum('0')">0</button>
+                        <button class="numberPadBtn" id="minus" onclick="typeNum('-1')">&#171</button>
                     </div>
                 </div>
                 <div class="faultLocator region" id="region">
@@ -208,6 +225,22 @@
             </div>
             <div class="footer">
                 <button onclick="switchPages('rf-6', 'options')">
+                    Return to options
+                </button>
+            </div>
+        </div>
+
+        <div class="section vf-1">
+            <div class="footer">
+                <button onclick="switchPages('vf-1', 'options')">
+                    Return to options
+                </button>
+            </div>
+        </div>
+
+        <div class="section uf-1">
+            <div class="footer">
+                <button onclick="switchPages('uf-1', 'options')">
                     Return to options
                 </button>
             </div>
