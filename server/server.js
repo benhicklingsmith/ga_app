@@ -33,7 +33,6 @@ process.on('uncaughtException', function (err) {
 http.createServer(async function (req, res) {
     console.log(req.url);
     console.log(req.method);
-    console.log(this.address());
     
     // Website you wish to allow to connect
     // add this line to address the cross-domain XHR issue.

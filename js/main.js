@@ -11,9 +11,9 @@ $(function () {
 function setPath(path) {
     $("#pathBtn").removeAttr("onclick");
     $("#pathBtn").attr(
-        "onclick",
-        "switchPages('options', '" + path + "'); clearPath()"
-    );
+            "onclick",
+            "switchPages('options', '" + path + "'); clearPath()"
+            );
 }
 
 function clearPath() {
@@ -64,9 +64,9 @@ function clearIssues() {
 // - if the carriage number doesn't exist it displays 'can't find carriage number' message
 function checkCar(carExists) {
     // temp carExists variable
-    var carExists = true;
+    //var carExists = true;
     if (carExists) {
-        console.log('firing')
+        console.log('firing');
         var carDetails = new Object();
         var reportFault = new Object();
         carDetails.seats = 0;
@@ -114,6 +114,7 @@ function checkCar(carExists) {
         switchPages("rf-1", "rf-2");
 
     } else {
+        console.log("invalid")
         $(".issue").addClass("show");
     }
 }
@@ -142,24 +143,29 @@ function checkStaffID() {
 
 function getCarriageDetails() {
     var carriageNo = $("#carNum").val();
-    var json = JSON.stringify(carriageNo);
-    var output = {};
-    $.ajax({
-        url: "http://localhost:8081/get_carriage_details",
-        type: "POST",
-        data: json,
-        success: function (rt) {
-            output = JSON.parse(rt)[0];
-            var carExists = output.car_exists;
-            if (carExists) {
-                localStorage.setItem("carDetails", JSON.stringify(output));
+    if (carriageNo === "") {
+        console.log("invalid")
+        $(".issue").addClass("show");
+    } else {
+        var json = JSON.stringify(carriageNo);
+        var output = {};
+        $.ajax({
+            url: "http://localhost:8081/get_carriage_details",
+            type: "POST",
+            data: json,
+            success: function (rt) {
+                output = JSON.parse(rt)[0];
+                var carExists = output.car_exists;
+                if (carExists) {
+                    localStorage.setItem("carDetails", JSON.stringify(output));
+                }
+                checkCar(carExists);
+            },
+            error: function () {
+                console.log("error");
             }
-            checkCar(carExists);
-        },
-        error: function () {
-            console.log("error");
-        }
-    });
+        });
+    }
 }
 
 function submitForm() {
@@ -230,8 +236,7 @@ function setFaultType(type) {
 
     if (type === 'other') {
         $("#otherCategory").addClass('show');
-    }
-    else {
+    } else {
         $("#otherCategory").removeClass('show');
     }
 
@@ -242,15 +247,15 @@ function setFaultType(type) {
     // set next button on click switchPages function
     if (type !== "other" || (type === 'other' && otherInput !== '')) {
         $("#rf-2Next").attr(
-            "onclick",
-            "checkInput(); switchPages('rf-2', 'rf-3')"
-        );
+                "onclick",
+                "checkInput(); switchPages('rf-2', 'rf-3')"
+                );
     } else if (type === 'other') {
         $('#rf-2Next').removeAttr('onlick');
         $("#rf-2Next").attr(
-            "onclick",
-            "checkInput()"
-        );
+                "onclick",
+                "checkInput()"
+                );
     }
 }
 
