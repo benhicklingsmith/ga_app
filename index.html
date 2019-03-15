@@ -73,6 +73,7 @@
                 <button class="leftBtn" id="rf-1Back" onclick="switchPages('rf-1','options'); clearIssues()">
                     Back
                 </button>
+                <!-- use checkCar() for no server and set carExists to true within it. If using server use gerCarriageDetails() -->
                 <button class="rightBtn" id="rf-1Next" onclick="checkCar()">
                     Next
                 </button>
@@ -213,7 +214,7 @@
                 <button class="leftBtn" onclick="switchPages('rf-5', 'rf-4')">
                     Back
                 </button>
-                <button class="rightBtn" onclick="switchPages('rf-5', 'rf-6')">
+                <button class="rightBtn" onclick="switchPages('rf-5', 'rf-6'); submitForm()">
                     Submit
                 </button>
             </div>

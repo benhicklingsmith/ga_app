@@ -43,9 +43,9 @@ function switchPages(from, to) {
 
 function login(from) {
     if (from === "login") {
-        // checkStaffID();
+        checkStaffID();
         // switchPages function temporary
-        switchPages("login", "options");
+        //switchPages("login", "options");
     } else if (from === "findID") {
         // need to check staffID using name and ID
         // switchPages function temporary
@@ -66,10 +66,11 @@ function checkCar(carExists) {
     // temp carExists variable
     var carExists = true;
     if (carExists) {
+        console.log('firing')
         var carDetails = new Object();
         var reportFault = new Object();
         carDetails.seats = 0;
-        carDetails.toilet = true;
+        carDetails.toilet = false;
         carDetails.displayPanel = true;
         carDetails.socket = true;
         carDetails.wifi = false;
@@ -86,7 +87,9 @@ function checkCar(carExists) {
             $("#region").addClass("show");
             $("#seats").removeClass("show");
         }
+
         $(".faultOption").removeClass("hide");
+
         for (var key in carDetails) {
             if (typeof carDetails[key] === "boolean") {
                 if (!carDetails[key]) {
@@ -133,9 +136,57 @@ function checkStaffID() {
         },
         error: function () {
             console.log("error");
-            //alert("error");
         }
     });
+}
+
+function getCarriageDetails() {
+    var carriageNo = $("#carNum").val();
+    var json = JSON.stringify(carriageNo);
+    var output = {};
+    $.ajax({
+        url: "http://localhost:8081/get_carriage_details",
+        type: "POST",
+        data: json,
+        success: function (rt) {
+            output = JSON.parse(rt)[0];
+            var carExists = output.car_exists;
+            if (carExists) {
+                localStorage.setItem("carDetails", JSON.stringify(output));
+            }
+            checkCar(carExists);
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+}
+
+function submitForm() {
+    // method to submit all of the data to the database at the end of the form
+    var fault = new Object();
+    var carDetails = JSON.parse(localStorage.getItem('carDetails'));
+    var userID = JSON.parse(localStorage.getItem('userID'));
+    fault.carriageNo = carDetails.carriage_no;
+    fault.staffNo = userID;
+    fault.category = null;
+    fault.seatNo = null;
+    fault.location = null;
+    fault.description = null;
+    // set fault object, here temporarily for testing but needs to be moved to some point earlier in the process
+    var json = JSON.stringify(fault);
+    $.ajax({
+        url: "http://localhost:8081/submit_form",
+        type: "POST",
+        data: json,
+        success: function () {
+            console.log("success");
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+    // send fault object to server
 }
 
 function typeNum(num) {
