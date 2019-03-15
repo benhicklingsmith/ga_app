@@ -1,25 +1,25 @@
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
-    VALUES ('I1','B', 56, true, true);
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
-    VALUES ('I2','C', 56, true, true);
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
-    VALUES ('I3','D', 58, true, true);
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
-    VALUES ('I4','E', 42, true, true);
-INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets)
-    VALUES ('I5','F', 46, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('I1','B', 56, true, true, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('I2','C', 56, true, true, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('I3','D', 58, true, true, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('I4','E', 42, true, true, true, true);
+INSERT INTO carriageClass(carriageClass, carriageLetter, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('I5','F', 46, true, true, true, true);
 -- intercity trains
 
-INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
-    VALUES ('R1', true, true);
-INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
-    VALUES ('R2', false, false);
-INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
-    VALUES ('R3', false, false);
-INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
-    VALUES ('R4', true, false);
-INSERT INTO carriageClass(carriageClass, toilet, plugSockets)
-    VALUES ('R5', true, false);
+INSERT INTO carriageClass(carriageClass, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('R1', 0, true, true, true, true);
+INSERT INTO carriageClass(carriageClass, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('R2', 0, false, false, false, true);
+INSERT INTO carriageClass(carriageClass, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('R3', 0, false, false, false, true);
+INSERT INTO carriageClass(carriageClass, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('R4', 0, true, false, false, true);
+INSERT INTO carriageClass(carriageClass, numberOfSeats, toilet, plugSockets, wifi, displayPanel)
+    VALUES ('R5', 0, true, false, false, true);
 -- rural trains
 
 INSERT INTO carriage(carriageNo,carriageClass) 
@@ -45,7 +45,7 @@ INSERT INTO carriage(carriageNo,carriageClass)
 -- carriages
 
 INSERT INTO staff(staffID, fName, sName, dob)
-	VALUES (897479,'Debbie', 'Davison', '1967-09-21');
+	VALUES (123456,'Debbie', 'Davison', '1967-09-21');
 INSERT INTO staff(staffID, fName, sName, dob)
 	VALUES (372847,'Ann', 'Hinchcliffe', '1983-04-02');
 INSERT INTO staff(staffID, fName, sName, dob)
@@ -65,7 +65,7 @@ INSERT INTO fault(faultNo, carriageNo, category, seatNo, faultDesc, staffID)
 INSERT INTO fault(faultNo, carriageNo, category, faultDesc, staffID)
 	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 28397, 'toilet', 'fault with toilet door', 230288);
 INSERT INTO fault(faultNo, carriageNo, category, carriageLocation, faultDesc, staffID)
-	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 37287, 'table', 'Front', 'broken table', 897479);
+	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 37287, 'table', 'Front', 'broken table', 123456);
 INSERT INTO fault(faultNo, carriageNo, category, faultDesc, staffID)
 	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 12345, 'wifi', 'wifi wont connect', 647392);
 -- some faults

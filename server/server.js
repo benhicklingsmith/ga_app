@@ -15,12 +15,14 @@ var port = 5432;
 var user = 'student';
 var database = 'studentdb';
 var password = 'dbpassword';
+var searchPath = "studentdb, ga_app;"
 
 
-/* Jasmine login */
-//var user = 'postgres';
-//var database = 'postgres';
-//var password = 'password';
+// /* Jasmine login */
+// var user = 'postgres';
+// var database = 'postgres';
+// var password = 'password';
+// var searchPath = " ga_app;"
 
 // the quick and dirty trick which prevents crashing.
 process.on('uncaughtException', function (err) {
@@ -47,8 +49,7 @@ http.createServer(async function (req, res) {
     await client.connect();
     
     //set search path
-    const sqlquery1 = "SET SEARCH_PATH TO " +  /*(if uni computer)"studentdb, " + */ "studentdb, ga_app;";
-    console.log(sqlquery1);
+    const sqlquery1 = "SET SEARCH_PATH TO " +  searchPath;
     const res2 = client.query(sqlquery1);
 
     var sqlQuery;
@@ -56,26 +57,14 @@ http.createServer(async function (req, res) {
     switch (req.url) {
         case '/check_id':
             if (req.method === 'POST') {
-                
-                console.log("data sent to server");
                 req.on('data', async function (data) {
-                    //convert incoming data 
-                    console.log("unparsed data -  " + data);
                     var json = JSON.parse(data);
-                    console.log("parsed data - " + json);
-                    
-                    //check if staff id entered is in the database
                     sqlQuery = "SELECT * FROM check_ID("+ json + ");";
-                    console.log(sqlQuery)
                     const sqlQueryResult = await client.query(sqlQuery);
                     var result = sqlQueryResult.rows;
-                    
-                    //prepare data in json format for transfer to front end
-                    // returns boolean
                     var json_res = JSON.stringify(result);
-                    console.log(json_res);
-                    res.end(json_res);
-                    // 
+                    res.end(json_res); 
+// gets staff id from front end, checks if it's in the database and returns a boolean
                 });
             }
             break;
@@ -84,7 +73,44 @@ http.createServer(async function (req, res) {
                 req.on('data', async function(data){
                     var json = JSON.parse(data);
                     sqlQuery = "";
+// will check staff id based on name and dob, needs to be implemented
                 });
+            }
+            break;
+        case '/get_carriage_details':
+            if (req.method == 'POST'){
+                req.on('data', async function(data){
+                    var json = JSON.parse(data);
+                    sqlQuery = "SELECT * FROM car_exists(" + json + ");";
+                    const sqlQueryResult = await client.query(sqlQuery);
+                    var isValid = sqlQueryResult.rows[0].car_exists;
+                    console.log(isValid);
+                    var result;
+                    if (isValid){
+                        sqlQuery = "SELECT * FROM carriage_details(" + json + ");"
+                        const sqlQueryResult2 = await client.query(sqlQuery);
+                        result = sqlQueryResult2.rows;
+                    }
+                    else{
+                        result = sqlQueryResult.rows;
+                    }
+                    var json_res = JSON.stringify(result);
+                    console.log(result);
+                    res.end(json_res);
+                });
+// checks if carriage number is in the database, returns boolean and if true also returns the carriage details
+            }
+            break;
+        case 'submit_form':
+            if (req.method == 'POST'){
+                req.on('data', async function(data){
+                    var json = JSON.parse(data);
+                    sqlQuery = "SELECT * FROM insert_fault($1,$2,$3,$4,$5,$6)";
+                    var values = [json.carriageNo, json.category, json.seatNo, json.location, json.description, json.staffNo];
+                    const sqlQueryResult = await client.query(sqlQuery, values);
+                    res.end();
+                });
+// enters fault details into database (sort of works)
             }
             break;
         default:

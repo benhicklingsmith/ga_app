@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS carriage;
 DROP TABLE IF EXISTS carriageClass;
 DROP TABLE IF EXISTS staff;
 DROP TABLE IF EXISTS station;
+DROP FUNCTION IF EXISTS carriage_details(integer);
+DROP FUNCTION IF EXISTS carExists(integer);
 
 CREATE TABLE carriageClass(
     carriageClass VARCHAR(2),
@@ -14,6 +16,8 @@ CREATE TABLE carriageClass(
     numberOfSeats SMALLINT,
     toilet BOOLEAN,
     plugSockets BOOLEAN,
+    wifi BOOLEAN,
+    displayPanel BOOLEAN,
     CONSTRAINT carriageClass_pk PRIMARY KEY (carriageClass)
 );
 
@@ -93,9 +97,54 @@ IF id IN (SELECT staffID FROM staff)
 THEN RETURN TRUE;
 END IF;
 IF id NOT IN (SELECT staffID FROM staff) 
+--THEN RAISE EXCEPTION 'staff id not found';
 THEN RETURN FALSE;
 END IF;
  END;$$
 LANGUAGE PLPGSQL;
 
---CREATE OR REPLACE
+-- CREATE OR REPLACE FUNCTION getID(IN VARCHAR(20), IN VARCHAR(20), IN DATE)
+-- RETURNS INTEGER AS $$
+-- BEGIN
+-- IF id IN (SELECT staffID FROM staff) 
+-- THEN RETURN TRUE;
+-- END IF;
+-- IF id NOT IN (SELECT staffID FROM staff) 
+-- THEN RETURN FALSE;
+-- END IF;
+--  END;$$
+-- LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION car_exists(IN INTEGER)
+RETURNS BOOLEAN AS $$
+DECLARE id INTEGER:= $1;
+BEGIN
+IF id IN (SELECT carriageno FROM carriage) 
+THEN RETURN TRUE;
+END IF;
+IF id NOT IN (SELECT carriageno FROM carriage) 
+THEN RETURN FALSE;
+END IF;
+ END;$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION carriage_details(IN INTEGER)
+RETURNS table(car_exists BOOLEAN, carriageclass VARCHAR(2), carriage_no INTEGER, seats SMALLINT, toilet BOOLEAN, sockets BOOLEAN, wifi BOOLEAN, displayPanel BOOLEAN) AS $$
+BEGIN
+-- IF $1 IN (SELECT carriageno FROM carriage)
+RETURN QUERY SELECT * FROM car_exists($1) NATURAL JOIN
+(SELECT  carriage.carriageclass, carriage.carriageno, carriageclass.numberofseats, carriageclass.toilet, carriageclass.plugsockets, carriageclass.wifi, carriageclass.displayPanel
+FROM carriage, carriageclass
+WHERE carriage.carriageclass = carriageclass.carriageclass AND carriage.carriageno = $1) AS info;
+-- END IF;
+-- IF $1 NOT IN (SELECT carriageno FROM carriage) 
+-- THEN RETURN QUERY SELECT * FROM check_carriage($1);
+-- END IF;
+ END;$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION insert_fault(INTEGER, VARCHAR(100), SMALLINT, VARCHAR(10), VARCHAR(1000), INTEGER)
+RETURNS VOID AS
+  'INSERT INTO fault(faultNo, carriageNo, category, seatNo, carriageLocation, faultDesc, staffID)
+	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5, $6);'
+LANGUAGE SQL;
