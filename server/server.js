@@ -18,7 +18,7 @@ var password = 'dbpassword';
 var searchPath = "studentdb, ga_app;"
 
 
-// /* Jasmine login */
+/* Jasmine login */
 // var user = 'postgres';
 // var database = 'postgres';
 // var password = 'password';
@@ -67,11 +67,24 @@ http.createServer(async function (req, res) {
                 });
             }
             break;
-        case '/check_name':
+        case '/check_staff':
             if (req.method == 'POST'){
                 req.on('data', async function(data){
                     var json = JSON.parse(data);
-                    sqlQuery = "";
+                    sqlQuery = "SELECT staffid FROM staff WHERE fname = $1 AND sname = $2 AND dob = $3;";
+                    var values = [json.fname, json.sname, json.dob];
+                    var result;
+                    try{
+                        const sqlQueryResult = await client.query(sqlQuery, values);
+                        result = sqlQueryResult.rows;
+                    }
+                    catch(err){
+                        console.log(err);
+                         result = new Object();
+                         result.staffid = false;
+                    }
+                    var json_res = JSON.stringify(result);
+                    res.end(json_res);
 // will check staff id based on name and dob, needs to be implemented
                 });
             }

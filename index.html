@@ -38,8 +38,9 @@
             <div class="section findID">
                 <div class="sectionArea small">
                     <button value="X" onclick="switchPages('findID', 'login')">X</button>
-                    <input type="text" name="name" placeholder="Full Name" required />
-                    <input type="text" name="DOB" placeholder="Date of Birth" required />
+                    <input id="fname" type="text" name="name" placeholder="First Name" required />
+                    <input id="sname" type="text" name="name" placeholder="Surname" required />
+                    <input id="dob" type="text" name="DOB" placeholder="Date of Birth (yyyy-mm-dd)" required />
                 </div>
                 <div class="footer">
                     <button onclick="login('findID')">

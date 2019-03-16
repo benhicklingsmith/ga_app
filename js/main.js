@@ -7,7 +7,6 @@ $(function () {
     });
 });
 
-
 function setPath(path) {
     $("#pathBtn").removeAttr("onclick");
     $("#pathBtn").attr(
@@ -49,7 +48,8 @@ function login(from) {
     } else if (from === "findID") {
         // need to check staffID using name and ID
         // switchPages function temporary
-        switchPages("findID", "options");
+        //switchPages("findID", "options");
+        checkStaffDetails();
     }
 }
 
@@ -133,6 +133,34 @@ function checkStaffID() {
             if (id_exists) {
                 localStorage.setItem("userID", userID);
                 switchPages("login", "options");
+            }
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+}
+
+function checkStaffDetails(){
+    var staffDetails = new Object();
+    staffDetails.fname = $("#fname").val();
+    staffDetails.sname = $("#sname").val();
+    staffDetails.dob = $("#dob").val();
+    var json = JSON.stringify(staffDetails);
+    $.ajax({
+        url: "http://localhost:8081/check_staff",
+        type: "POST",
+        data: json,
+        success: function (rt) {
+            console.log(rt);
+            output = JSON.parse(rt);
+            console.log(output);
+            if(output.staffid != false){
+                localStorage.setItem("userID", output.staffid);
+                switchPages("findID", "options");
+            }
+            else{
+                console.log("no id found");
             }
         },
         error: function () {
