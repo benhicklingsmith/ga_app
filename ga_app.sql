@@ -103,17 +103,6 @@ END IF;
  END;$$
 LANGUAGE PLPGSQL;
 
--- CREATE OR REPLACE FUNCTION getID(IN VARCHAR(20), IN VARCHAR(20), IN DATE)
--- RETURNS INTEGER AS $$
--- BEGIN
--- IF id IN (SELECT staffID FROM staff) 
--- THEN RETURN TRUE;
--- END IF;
--- IF id NOT IN (SELECT staffID FROM staff) 
--- THEN RETURN FALSE;
--- END IF;
---  END;$$
--- LANGUAGE PLPGSQL;
 
 CREATE OR REPLACE FUNCTION car_exists(IN INTEGER)
 RETURNS BOOLEAN AS $$
@@ -131,15 +120,15 @@ LANGUAGE PLPGSQL;
 CREATE OR REPLACE FUNCTION carriage_details(IN INTEGER)
 RETURNS table(car_exists BOOLEAN, carriageclass VARCHAR(2), carriage_no INTEGER, seats SMALLINT, toilet BOOLEAN, sockets BOOLEAN, wifi BOOLEAN, displayPanel BOOLEAN) AS $$
 BEGIN
--- IF $1 IN (SELECT carriageno FROM carriage)
-RETURN QUERY SELECT * FROM car_exists($1) NATURAL JOIN
+IF $1 IN (SELECT carriageno FROM carriage)
+THEN RETURN QUERY SELECT * FROM car_exists($1) NATURAL JOIN
 (SELECT  carriage.carriageclass, carriage.carriageno, carriageclass.numberofseats, carriageclass.toilet, carriageclass.plugsockets, carriageclass.wifi, carriageclass.displayPanel
 FROM carriage, carriageclass
 WHERE carriage.carriageclass = carriageclass.carriageclass AND carriage.carriageno = $1) AS info;
--- END IF;
--- IF $1 NOT IN (SELECT carriageno FROM carriage) 
--- THEN RETURN QUERY SELECT * FROM check_carriage($1);
--- END IF;
+END IF;
+If $1 NOT IN (SELECT carriageno FROM carriage)
+THEN RAISE EXCEPTION 'carriage number not found';
+END IF;
  END;$$
 LANGUAGE PLPGSQL;
 

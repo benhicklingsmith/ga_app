@@ -67,13 +67,14 @@ function checkCar(carExists) {
     //var carExists = true;
     if (carExists) {
         console.log('firing');
-        var carDetails = new Object();
+        var carDetails = JSON.parse(localStorage.getItem("carDetails"));
+        // var carDetails = new Object();
         var reportFault = new Object();
-        carDetails.seats = 0;
-        carDetails.toilet = false;
-        carDetails.displayPanel = true;
-        carDetails.socket = true;
-        carDetails.wifi = false;
+        // carDetails.seats = 0;
+        // carDetails.toilet = false;
+        // carDetails.displayPanel = true;
+        // carDetails.socket = true;
+        // carDetails.wifi = false;
         reportFault.carriage = $('#carNum').val();
         localStorage.setItem("carDetails", JSON.stringify(carDetails));
         localStorage.setItem('reportFault', JSON.stringify(reportFault));
@@ -128,10 +129,12 @@ function checkStaffID() {
         type: "POST",
         data: json,
         success: function (rt) {
-            output = JSON.parse(rt)[0];
+            output = JSON.parse(rt);
             var id_exists = output.check_id;
             if (id_exists) {
-                localStorage.setItem("userID", userID);
+                var userDetails = new Object();
+                userDetails.userID = userID;
+                localStorage.setItem("userDetails", JSON.stringify(userDetails));
                 switchPages("login", "options");
             }
         },
@@ -156,7 +159,9 @@ function checkStaffDetails(){
             output = JSON.parse(rt);
             console.log(output);
             if(output.staffid != false){
-                localStorage.setItem("userID", output.staffid);
+                var userDetails = new Object();
+                userDetails.userID = output.staffid;
+                localStorage.setItem("userDetails", JSON.stringify(userDetails));
                 switchPages("findID", "options");
             }
             else{
@@ -182,7 +187,7 @@ function getCarriageDetails() {
             type: "POST",
             data: json,
             success: function (rt) {
-                output = JSON.parse(rt)[0];
+                output = JSON.parse(rt);
                 var carExists = output.car_exists;
                 if (carExists) {
                     localStorage.setItem("carDetails", JSON.stringify(output));
@@ -198,26 +203,20 @@ function getCarriageDetails() {
 
 function submitForm() {
     // method to submit all of the data to the database at the end of the form
-    var fault = new Object();
-    var carDetails = JSON.parse(localStorage.getItem('carDetails'));
-    var userID = JSON.parse(localStorage.getItem('userID'));
-    fault.carriageNo = carDetails.carriage_no;
-    fault.staffNo = userID;
-    fault.category = null;
-    fault.seatNo = null;
-    fault.location = null;
-    fault.description = null;
-    // set fault object, here temporarily for testing but needs to be moved to some point earlier in the process
-    var json = JSON.stringify(fault);
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+    var userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    reportFault.userID = userDetails.userID;
+    var json = JSON.stringify(reportFault);
     $.ajax({
         url: "http://localhost:8081/submit_form",
         type: "POST",
         data: json,
-        success: function () {
-            console.log("success");
+        success: function (rt) {
+            console.log(rt);
+            console.log("data submitted");
         },
         error: function () {
-            console.log("error");
+            console.log("data not submitted");
         }
     });
     // send fault object to server
