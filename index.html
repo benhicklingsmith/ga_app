@@ -155,7 +155,7 @@
                         <button class="example_fault">Example 2</button>
                         <button class="example_fault">Example 3</button>
                     </div>
-                    <textarea placeholder="Description"></textarea>
+                    <textarea id="description" placeholder="Description"></textarea>
                     <h4>Add an Image: </h4>
                     <input type="file" accept="image/*">
                 </div>
@@ -163,7 +163,7 @@
                     <button class="leftBtn" onclick="switchPages('rf-3', 'rf-2')">
                         Back
                     </button>
-                    <button class="rightBtn" onclick="switchPages('rf-3', 'rf-4')">
+                    <button class="rightBtn" onclick="switchPages('rf-3', 'rf-4'); storeDescription()">
                         Next
                     </button>
                 </div>
@@ -207,7 +207,7 @@
                     <button class="leftBtn" onclick="switchPages('rf-4', 'rf-3')">
                         Back
                     </button>
-                    <button class="rightBtn" onclick="switchPages('rf-4', 'rf-5')">
+                    <button class="rightBtn" onclick="switchPages('rf-4', 'rf-5'); storeLocation()">
                         Next
                     </button>
                 </div>

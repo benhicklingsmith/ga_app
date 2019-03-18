@@ -7,6 +7,7 @@ $(function () {
     });
 });
 
+
 function setPath(path) {
     $("#pathBtn").removeAttr("onclick");
     $("#pathBtn").attr(
@@ -76,7 +77,7 @@ function checkCar(carExists) {
         // carDetails.socket = true;
         // carDetails.wifi = false;
         reportFault.carriage = $('#carNum').val();
-        localStorage.setItem("carDetails", JSON.stringify(carDetails));
+        //localStorage.setItem("carDetails", JSON.stringify(carDetails));
         localStorage.setItem('reportFault', JSON.stringify(reportFault));
 
         $(".issue").removeClass("show");
@@ -222,6 +223,26 @@ function submitForm() {
     // send fault object to server
 }
 
+function storeLocation(){
+    var carDetails = JSON.parse(localStorage.getItem('carDetails'));
+    if (carDetails.seats > 0){
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+    var seatNoStr = $("#seatNo").text();
+    var seatNo = seatNoStr.split(": ").pop();
+    reportFault.location = "seat " + seatNo;
+    localStorage.setItem('reportFault', JSON.stringify(reportFault))
+    }
+}
+
+function storeDescription(){
+    var description = $('#description').val();
+    if (description != "description"){
+        var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+        reportFault.description = description;
+        localStorage.setItem('reportFault', JSON.stringify(reportFault));
+    }
+}
+
 function typeNum(num) {
     //get the maximum seat capacity for the carriage from the object in  local storage
     var carriage = JSON.parse(localStorage.getItem('carDetails'));
@@ -258,6 +279,9 @@ function typeNum(num) {
 // Called when the user selects any fault option button or when any change is made to the description panel. Removes show class from all fault options and adds a show class to the selected button (used to change the css). If the selected button is not other, or it is other and the description is not empty, then set the switchPage function for the next button. If other is selected and input is empty reset the onlclick function of the rf-2Next to checkInput
 
 function setFaultType(type) {
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+    reportFault.category = type;
+    localStorage.setItem('reportFault', JSON.stringify(reportFault));
     $(".faultOption").removeClass("show");
     $("#" + type).addClass('show');
 

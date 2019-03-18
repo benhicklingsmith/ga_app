@@ -47,17 +47,30 @@ CREATE TABLE fault(
 faultNo INTEGER,
 carriageNo INTEGER,
 category VARCHAR(100),
-seatNo SMALLINT,
-carriageLocation VARCHAR(10),
+location VARCHAR(100),
 faultDesc VARCHAR(1000),
 staffID INTEGER,
 dateReported  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+status CHAR DEFAULT 'N',
+notes VARCHAR(1000),
 CONSTRAINT fault_pk PRIMARY KEY (faultNo),
 CONSTRAINT fault_fk1 FOREIGN KEY (carriageNo) REFERENCES carriage,
 CONSTRAINT fault_pk2 FOREIGN KEY (staffID) REFERENCES staff
 );
 -- this is assuming carriage will always be obtained, but might need to add another table if we could only get the train 
 -- (ie a list of carriages) if they only know where the train was and at what time (ie on a rural train where the carriages don't have letters)
+-- fault status- N = not started, I = in progress, F = fixed
+
+CREATE TABLE fault_update(
+    faultNo INTEGER,
+    staffID INTEGER,
+    status CHAR,
+    notes VARCHAR(1000),
+    dateUpdated DEFAULT CURRENT TIMESTAMP,
+    CONSTRAINT fault_update_pk PRIMARY KEY (faultNo,dateUpdated),
+    CONSTRAINT fault_update_fk1 FOREIGN KEY (faultNo) REFERENCES fault,
+    CONSTRAINT fault_update_fk2 FOREIGN KEY (staffID) REFERENCES staff
+)
 
 CREATE TABLE faultImage(
     faultNo INTEGER,
@@ -132,8 +145,8 @@ END IF;
  END;$$
 LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION insert_fault(INTEGER, VARCHAR(100), SMALLINT, VARCHAR(10), VARCHAR(1000), INTEGER)
+CREATE OR REPLACE FUNCTION insert_fault(INTEGER, VARCHAR(100), VARCHAR(100), VARCHAR(1000), INTEGER)
 RETURNS VOID AS
-  'INSERT INTO fault(faultNo, carriageNo, category, seatNo, carriageLocation, faultDesc, staffID)
-	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5, $6);'
+  'INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID)
+	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5);'
 LANGUAGE SQL;

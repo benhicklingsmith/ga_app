@@ -121,8 +121,8 @@ http.createServer(async function (req, res) {
                     var result = new Object();
                     try {
                         var json = JSON.parse(data);
-                        sqlQuery = "SELECT * FROM insert_fault($1,$2,$3,$4,$5,$6)";
-                        var values = [json.carriage, json.category, json.seatNo, json.location, json.description, json.userID];
+                        sqlQuery = "SELECT * FROM insert_fault($1,$2,$3,$4,$5)";
+                        var values = [json.carriage, json.category, json.location, json.description, json.userID];
                         console.log(values);
                         const sqlQueryResult = await client.query(sqlQuery, values);
                         result.success = true;
