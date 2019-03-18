@@ -39,8 +39,9 @@
             <div class="section findID">
                 <div class="sectionArea small">
                     <button value="X" onclick="switchPages('findID', 'login')">X</button>
-                    <input type="text" name="name" placeholder="Full Name" required />
-                    <input type="text" name="DOB" placeholder="Date of Birth" required />
+                    <input id="fname" type="text" name="name" placeholder="First Name" required />
+                    <input id="sname" type="text" name="name" placeholder="Surname" required />
+                    <input id="dob" type="text" name="DOB" placeholder="Date of Birth (yyyy-mm-dd)" required />
                 </div>
                 <div class="footer">
                     <button onclick="login('findID')">
@@ -155,7 +156,7 @@
                         <button id="example_2" class="example_fault" onclick="exampleDescription('example_2')">Example 2</button>
                         <button id="example_3" class="example_fault" onclick="exampleDescription('example_3')">Example 3</button>
                     </div>
-                    <textarea id="detailedDescription" placeholder="Description"></textarea>
+                    <textarea id="description" placeholder="Description"></textarea>
                     <h4>Add an Image: </h4>
                     <input type="file" accept="image/*">
                 </div>
@@ -163,7 +164,7 @@
                     <button class="leftBtn" onclick="switchPages('rf-3', 'rf-2')">
                         Back
                     </button>
-                    <button class="rightBtn" onclick="switchPages('rf-3', 'rf-4')">
+                    <button class="rightBtn" onclick="switchPages('rf-3', 'rf-4'); storeDescription()">
                         Next
                     </button>
                 </div>
@@ -209,7 +210,7 @@
                     <button class="leftBtn" onclick="switchPages('rf-4', 'rf-3')">
                         Back
                     </button>
-                    <button class="rightBtn" onclick="switchPages('rf-4', 'rf-5')">
+                    <button class="rightBtn" onclick="switchPages('rf-4', 'rf-5'); storeLocation()">
                         Next
                     </button>
                 </div>
@@ -275,8 +276,6 @@
                     </button>
                 </div>
             </div>
-
         </div>
     </body>
-
 </html>

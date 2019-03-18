@@ -8,6 +8,7 @@ $(function () {
 //    });
 });
 
+//object of objects that can be used to populate 
 var faultCategories = {
     wifi: {
         example_1: "slow connection",
@@ -93,7 +94,8 @@ function login(from) {
     } else if (from === "findID") {
         // need to check staffID using name and ID
         // switchPages function temporary
-        switchPages("findID", "options");
+        //switchPages("findID", "options");
+        checkStaffDetails();
     }
 }
 
@@ -173,18 +175,16 @@ function checkCar(carExists) {
     //var carExists = true;
     if (carExists) {
         console.log('firing');
-        //create local storage objects
-        var carDetails = new Object();
-        carDetails.seats = 0;
-        carDetails.toilet = false;
-        carDetails.displayPanel = true;
-        carDetails.socket = true;
-        carDetails.wifi = false;
-        
+        var carDetails = JSON.parse(localStorage.getItem("carDetails"));
+        // var carDetails = new Object();
         var reportFault = new Object();
+        // carDetails.seats = 0;
+        // carDetails.toilet = false;
+        // carDetails.displayPanel = true;
+        // carDetails.socket = true;
+        // carDetails.wifi = false;
         reportFault.carriage = $('#carNum').val();
-        
-        localStorage.setItem("carDetails", JSON.stringify(carDetails));
+        //localStorage.setItem("carDetails", JSON.stringify(carDetails));
         localStorage.setItem('reportFault', JSON.stringify(reportFault));
         
         //remove error message incase it shows from previous request.
@@ -236,32 +236,128 @@ function checkCar(carExists) {
     }
 }
 
+function checkStaffID() {
+    var userID = $("#idInputBox").val();
+    var json = JSON.stringify(userID);
+    var output = {};
+    $.ajax({
+        url: "http://localhost:8081/check_id",
+        type: "POST",
+        data: json,
+        success: function (rt) {
+            output = JSON.parse(rt);
+            var id_exists = output.check_id;
+            if (id_exists) {
+                var userDetails = new Object();
+                userDetails.userID = userID;
+                localStorage.setItem("userDetails", JSON.stringify(userDetails));
+                switchPages("login", "options");
+            }
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+}
+
+function checkStaffDetails(){
+    var staffDetails = new Object();
+    staffDetails.fname = $("#fname").val();
+    staffDetails.sname = $("#sname").val();
+    staffDetails.dob = $("#dob").val();
+    var json = JSON.stringify(staffDetails);
+    $.ajax({
+        url: "http://localhost:8081/check_staff",
+        type: "POST",
+        data: json,
+        success: function (rt) {
+            console.log(rt);
+            output = JSON.parse(rt);
+            console.log(output);
+            if(output.staffid != false){
+                var userDetails = new Object();
+                userDetails.userID = output.staffid;
+                localStorage.setItem("userDetails", JSON.stringify(userDetails));
+                switchPages("findID", "options");
+            }
+            else{
+                console.log("no id found");
+            }
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+}
+
+function getCarriageDetails() {
+    var carriageNo = $("#carNum").val();
+    if (carriageNo === "") {
+        console.log("invalid")
+        $(".issue").addClass("show");
+    } else {
+        var json = JSON.stringify(carriageNo);
+        var output = {};
+        $.ajax({
+            url: "http://localhost:8081/get_carriage_details",
+            type: "POST",
+            data: json,
+            success: function (rt) {
+                output = JSON.parse(rt);
+                var carExists = output.car_exists;
+                if (carExists) {
+                    localStorage.setItem("carDetails", JSON.stringify(output));
+                }
+                checkCar(carExists);
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
+    }
+}
+
 // method to submit all of the data to the database at the end of the form
 function submitForm() {
-    var fault = new Object();
-    var carDetails = JSON.parse(localStorage.getItem('carDetails'));
-    var userID = JSON.parse(localStorage.getItem('userID'));
-    fault.carriageNo = carDetails.carriage_no;
-    fault.staffNo = userID;
-    fault.category = null;
-    fault.seatNo = null;
-    fault.location = null;
-    fault.description = null;
-    // set fault object, here temporarily for testing but needs to be moved to some point earlier in the process
-    var json = JSON.stringify(fault);
+    // method to submit all of the data to the database at the end of the form
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+    var userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    reportFault.userID = userDetails.userID;
+    var json = JSON.stringify(reportFault);
     $.ajax({
         url: "http://localhost:8081/submit_form",
         type: "POST",
         data: json,
-        success: function () {
-            console.log("success");
+        success: function (rt) {
+            console.log(rt);
+            console.log("data submitted");
         },
         error: function () {
             alert("there has been an error contacting the server");
-            console.log("error");
+            console.log("data not submitted");
         }
     });
     // send fault object to server
+}
+
+function storeLocation(){
+    var carDetails = JSON.parse(localStorage.getItem('carDetails'));
+    if (carDetails.seats > 0){
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+    var seatNoStr = $("#seatNo").text();
+    var seatNo = seatNoStr.split(": ").pop();
+    reportFault.location = "seat " + seatNo;
+    localStorage.setItem('reportFault', JSON.stringify(reportFault))
+    }
+}
+
+function storeDescription(){
+    var description = $('#description').val();
+    if (description != "description"){
+        var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+        reportFault.description = description;
+        localStorage.setItem('reportFault', JSON.stringify(reportFault));
+    }
 }
 
 function typeNum(num) {
@@ -303,6 +399,9 @@ function typeNum(num) {
 // checkInput
 
 function setFaultType(type) {
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+    reportFault.category = type;
+    localStorage.setItem('reportFault', JSON.stringify(reportFault));
     $(".faultOption").removeClass("show");
     $("#" + type).addClass('show');
 

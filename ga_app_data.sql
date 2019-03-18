@@ -58,13 +58,13 @@ INSERT INTO staff(staffID, fName, sName, dob)
 	VALUES (102938,'Craig', 'Naylor', '1994-05-16');
 -- staff
 
-INSERT INTO fault(faultNo, carriageNo, category, carriageLocation, faultDesc, staffID)
+INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID)
 	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 94038, 'seat', 'Rear', 'cushion not attached to seat', 273948);
-INSERT INTO fault(faultNo, carriageNo, category, seatNo, faultDesc, staffID)
-	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 74837, 'window', 34, 'window doesnt open', 372847);
-INSERT INTO fault(faultNo, carriageNo, category, faultDesc, staffID)
-	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 28397, 'toilet', 'fault with toilet door', 230288);
-INSERT INTO fault(faultNo, carriageNo, category, carriageLocation, faultDesc, staffID)
+INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID)
+	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 74837, 'window', 'seat 34', 'window doesnt open', 372847);
+INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID)
+	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 28397, 'toilet', 'toilet', 'fault with toilet door', 230288);
+INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID)
 	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 37287, 'table', 'Front', 'broken table', 123456);
 INSERT INTO fault(faultNo, carriageNo, category, faultDesc, staffID)
 	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, 12345, 'wifi', 'wifi wont connect', 647392);
