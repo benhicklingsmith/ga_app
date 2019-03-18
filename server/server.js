@@ -62,6 +62,7 @@ http.createServer(async function (req, res) {
                     const sqlQueryResult = await client.query(sqlQuery);
                     var result = sqlQueryResult.rows;
                     var json_res = JSON.stringify(result);
+                    console.log("check id = " + json_res.check_id);
                     res.end(json_res); 
 // gets staff id from front end, checks if it's in the database and returns a boolean
                 });

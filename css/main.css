@@ -184,4 +184,11 @@ button.hide {
   content: "";
 }
 
+.example_faults {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-gap: 2px;
+  padding: 3px;
+}
+
 /*# sourceMappingURL=main.css.map */

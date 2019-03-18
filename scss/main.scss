@@ -199,4 +199,12 @@ button {
   content: "\e101";
 }
 
+.example_faults{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-gap: 2px;
+    padding: 3px; 
+}
+
+
 
