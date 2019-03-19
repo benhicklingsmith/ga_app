@@ -12,10 +12,10 @@ var host = '127.0.0.1';
 var port = 5432;
 
 /* uni login*/
-// var user = 'student';
-// var database = 'studentdb';
-// var password = 'dbpassword';
-// var searchPath = "studentdb, ga_app;"
+ var user = 'student';
+ var database = 'studentdb';
+ var password = 'dbpassword';
+ var searchPath = "studentdb, ga_app;"
 
 
 /* Jasmine login */
@@ -25,10 +25,10 @@ var port = 5432;
 // var searchPath = " ga_app;";
 
 /* Will login */
-var user = 'postgres';
-var database = 'projects';
-var password = 'password';
-var searchPath = "projects, ga_app;";
+//var user = 'postgres';
+//var database = 'projects';
+//var password = 'password';
+//var searchPath = "projects, ga_app;";
 
 // the quick and dirty trick which prevents crashing.
 process.on('uncaughtException', function (err) {
@@ -69,13 +69,14 @@ http.createServer(async function (req, res) {
                         sqlQuery = "SELECT * FROM check_ID(" + json + ");";
                         const sqlQueryResult = await client.query(sqlQuery);
                         result = sqlQueryResult.rows[0];
+                        
                     }
                     catch (err) {
                         result = new Object();
                         result.check_id = false;
                     }
                     var json_res = JSON.stringify(result);
-                    console.log("check id = " + json_res.check_id);
+                    console.log(json_res);
                     res.end(json_res);
                     // gets staff id from front end, checks if it's in the database and returns a boolean
 
@@ -112,6 +113,7 @@ http.createServer(async function (req, res) {
                         sqlQuery = "SELECT * FROM carriage_details(" + json + ");"
                         const sqlQueryResult2 = await client.query(sqlQuery);
                         result = sqlQueryResult2.rows[0];
+                        console.log(result);
                     }
                     catch (err) {
                         result = new Object();

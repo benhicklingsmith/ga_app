@@ -137,11 +137,11 @@ button.hide {
 }
 
 .issue {
-  display: none;
-  color: #EE5757;
+  display: block;
+  color: white;
 }
 .issue.show {
-  display: block;
+  color: #d70428;
 }
 
 .faultLocator {
