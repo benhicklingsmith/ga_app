@@ -57,11 +57,13 @@ button {
   "7 8 9"
   "0 minus minus";
   grid-gap: 5px;
+  *{
+    height: 50px;
+  }
   #minus{
     background-color: $primary_colour;
     grid-area: minus;   
   }
-  margin-bottom: 5px;
 }
 
 .faultOptions{
@@ -124,7 +126,7 @@ button {
     display: grid;
     align-self: end;
     justify-self: center;
-    margin: 10px;
+    margin: 10px 10px 15px 10px;
     width: calc(100% - 20px);
     &.small {
       grid-gap: 10px;

@@ -134,18 +134,17 @@ function setPageElements() {
 
     // set page 2 options by iterating through features found in carriage and setting them to show
 
+    // set all fault options to original state by removing hide class
     $('.faultOption').removeClass('hide');
 
+    // iterate through carDetails object and if the value is of type boolean and it is false add hide class
     for (var key in carDetails) {
-        if (typeof carDetails[key] === "boolean") {
-            if (!carDetails[key]) {
-                $("#" + key).addClass('hide');
-            }
+        if (typeof carDetails[key] === "boolean" && !carDetails[key]) {
+            $("#" + key).addClass('hide');
         }
     }
 
     // set page 2 button height and span depending on number and parity of buttons
-
     var hiddenOptions = $('.faultOption.hide').length;
     var totalOptions = $('.faultOptions').children().length;
     var options = totalOptions - hiddenOptions;
@@ -158,18 +157,6 @@ function setPageElements() {
     if (optionParity === 1) {
         $('#other').css("grid-column", "span 2");
     }
-
-
-    // set page 4 location input method
-
-    if (carDetails.seats > 0) {
-        $("#region").removeClass("show");
-        $("#seats").addClass("show");
-    } else {
-        $("#region").addClass("show");
-        $("#seats").removeClass("show");
-    }
-
 
 }
 
@@ -228,7 +215,7 @@ function getCarriageDetails() {
                 output = JSON.parse(rt);
                 if (output.car_exists) {
                     localStorage.setItem("carDetails", JSON.stringify(output));
-                    setLocalStorage()
+                    setLocalStorage();
                     setPageElements();
                     switchPages('rf-1', 'rf-2');
                 } else {
@@ -342,12 +329,8 @@ function checkInput(page) {
 
             if (selectedFault !== 'other' && selectedFault != null) {
 
-                removeFaultDetails('location');
-
                 if (noLocationFaults.includes(selectedFault)) {
                     addFaultDetails('location', selectedFault);
-                } else {
-                    removeFaultDetails('faultCategory');
                 }
 
                 addFaultDetails('faultCategory', selectedFault);
@@ -366,6 +349,8 @@ function checkInput(page) {
 
         case 'rf-3':
 
+            var carDetails = JSON.parse(localStorage.getItem("carDetails"));
+
             // add fault description to reportFault in local storage
 
             var description = $('#description').val();
@@ -377,10 +362,21 @@ function checkInput(page) {
             }
 
             // if the location doesn't require a specific location (see global variable noLocationFaults) then bypass page 4
+            // else set the fault location method in page 4 depending on seats
+
+            $("#region").removeClass("show");
+            $("#seats").removeClass("show");
 
             if (noLocationFaults.includes(reportFault.location)) {
+                setSummaryPage();
                 switchPages('rf-3', 'rf-5')
             } else {
+                // set page 4 location input method
+                if (carDetails.seats > 0) {
+                    $("#seats").addClass("show");
+                } else {
+                    $("#region").addClass("show");
+                }
                 switchPages('rf-3', 'rf-4')
             }
 
@@ -402,31 +398,7 @@ function checkInput(page) {
                 // repeat something similar to above but for faults located using region
             }
 
-            // var reportFault = JSON.parse(localStorage.getItem('reportFault'));
-
-            for (var key in reportFault) {
-                switch (key) {
-
-                    case 'carriage':
-                        $("#sumCarNo").empty();
-                        $("#sumCarNo").text(reportFault[key]);
-                        break;
-                    case 'faultCategory':
-                        $("#sumCat").empty();
-                        $("#sumCat").text(reportFault[key].charAt(0).toUpperCase() + reportFault[key].slice(1));
-                        break;
-                    case 'description':
-                        $("#sumDes").empty();
-                        $("#sumDes").text(reportFault[key].charAt(0).toUpperCase() + reportFault[key].slice(1));
-                        break;
-                    case 'location':
-                        $("#sumLoc").empty();
-                        $("#sumLoc").text(reportFault[key].charAt(0).toUpperCase() + reportFault[key].slice(1));
-                        break;
-                }
-
-            }
-
+            setSummaryPage();
             break;
 
         case 'rf-5':
@@ -467,5 +439,69 @@ function storeDescription() {
         var reportFault = JSON.parse(localStorage.getItem('reportFault'));
         reportFault.description = description;
         localStorage.setItem('reportFault', JSON.stringify(reportFault));
+    }
+}
+
+function back(page) {
+    switch (page) {
+        case 'rf-2':
+            // empty local storage
+            localStorage.removeItem('carDetails');
+            localStorage.removeItem('reportFault');
+            switchPages('rf-2', 'rf-1');
+            break;
+        case 'rf-3':
+            // remove location and fault category from reportFault in local storage
+            removeFaultDetails('location');
+            removeFaultDetails('faultCategory');
+            switchPages('rf-3', 'rf-2');
+            break;
+        case 'rf-4':
+            // remove fault description
+            removeFaultDetails('description');
+            switchPages('rf-4', 'rf-3');
+            break;
+
+        case 'rf-5':
+            // if a fault location method is not set in step 4 then remove description from reportFault in local storage and switch page to page 3
+            // else remove location from report in local storage and switch page to page 4
+            var seatsActive = $('.faultLocator.seats.show').length;
+            var regionActive = $('.faultLocator.region.show').length;
+            if (seatsActive === 0 && regionActive === 0) {
+                removeFaultDetails('description');
+                switchPages('rf-5', 'rf-3');
+            } else {
+                removeFaultDetails('location');
+                switchPages('rf-5', 'rf-4');
+            }
+            break;
+    }
+}
+
+function setSummaryPage() {
+
+    var reportFaultDetails = JSON.parse(localStorage.getItem("reportFault"));
+
+    for (var key in reportFaultDetails) {
+        switch (key) {
+
+            case 'carriage':
+                $("#sumCarNo").empty();
+                $("#sumCarNo").text(reportFaultDetails[key]);
+                break;
+            case 'faultCategory':
+                $("#sumCat").empty();
+                $("#sumCat").text(reportFaultDetails[key].charAt(0).toUpperCase() + reportFaultDetails[key].slice(1));
+                break;
+            case 'description':
+                $("#sumDes").empty();
+                $("#sumDes").text(reportFaultDetails[key].charAt(0).toUpperCase() + reportFaultDetails[key].slice(1));
+                break;
+            case 'location':
+                $("#sumLoc").empty();
+                $("#sumLoc").text(reportFaultDetails[key].charAt(0).toUpperCase() + reportFaultDetails[key].slice(1));
+                break;
+        }
+
     }
 }
