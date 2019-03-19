@@ -19,7 +19,7 @@
     <div class="main">
 
         <!-- Login Page -->
-        <div class="section login">
+        <div class="section login current fade">
             <div class="sectionArea small">
                 <h2>Staff Login</h2>
                 <div id="invalidStaffId" class="issue">
@@ -74,7 +74,7 @@
                 Enter carriage Number. If they dont know it they can choose 
                 to enter different details about the train to locate it. 
             -->
-        <div class="section rf-1 current fade">
+        <div class="section rf-1">
             <div class="sectionArea large">
                 <h3 id="fieldTitle">Report a Fault - Step 1</h3>
                 <div id="invalidCarriageId" class="issue">
@@ -130,7 +130,8 @@
 
                 </div>
 
-                <input type="text" name="faultDescription" placeholder="Fault Category" id="otherCategory" />
+                <input type="text" name="faultDescription" placeholder="Fault Category Description"
+                    id="otherCategory" />
 
             </div>
             <div class="footer split">
@@ -163,13 +164,17 @@
                 </div>
                 <textarea id="description" placeholder="Description"></textarea>
                 <h4>Add an Image: </h4>
-                <input type="file" accept="image/*">
+                <input type="file" accept="image/*" id="selectPic" style="display:none;">
+                <button value="Select/Take Picture" onclick="document.getElementById('selectPic').click();"><span
+                        class="glyphicon glyphicon-camera"></span></button>
+
+
             </div>
             <div class="footer split">
-                <button class="leftBtn" onclick="switchPages('rf-3', 'rf-2')">
+                <button class="leftBtn" onclick="switchPages('rf-3', 'rf-2');">
                     Back
                 </button>
-                <button class="rightBtn" id="rf-3Next">
+                <button class="rightBtn" onclick="checkInput('rf-3');">
                     Next
                 </button>
             </div>
@@ -236,7 +241,7 @@
                 <img src="https://source.unsplash.com/random/320x568" alt="" />
             </div>
             <div class="footer split">
-                <button class="leftBtn" id="rf-5Back">
+                <button class="leftBtn" onclick="switchPages('rf-5', 'rf-4')">
                     Back
                 </button>
                 <button class="rightBtn" onclick="switchPages('rf-5', 'rf-6'); submitForm()">

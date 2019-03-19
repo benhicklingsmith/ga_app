@@ -165,6 +165,12 @@ button {
   display: none;
   &.show {
     display: grid;
+    height: 40px;
+    border: none;
+    font-size: 1rem;
+    color: black;
+    padding: 2px;
+    margin-bottom: 5px;
   }
 }
 
@@ -197,6 +203,10 @@ button {
 
 .glyphicon-exclamation-sign:before {
   content: "\e101";
+}
+
+.glyphicon-camera:before {
+  content: "\e046";
 }
 
 .example_faults{

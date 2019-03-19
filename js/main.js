@@ -267,14 +267,7 @@ function submitForm() {
     // send fault object to server
 }
 
-function storeDescription() {
-    var description = $('#description').val();
-    if (description != "description") {
-        var reportFault = JSON.parse(localStorage.getItem('reportFault'));
-        reportFault.description = description;
-        localStorage.setItem('reportFault', JSON.stringify(reportFault));
-    }
-}
+
 
 function typeNum(num) {
     //get the maximum seat capacity for the carriage from the object in  local storage
@@ -321,6 +314,7 @@ function selectFault(type) {
 
     if (type === 'other') {
         $("#otherCategory").addClass('show');
+        $('.section.rf-2').animate({ scrollTop: $('.section.rf-2')[0].scrollHeight }, 2000);
     } else {
         $("#otherCategory").removeClass('show');
     }
@@ -331,6 +325,8 @@ function selectFault(type) {
 // Called when the user selects 'Next'. Checks to ensure that an option has been selected in step 2 and if 'other' 
 // is selected it checks to make sure a description is provided
 function checkInput(page) {
+
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
 
     switch (page) {
 
@@ -350,12 +346,8 @@ function checkInput(page) {
 
                 if (noLocationFaults.includes(selectedFault)) {
                     addFaultDetails('location', selectedFault);
-                    $("#rf-3Next").attr("onclick", "switchPages('rf-3', 'rf-5')");
-                    $("#rf-5Back").attr("onclick", "switchPages('rf-5', 'rf-3')");
                 } else {
                     removeFaultDetails('faultCategory');
-                    ("#rf-3Next").attr("onclick", "switchPages('rf-3', 'rf-4')");
-                    $("#rf-5Back").attr("onclick", "switchPages('rf-4', 'rf-3')");
                 }
 
                 addFaultDetails('faultCategory', selectedFault);
@@ -374,8 +366,23 @@ function checkInput(page) {
 
         case 'rf-3':
 
-            // if fault details contains a location switch pages from rf-3 to rf-4
-            // if it doesn't switch pages from rf-3 to rf-5
+            // add fault description to reportFault in local storage
+
+            var description = $('#description').val();
+
+            if (description !== '') {
+                addFaultDetails('description', description);
+            } else {
+                addFaultDetails('description', 'no input');
+            }
+
+            // if the location doesn't require a specific location (see global variable noLocationFaults) then bypass page 4
+
+            if (noLocationFaults.includes(reportFault.location)) {
+                switchPages('rf-3', 'rf-5')
+            } else {
+                switchPages('rf-3', 'rf-4')
+            }
 
             break;
 
@@ -395,7 +402,7 @@ function checkInput(page) {
                 // repeat something similar to above but for faults located using region
             }
 
-            var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+            // var reportFault = JSON.parse(localStorage.getItem('reportFault'));
 
             for (var key in reportFault) {
                 switch (key) {
@@ -419,14 +426,6 @@ function checkInput(page) {
                 }
 
             }
-
-
-
-
-
-
-
-
 
             break;
 
@@ -458,4 +457,15 @@ function removeFaultDetails(key) {
 function exampleDescription(detail) {
     var description = $("#" + detail).text();
     $("#detailedDescription").text(description);
+}
+
+
+
+function storeDescription() {
+    var description = $('#description').val();
+    if (description != "description") {
+        var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+        reportFault.description = description;
+        localStorage.setItem('reportFault', JSON.stringify(reportFault));
+    }
 }

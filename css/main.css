@@ -122,7 +122,13 @@ button {
 #otherCategory {
   display: none; }
   #otherCategory.show {
-    display: grid; }
+    display: grid;
+    height: 40px;
+    border: none;
+    font-size: 1rem;
+    color: black;
+    padding: 2px;
+    margin-bottom: 5px; }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   form.large {
@@ -146,6 +152,9 @@ button {
 
 .glyphicon-exclamation-sign:before {
   content: "\e101"; }
+
+.glyphicon-camera:before {
+  content: "\e046"; }
 
 .example_faults {
   display: grid;
