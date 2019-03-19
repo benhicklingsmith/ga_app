@@ -103,50 +103,23 @@ function checkStaffID() {
     } else {
         var json = JSON.stringify(userID);
         var output = {};
+        console.log(json);
         $.ajax({
             url: "http://localhost:8081/check_id",
             type: "POST",
             data: json,
             success: function (rt) {
-                output = JSON.parse(rt)[0];
+                output = JSON.parse(rt);
                 var id_exists = output.check_id;
                 if (id_exists) {
-                    localStorage.setItem("userID", userID);
+                    var userDetails = new Object();
+                    userDetails.userID = userID;
+                    localStorage.setItem("userDetails", JSON.stringify(userDetails));
                     switchPages("login", "options");
                 }
             },
             error: function () {
                 alert("there has been an issue contacting the server.");
-                console.log("error");
-            }
-        });
-    }
-}
-
-//used by rf page 1
-//querys server/database for valid carriage number before proceeding. 
-function getCarriageDetails() {
-    var carriageNo = $("#carNum").val();
-    if (carriageNo === "") {
-        console.log("invalid carriage id")
-        $(".issue").addClass("show");
-    } else {
-        var json = JSON.stringify(carriageNo);
-        var output = {};
-        $.ajax({
-            url: "http://localhost:8081/get_carriage_details",
-            type: "POST",
-            data: json,
-            success: function (rt) {
-                output = JSON.parse(rt)[0];
-                var carExists = output.car_exists;
-                if (carExists) {
-                    localStorage.setItem("carDetails", JSON.stringify(output));
-                }
-                checkCar(carExists);
-            },
-            error: function () {
-                alert("there has been an error contacting the server");
                 console.log("error");
             }
         });
@@ -205,30 +178,6 @@ function setPageElements() {
 
 }
 
-function checkStaffID() {
-    var userID = $("#idInputBox").val();
-    var json = JSON.stringify(userID);
-    var output = {};
-    $.ajax({
-        url: "http://localhost:8081/check_id",
-        type: "POST",
-        data: json,
-        success: function (rt) {
-            output = JSON.parse(rt);
-            var id_exists = output.check_id;
-            if (id_exists) {
-                var userDetails = new Object();
-                userDetails.userID = userID;
-                localStorage.setItem("userDetails", JSON.stringify(userDetails));
-                switchPages("login", "options");
-            }
-        },
-        error: function () {
-            console.log("error");
-        }
-    });
-}
-
 function checkStaffDetails() {
     var staffDetails = new Object();
     staffDetails.fname = $("#fname").val();
@@ -259,6 +208,8 @@ function checkStaffDetails() {
     });
 }
 
+//used by rf page 1
+//querys server/database for valid carriage number before proceeding. 
 function getCarriageDetails() {
     var carriageNo = $("#carNum").val();
     if (carriageNo === "") {
@@ -283,6 +234,7 @@ function getCarriageDetails() {
             },
             error: function () {
                 console.log("error");
+                alert("there has been an error contacting the server");
             }
         });
     }
@@ -369,6 +321,14 @@ function selectFault(type) {
         $("#otherCategory").removeClass('show');
     }
 
+    switch (type) {
+        case 'wifi':
+        case 'HVAC':
+            removeFaultDetails(location);
+        // bypass step 4
+
+    }
+
 }
 
 
@@ -393,8 +353,7 @@ function checkInput(page) {
                 addFaultDetails('faultCategory', selectedFault);
                 switchPages('rf-2', 'rf-3');
             } else if (selectedFault === 'other' && otherInput !== '') {
-                addFaultDetails('faultCategory', selectedFault);
-                addFaultDetails('otherFaultCategory', otherInput);
+                addFaultDetails('faultCategory', otherInput);
                 switchPages('rf-2', 'rf-3');
             } else if (selectedFault == null) {
                 alert('Please select a fault category');
@@ -404,6 +363,9 @@ function checkInput(page) {
             break;
 
         case 'rf-3':
+
+            // if fault details contains a location switch pages from rf-3 to rf-4
+            // if it doesn't switch pages from rf-3 to rf-5
 
             break;
 
@@ -423,6 +385,14 @@ function checkInput(page) {
             } else if ($('.faultLocator.region.show').length === 1) {
                 // repeat something similar to above but for faults located using region
             }
+
+            break;
+
+        case 'rf-5':
+
+            break;
+
+        case 'rf-6':
 
             break;
 
