@@ -12,10 +12,10 @@ var host = '127.0.0.1';
 var port = 5432;
 
 /* uni login*/
-var user = 'student';
-var database = 'studentdb';
-var password = 'dbpassword';
-var searchPath = "studentdb, ga_app;"
+// var user = 'student';
+// var database = 'studentdb';
+// var password = 'dbpassword';
+// var searchPath = "studentdb, ga_app;"
 
 
 /* Jasmine login */
@@ -23,6 +23,12 @@ var searchPath = "studentdb, ga_app;"
 // var database = 'postgres';
 // var password = 'password';
 // var searchPath = " ga_app;";
+
+/* Will login */
+var user = 'postgres';
+var database = 'projects';
+var password = 'password';
+var searchPath = "projects, ga_app;";
 
 // the quick and dirty trick which prevents crashing.
 process.on('uncaughtException', function (err) {
@@ -70,8 +76,8 @@ http.createServer(async function (req, res) {
                     }
                     var json_res = JSON.stringify(result);
                     console.log("check id = " + json_res.check_id);
-                    res.end(json_res); 
-// gets staff id from front end, checks if it's in the database and returns a boolean
+                    res.end(json_res);
+                    // gets staff id from front end, checks if it's in the database and returns a boolean
 
                 });
             }

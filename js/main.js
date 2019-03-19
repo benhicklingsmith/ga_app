@@ -3,9 +3,9 @@ $(function () {
         switchPages("login", "findID");
     });
     //possibly unnessacary? might be useful for mobile devices? unknown. Remove if no use is found. ben 15/3
-//    $('#otherCategory').on("change keyup paste", function () {
-//        setFaultType('other');
-//    });
+    //    $('#otherCategory').on("change keyup paste", function () {
+    //        setFaultType('other');
+    //    });
 });
 
 //object of objects that can be used to populate 
@@ -15,55 +15,43 @@ var faultCategories = {
         example_2: "can't connect",
         example_3: "cannot find wifi"
     },
-    
+
     toilet: {
         example_1: "toilet won't flush",
         example_2: "sink doesn't work",
         example_3: "no toilet paper"
     },
-    
+
     HVAC: {
         example_1: "carriage too hot",
         example_2: "carriage too cold"
     },
-    
+
     door: {
         example_1: "outer door broken",
         example_2: "inside door won't open",
         example_3: "inside door won't shut",
         example_4: "inside door reaction slow"
     },
-    
+
     window: {
         example_1: "window scratched",
         example_2: "window cracked",
         example_3: "window too dirty"
     },
-    
+
     seat: {
         example_1: "example",
         example_2: "example",
         example_3: "example"
     },
-    
+
     table: {
         example_1: "example",
         example_2: "example",
         example_3: "example"
     },
 };
-
-function setPath(path) {
-    $("#pathBtn").removeAttr("onclick");
-    $("#pathBtn").attr(
-            "onclick",
-            "switchPages('options', '" + path + "'); clearPath()"
-            );
-}
-
-function clearPath() {
-    $("#pathBtn").removeAttr("onclick");
-}
 
 function switchPages(from, to) {
     var classFrom = $("." + from);
@@ -165,75 +153,56 @@ function getCarriageDetails() {
     }
 }
 
-// Run this function on success of AJAX and pass it the outcome:
-// - if the carriage number exists set the local storage, remove any previous issue messages, set the
-//  switchPages function for the next button, set the fault options available to the user in step 2 and set 
-//  the location input of step 4
-// - if the carriage number doesn't exist it displays 'can't find carriage number' message
-function checkCar(carExists) {
-    // temp carExists variable
-    //var carExists = true;
-    if (carExists) {
-        console.log('firing');
-        var carDetails = JSON.parse(localStorage.getItem("carDetails"));
-        // var carDetails = new Object();
-        var reportFault = new Object();
-        // carDetails.seats = 0;
-        // carDetails.toilet = false;
-        // carDetails.displayPanel = true;
-        // carDetails.socket = true;
-        // carDetails.wifi = false;
-        reportFault.carriage = $('#carNum').val();
-        //localStorage.setItem("carDetails", JSON.stringify(carDetails));
-        localStorage.setItem('reportFault', JSON.stringify(reportFault));
-        
-        //remove error message incase it shows from previous request.
-        $(".issue").removeClass("show");
-        
-        //prepares step 4. changes the output dependent on whether the carriage has seats or not. 
-        if (carDetails.seats > 0) {
-            $("#region").removeClass("show");
-            $("#seats").addClass("show");
-        } else {
-            $("#region").addClass("show");
-            $("#seats").removeClass("show");
-        }
+function setPageElements() {
 
-        //$(".faultOption").removeClass("hide");
-        
-        //loops through all the carriage details stored in local storage and if this class of carriage does 
-        //not have the feature, then that category is removed from rf page 2 EXAMPLE: if the carriage has no plug 
-        //sockets, the user will not be able to choose plug sockets as a category.
-        for (var key in carDetails) {
-            if (typeof carDetails[key] === "boolean") {
-                if (!carDetails[key]) {
-                    $("#" + key).addClass('hide');
-                }
+    // removes any error message shown from previous request.
+    $(".issue").removeClass("show");
+
+
+    var carDetails = JSON.parse(localStorage.getItem("carDetails"));
+    var reportFault = new Object();
+    reportFault.carriage = $('#carNum').val();
+    localStorage.setItem('reportFault', JSON.stringify(reportFault));
+
+    // set page 2 options by iterating through features found in carriage and setting them to show
+
+    $('.faultOption').removeClass('hide');
+
+    for (var key in carDetails) {
+        if (typeof carDetails[key] === "boolean") {
+            if (!carDetails[key]) {
+                $("#" + key).addClass('hide');
             }
         }
-        
-        //sets the layout of the categories in rf step 2. If there is an odd number the "other" button spans two
-        //columns. If all 8 categories are available the buttons are made slightly smaller. 
-        var hiddenOptions = $('.faultOption.hide').length;
-        var totalOptions = $('.faultOptions').children().length;
-        var options = totalOptions - hiddenOptions;
-        var optionParity = options % 2;
-
-        if (options > 6) {
-            $('.faultOption').css("height", "50px");
-        }
-
-        if (optionParity === 1) {
-            $('#other').css("grid-column", "span 2");
-        }
-
-        switchPages("rf-1", "rf-2");
-
-    } else {
-        console.log("invalid");
-        //displays error string on screen.
-        $(".issue").addClass("show");
     }
+
+    // set page 2 button height and span depending on number and parity of buttons
+
+    var hiddenOptions = $('.faultOption.hide').length;
+    var totalOptions = $('.faultOptions').children().length;
+    var options = totalOptions - hiddenOptions;
+    var optionParity = options % 2;
+
+    if (options > 6) {
+        $('.faultOption').css("height", "50px");
+    }
+
+    if (optionParity === 1) {
+        $('#other').css("grid-column", "span 2");
+    }
+
+
+    // set page 4 location input method
+
+    if (carDetails.seats > 0) {
+        $("#region").removeClass("show");
+        $("#seats").addClass("show");
+    } else {
+        $("#region").addClass("show");
+        $("#seats").removeClass("show");
+    }
+
+
 }
 
 function checkStaffID() {
@@ -260,7 +229,7 @@ function checkStaffID() {
     });
 }
 
-function checkStaffDetails(){
+function checkStaffDetails() {
     var staffDetails = new Object();
     staffDetails.fname = $("#fname").val();
     staffDetails.sname = $("#sname").val();
@@ -274,13 +243,13 @@ function checkStaffDetails(){
             console.log(rt);
             output = JSON.parse(rt);
             console.log(output);
-            if(output.staffid != false){
+            if (output.staffid != false) {
                 var userDetails = new Object();
                 userDetails.userID = output.staffid;
                 localStorage.setItem("userDetails", JSON.stringify(userDetails));
                 switchPages("findID", "options");
             }
-            else{
+            else {
                 console.log("no id found");
             }
         },
@@ -293,7 +262,7 @@ function checkStaffDetails(){
 function getCarriageDetails() {
     var carriageNo = $("#carNum").val();
     if (carriageNo === "") {
-        console.log("invalid")
+        console.log("invalid - no carriage number provided")
         $(".issue").addClass("show");
     } else {
         var json = JSON.stringify(carriageNo);
@@ -304,11 +273,13 @@ function getCarriageDetails() {
             data: json,
             success: function (rt) {
                 output = JSON.parse(rt);
-                var carExists = output.car_exists;
-                if (carExists) {
+                if (output.car_exists) {
                     localStorage.setItem("carDetails", JSON.stringify(output));
+                    setPageElements();
+                    switchPages('rf-1', 'rf-2');
+                } else {
+                    $(".issue").addClass("show");
                 }
-                checkCar(carExists);
             },
             error: function () {
                 console.log("error");
@@ -340,20 +311,9 @@ function submitForm() {
     // send fault object to server
 }
 
-function storeLocation(){
-    var carDetails = JSON.parse(localStorage.getItem('carDetails'));
-    if (carDetails.seats > 0){
-    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
-    var seatNoStr = $("#seatNo").text();
-    var seatNo = seatNoStr.split(": ").pop();
-    reportFault.location = "seat " + seatNo;
-    localStorage.setItem('reportFault', JSON.stringify(reportFault))
-    }
-}
-
-function storeDescription(){
+function storeDescription() {
     var description = $('#description').val();
-    if (description != "description"){
+    if (description != "description") {
         var reportFault = JSON.parse(localStorage.getItem('reportFault'));
         reportFault.description = description;
         localStorage.setItem('reportFault', JSON.stringify(reportFault));
@@ -398,10 +358,8 @@ function typeNum(num) {
 // function for the next button. If other is selected and input is empty reset the onlclick function of the rf-2Next to 
 // checkInput
 
-function setFaultType(type) {
-    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
-    reportFault.category = type;
-    localStorage.setItem('reportFault', JSON.stringify(reportFault));
+function selectFault(type) {
+
     $(".faultOption").removeClass("show");
     $("#" + type).addClass('show');
 
@@ -411,38 +369,81 @@ function setFaultType(type) {
         $("#otherCategory").removeClass('show');
     }
 
-
-    var otherInput = $('#otherCategory').val();
-
-    // set the fault locating method
-    // set next button on click switchPages function
-    
-    //ben -> will : does this need changing eventually to force a user to add something?
-    if (type !== "other" || (type === 'other' && otherInput !== '')) {
-        $("#rf-2Next").attr(
-                "onclick",
-                "checkInput(); switchPages('rf-2', 'rf-3')"
-                );
-    } else if (type === 'other') {
-        $('#rf-2Next').removeAttr('onlick');
-        $("#rf-2Next").attr(
-                "onclick",
-                "checkInput()"
-                );
-    }
 }
+
 
 // Called when the user selects 'Next'. Checks to ensure that an option has been selected in step 2 and if 'other' 
 // is selected it checks to make sure a description is provided
-function checkInput() {
-    if ($('#other').hasClass('show') && $('#otherCategory').val() === '') {
-        alert('Please enter a fault category');
-    } else if ($('.faultOption.show').length === 0) {
-        alert('Please select an fault category');
+function checkInput(page) {
+
+    switch (page) {
+
+        case 'rf-1':
+
+            getCarriageDetails();
+            break;
+
+        case 'rf-2':
+
+            var selectedFault = $('.faultOption.show').attr("id");
+            var otherInput = $('#otherCategory').val();
+
+            if (selectedFault !== 'other' && selectedFault != null) {
+                removeFaultDetails('otherFaultCategory');
+                addFaultDetails('faultCategory', selectedFault);
+                switchPages('rf-2', 'rf-3');
+            } else if (selectedFault === 'other' && otherInput !== '') {
+                addFaultDetails('faultCategory', selectedFault);
+                addFaultDetails('otherFaultCategory', otherInput);
+                switchPages('rf-2', 'rf-3');
+            } else if (selectedFault == null) {
+                alert('Please select a fault category');
+            } else if (selectedFault === 'other' && otherInput === '') {
+                alert('Please enter a fault category description');
+            }
+            break;
+
+        case 'rf-3':
+
+            break;
+
+        case 'rf-4':
+
+            if ($('.faultLocator.seats.show').length === 1) {
+                var seatNo = $('#seatNo').text();
+                if (seatNo > 0) {
+                    var seatNoStr = 'seat ' + seatNo;
+                    addFaultDetails('location', seatNoStr);
+                    switchPages('rf-4', 'rf-5');
+                }
+                else {
+                    alert('Please enter a valid seat number');
+                    break;
+                }
+            } else if ($('.faultLocator.region.show').length === 1) {
+                // repeat something similar to above but for faults located using region
+            }
+
+            break;
+
+
     }
+
 }
 
-function exampleDescription(detail){
+function addFaultDetails(key, value) {
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+    reportFault[key] = value;
+    localStorage.setItem('reportFault', JSON.stringify(reportFault));
+}
+
+function removeFaultDetails(key) {
+    var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+    delete reportFault[key];
+    localStorage.setItem('reportFault', JSON.stringify(reportFault));
+}
+
+function exampleDescription(detail) {
     var description = $("#" + detail).text();
     $("#detailedDescription").text(description);
 }
