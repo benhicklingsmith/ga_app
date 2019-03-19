@@ -1,4 +1,5 @@
-SET SEARCH_PATH TO ga_app;
+SET SEARCH_PATH
+TO ga_app;
 
 DROP TABLE IF EXISTS faultImage;
 DROP TABLE IF EXISTS fault;
@@ -7,10 +8,13 @@ DROP TABLE IF EXISTS carriage;
 DROP TABLE IF EXISTS carriageClass;
 DROP TABLE IF EXISTS staff;
 DROP TABLE IF EXISTS station;
-DROP FUNCTION IF EXISTS carriage_details(integer);
-DROP FUNCTION IF EXISTS carExists(integer);
+DROP FUNCTION IF EXISTS carriage_details
+(integer);
+DROP FUNCTION IF EXISTS carExists
+(integer);
 
-CREATE TABLE carriageClass(
+CREATE TABLE carriageClass
+(
     carriageClass VARCHAR(2),
     carriageLetter CHAR,
     numberOfSeats SMALLINT,
@@ -21,9 +25,10 @@ CREATE TABLE carriageClass(
     CONSTRAINT carriageClass_pk PRIMARY KEY (carriageClass)
 );
 
-CREATE TABLE carriage(
+CREATE TABLE carriage
+(
     carriageNo INTEGER,
-    carriageClass VARCHAR(2),	
+    carriageClass VARCHAR(2),
     CONSTRAINT carriage_pk PRIMARY KEY (carriageNo),
     CONSTRAINT carriage_fk FOREIGN KEY (carriageClass) REFERENCES carriageClass
 );
@@ -33,46 +38,50 @@ CREATE TABLE carriage(
 -- numberOfSeats determines the number of buttons needed when selecting seat number if neccessary
 -- carriage letter may be used to identify the carriage if they don't know the carriage number
 
-CREATE TABLE staff(
+CREATE TABLE staff
+(
     staffID INTEGER,
     fName VARCHAR(20),
     sName VARCHAR(20),
     dob DATE,
-	CONSTRAINT staff_pk PRIMARY KEY (staffID)
+    CONSTRAINT staff_pk PRIMARY KEY (staffID)
 );
 -- information to verify staff ID at login (add some dummy data for demo)
 -- name and dob allows staff to login if they don't know their staff ID
 
-CREATE TABLE fault(
-faultNo INTEGER,
-carriageNo INTEGER,
-category VARCHAR(100),
-location VARCHAR(100),
-faultDesc VARCHAR(1000),
-staffID INTEGER,
-dateReported  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-status CHAR DEFAULT 'N',
-notes VARCHAR(1000),
-CONSTRAINT fault_pk PRIMARY KEY (faultNo),
-CONSTRAINT fault_fk1 FOREIGN KEY (carriageNo) REFERENCES carriage,
-CONSTRAINT fault_pk2 FOREIGN KEY (staffID) REFERENCES staff
+CREATE TABLE fault
+(
+    faultNo INTEGER,
+    carriageNo INTEGER,
+    category VARCHAR(100),
+    location VARCHAR(100),
+    faultDesc VARCHAR(1000),
+    staffID INTEGER,
+    dateReported TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status CHAR DEFAULT 'N',
+    notes VARCHAR(1000),
+    CONSTRAINT fault_pk PRIMARY KEY (faultNo),
+    CONSTRAINT fault_fk1 FOREIGN KEY (carriageNo) REFERENCES carriage,
+    CONSTRAINT fault_pk2 FOREIGN KEY (staffID) REFERENCES staff
 );
 -- this is assuming carriage will always be obtained, but might need to add another table if we could only get the train 
 -- (ie a list of carriages) if they only know where the train was and at what time (ie on a rural train where the carriages don't have letters)
 -- fault status- N = not started, I = in progress, F = fixed
 
-CREATE TABLE fault_update(
+CREATE TABLE fault_update
+(
     faultNo INTEGER,
     staffID INTEGER,
     status CHAR,
     notes VARCHAR(1000),
-    dateUpdated DEFAULT CURRENT TIMESTAMP,
+    dateUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fault_update_pk PRIMARY KEY (faultNo,dateUpdated),
     CONSTRAINT fault_update_fk1 FOREIGN KEY (faultNo) REFERENCES fault,
     CONSTRAINT fault_update_fk2 FOREIGN KEY (staffID) REFERENCES staff
 )
 
-CREATE TABLE faultImage(
+CREATE TABLE faultImage
+(
     faultNo INTEGER,
     faultImage VARCHAR(20),
     CONSTRAINT faultImage_pk PRIMARY KEY (faultImage),
@@ -81,14 +90,16 @@ CREATE TABLE faultImage(
 -- seperate table as 1 fault may have more than 1 image
 -- need to work out how we will store images
 
-CREATE TABLE station(
+CREATE TABLE station
+(
     stationCode VARCHAR(3),
     stationName VARCHAR(50),
     CONSTRAINT station_pk PRIMARY KEY (stationCode)
 );
 -- stations have unique 3 letter codes eg norwich = NRW
 
-CREATE TABLE journey(
+CREATE TABLE journey
+(
     carriageNo INTEGER,
     journeyDate DATE,
     departureTime TIME,
@@ -102,50 +113,82 @@ CREATE TABLE journey(
 );
 -- information to identify a train if they don't know the carriage number
 
-CREATE OR REPLACE FUNCTION check_ID(IN INTEGER)
+CREATE OR REPLACE FUNCTION check_ID
+(IN INTEGER)
 RETURNS BOOLEAN AS $$
-DECLARE id INTEGER:= $1;
+DECLARE id
+INTEGER:
+= $1;
 BEGIN
-IF id IN (SELECT staffID FROM staff) 
-THEN RETURN TRUE;
-END IF;
-IF id NOT IN (SELECT staffID FROM staff) 
+    IF id IN (SELECT staffID
+    FROM staff) 
+THEN
+    RETURN TRUE;
+END
+IF;
+IF id NOT IN (SELECT staffID
+FROM staff) 
 --THEN RAISE EXCEPTION 'staff id not found';
-THEN RETURN FALSE;
-END IF;
+THEN
+RETURN FALSE;
+END
+IF;
  END;$$
 LANGUAGE PLPGSQL;
 
 
-CREATE OR REPLACE FUNCTION car_exists(IN INTEGER)
+CREATE OR REPLACE FUNCTION car_exists
+(IN INTEGER)
 RETURNS BOOLEAN AS $$
-DECLARE id INTEGER:= $1;
+DECLARE id
+INTEGER:
+= $1;
 BEGIN
-IF id IN (SELECT carriageno FROM carriage) 
-THEN RETURN TRUE;
-END IF;
-IF id NOT IN (SELECT carriageno FROM carriage) 
-THEN RETURN FALSE;
-END IF;
+    IF id IN (SELECT carriageno
+    FROM carriage) 
+THEN
+    RETURN TRUE;
+END
+IF;
+IF id NOT IN (SELECT carriageno
+FROM carriage) 
+THEN
+RETURN FALSE;
+END
+IF;
  END;$$
 LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION carriage_details(IN INTEGER)
-RETURNS table(car_exists BOOLEAN, carriageclass VARCHAR(2), carriage_no INTEGER, seats SMALLINT, toilet BOOLEAN, sockets BOOLEAN, wifi BOOLEAN, displayPanel BOOLEAN) AS $$
+CREATE OR REPLACE FUNCTION carriage_details
+(IN INTEGER)
+RETURNS table
+(car_exists BOOLEAN, carriageclass VARCHAR
+(2), carriage_no INTEGER, seats SMALLINT, toilet BOOLEAN, sockets BOOLEAN, wifi BOOLEAN, displayPanel BOOLEAN) AS $$
 BEGIN
-IF $1 IN (SELECT carriageno FROM carriage)
-THEN RETURN QUERY SELECT * FROM car_exists($1) NATURAL JOIN
-(SELECT  carriage.carriageclass, carriage.carriageno, carriageclass.numberofseats, carriageclass.toilet, carriageclass.plugsockets, carriageclass.wifi, carriageclass.displayPanel
-FROM carriage, carriageclass
-WHERE carriage.carriageclass = carriageclass.carriageclass AND carriage.carriageno = $1) AS info;
-END IF;
-If $1 NOT IN (SELECT carriageno FROM carriage)
+    IF $1 IN (SELECT carriageno
+    FROM carriage)
+THEN
+    RETURN QUERY
+    SELECT *
+    FROM car_exists($1) NATURAL JOIN
+        (SELECT carriage.carriageclass, carriage.carriageno, carriageclass.numberofseats, carriageclass.toilet, carriageclass.plugsockets, carriageclass.wifi, carriageclass.displayPanel
+        FROM carriage, carriageclass
+        WHERE carriage.carriageclass = carriageclass.carriageclass AND carriage.carriageno = $1) AS info ;
+END
+IF;
+If $1 NOT IN (SELECT carriageno
+FROM carriage)
 THEN RAISE EXCEPTION 'carriage number not found';
-END IF;
+END
+IF;
  END;$$
 LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION insert_fault(INTEGER, VARCHAR(100), VARCHAR(100), VARCHAR(1000), INTEGER)
+CREATE OR REPLACE FUNCTION insert_fault
+(INTEGER, VARCHAR
+(100), VARCHAR
+(100), VARCHAR
+(1000), INTEGER)
 RETURNS VOID AS
   'INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID)
 	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5);'
