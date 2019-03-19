@@ -53,6 +53,8 @@ var faultCategories = {
     },
 };
 
+var noLocationFaults = ['wifi', 'toilet', 'displayPanel', 'HVAC', 'door'];
+
 function switchPages(from, to) {
     var classFrom = $("." + from);
     var classTo = $("." + to);
@@ -321,12 +323,9 @@ function selectFault(type) {
         $("#otherCategory").removeClass('show');
     }
 
-    switch (type) {
-        case 'wifi':
-        case 'HVAC':
-            removeFaultDetails(location);
-        // bypass step 4
-
+    if (noLocationFaults.includes(type)) {
+        removeFaultDetails(location);
+        addFaultDetails('location', type);
     }
 
 }
@@ -385,6 +384,18 @@ function checkInput(page) {
             } else if ($('.faultLocator.region.show').length === 1) {
                 // repeat something similar to above but for faults located using region
             }
+
+            // var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+
+            // for (var key in reportFault) {
+            //     if (typeof carDetails[key] === "boolean") {
+            //         if (!carDetails[key]) {
+            //             $("#" + key).addClass('hide');
+            //         }
+            //     }
+            // }
+
+
 
             break;
 
