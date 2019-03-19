@@ -15,37 +15,31 @@ var faultCategories = {
         example_2: "can't connect",
         example_3: "cannot find wifi"
     },
-
     toilet: {
         example_1: "toilet won't flush",
         example_2: "sink doesn't work",
         example_3: "no toilet paper"
     },
-
     HVAC: {
         example_1: "carriage too hot",
         example_2: "carriage too cold"
     },
-
     door: {
         example_1: "outer door broken",
         example_2: "inside door won't open",
         example_3: "inside door won't shut",
         example_4: "inside door reaction slow"
     },
-
     window: {
         example_1: "window scratched",
         example_2: "window cracked",
         example_3: "window too dirty"
     },
-
     seat: {
         example_1: "example",
         example_2: "example",
         example_3: "example"
     },
-
     table: {
         example_1: "example",
         example_2: "example",
@@ -100,24 +94,27 @@ function clearIssues() {
 function checkStaffID() {
     var userID = $("#idInputBox").val();
     if (userID === "") {
-        console.log("invalid user id")
-        $(".issue").addClass("show");
+        console.log("invalid user id");
+        $("#invalidStaffId").addClass("show");
     } else {
         var json = JSON.stringify(userID);
         var output = {};
-        console.log(json);
         $.ajax({
             url: "http://localhost:8081/check_id",
             type: "POST",
             data: json,
             success: function (rt) {
                 output = JSON.parse(rt);
+                console.log(output.check_id);
                 var id_exists = output.check_id;
                 if (id_exists) {
                     var userDetails = new Object();
                     userDetails.userID = userID;
                     localStorage.setItem("userDetails", JSON.stringify(userDetails));
                     switchPages("login", "options");
+                } else {
+                    console.log("invalid user id");
+                    $("#invalidStaffId").addClass("show");
                 }
             },
             error: function () {
@@ -199,8 +196,7 @@ function checkStaffDetails() {
                 userDetails.userID = output.staffid;
                 localStorage.setItem("userDetails", JSON.stringify(userDetails));
                 switchPages("findID", "options");
-            }
-            else {
+            } else {
                 console.log("no id found");
             }
         },
@@ -215,8 +211,8 @@ function checkStaffDetails() {
 function getCarriageDetails() {
     var carriageNo = $("#carNum").val();
     if (carriageNo === "") {
-        console.log("invalid - no carriage number provided")
-        $(".issue").addClass("show");
+        console.log("invalid - no carriage number provided");
+        $("#invalidCarriageId").addClass("show");
     } else {
         var json = JSON.stringify(carriageNo);
         var output = {};
@@ -231,7 +227,8 @@ function getCarriageDetails() {
                     setPageElements();
                     switchPages('rf-1', 'rf-2');
                 } else {
-                    $(".issue").addClass("show");
+                    console.log("invalid - carriage id does not exist");
+                    $("#invalidCarriageId").addClass("show");
                 }
             },
             error: function () {
@@ -376,8 +373,7 @@ function checkInput(page) {
                     var seatNoStr = 'seat ' + seatNo;
                     addFaultDetails('location', seatNoStr);
                     switchPages('rf-4', 'rf-5');
-                }
-                else {
+                } else {
                     alert('Please enter a valid seat number');
                     break;
                 }

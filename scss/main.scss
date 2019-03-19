@@ -154,10 +154,10 @@ h4{
 }
 
 .issue {
-  display: none;
-  color: #EE5757;
+  display: block;
+  color: white;
   &.show {
-    display: block;
+    color: $primary_colour;
   }
 }
 
