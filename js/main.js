@@ -344,16 +344,18 @@ function checkInput(page) {
             var selectedFault = $('.faultOption.show').attr("id");
             var otherInput = $('#otherCategory').val();
 
-            // set 
-
             if (selectedFault !== 'other' && selectedFault != null) {
 
                 removeFaultDetails('location');
 
                 if (noLocationFaults.includes(selectedFault)) {
                     addFaultDetails('location', selectedFault);
+                    $("#rf-3Next").attr("onclick", "switchPages('rf-3', 'rf-5')");
+                    $("#rf-5Back").attr("onclick", "switchPages('rf-5', 'rf-3')");
                 } else {
                     removeFaultDetails('faultCategory');
+                    ("#rf-3Next").attr("onclick", "switchPages('rf-3', 'rf-4')");
+                    $("#rf-5Back").attr("onclick", "switchPages('rf-4', 'rf-3')");
                 }
 
                 addFaultDetails('faultCategory', selectedFault);
@@ -393,15 +395,36 @@ function checkInput(page) {
                 // repeat something similar to above but for faults located using region
             }
 
-            // var reportFault = JSON.parse(localStorage.getItem('reportFault'));
+            var reportFault = JSON.parse(localStorage.getItem('reportFault'));
 
-            // for (var key in reportFault) {
-            //     if (typeof carDetails[key] === "boolean") {
-            //         if (!carDetails[key]) {
-            //             $("#" + key).addClass('hide');
-            //         }
-            //     }
-            // }
+            for (var key in reportFault) {
+                switch (key) {
+
+                    case 'carriage':
+                        $("#sumCarNo").empty();
+                        $("#sumCarNo").text(reportFault[key]);
+                        break;
+                    case 'faultCategory':
+                        $("#sumCat").empty();
+                        $("#sumCat").text(reportFault[key].charAt(0).toUpperCase() + reportFault[key].slice(1));
+                        break;
+                    case 'description':
+                        $("#sumDes").empty();
+                        $("#sumDes").text(reportFault[key].charAt(0).toUpperCase() + reportFault[key].slice(1));
+                        break;
+                    case 'location':
+                        $("#sumLoc").empty();
+                        $("#sumLoc").text(reportFault[key].charAt(0).toUpperCase() + reportFault[key].slice(1));
+                        break;
+                }
+
+            }
+
+
+
+
+
+
 
 
 

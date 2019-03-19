@@ -139,13 +139,6 @@ button {
   }
 }
 
-h4{
-  display: none;
-  &.show{
-    display: block;
-  }
-}
-
 .optionBtn {
   height: 60px;
   &:focus {
