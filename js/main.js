@@ -130,11 +130,7 @@ function setPageElements() {
     // removes any error message shown from previous request.
     $(".issue").removeClass("show");
 
-
     var carDetails = JSON.parse(localStorage.getItem("carDetails"));
-    var reportFault = new Object();
-    reportFault.carriage = $('#carNum').val();
-    localStorage.setItem('reportFault', JSON.stringify(reportFault));
 
     // set page 2 options by iterating through features found in carriage and setting them to show
 
@@ -175,6 +171,14 @@ function setPageElements() {
     }
 
 
+}
+
+function setLocalStorage() {
+    var userDetails = JSON.parse(localStorage.getItem("userDetails"));
+    var reportFault = new Object();
+    reportFault.user = userDetails.userID;
+    reportFault.carriage = $('#carNum').val();
+    localStorage.setItem('reportFault', JSON.stringify(reportFault));
 }
 
 function checkStaffDetails() {
@@ -224,6 +228,7 @@ function getCarriageDetails() {
                 output = JSON.parse(rt);
                 if (output.car_exists) {
                     localStorage.setItem("carDetails", JSON.stringify(output));
+                    setLocalStorage()
                     setPageElements();
                     switchPages('rf-1', 'rf-2');
                 } else {
@@ -320,11 +325,6 @@ function selectFault(type) {
         $("#otherCategory").removeClass('show');
     }
 
-    if (noLocationFaults.includes(type)) {
-        removeFaultDetails(location);
-        addFaultDetails('location', type);
-    }
-
 }
 
 
@@ -344,10 +344,21 @@ function checkInput(page) {
             var selectedFault = $('.faultOption.show').attr("id");
             var otherInput = $('#otherCategory').val();
 
+            // set 
+
             if (selectedFault !== 'other' && selectedFault != null) {
-                removeFaultDetails('otherFaultCategory');
+
+                removeFaultDetails('location');
+
+                if (noLocationFaults.includes(selectedFault)) {
+                    addFaultDetails('location', selectedFault);
+                } else {
+                    removeFaultDetails('faultCategory');
+                }
+
                 addFaultDetails('faultCategory', selectedFault);
                 switchPages('rf-2', 'rf-3');
+
             } else if (selectedFault === 'other' && otherInput !== '') {
                 addFaultDetails('faultCategory', otherInput);
                 switchPages('rf-2', 'rf-3');
@@ -356,6 +367,7 @@ function checkInput(page) {
             } else if (selectedFault === 'other' && otherInput === '') {
                 alert('Please enter a fault category description');
             }
+
             break;
 
         case 'rf-3':
