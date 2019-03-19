@@ -11,24 +11,26 @@ $(function () {
 //object of objects that can be used to populate 
 var faultCategories = {
     wifi: {
+        name: 'wifi',
         example_1: "slow connection",
         example_2: "can't connect",
         example_3: "cannot find wifi"
     },
     toilet: {
+        name: 'toilet',
         example_1: "toilet won't flush",
         example_2: "sink doesn't work",
         example_3: "no toilet paper"
     },
     HVAC: {
         example_1: "carriage too hot",
-        example_2: "carriage too cold"
+        example_2: "carriage too cold",
+        example_3: "air smells weird"
     },
     door: {
-        example_1: "outer door broken",
-        example_2: "inside door won't open",
-        example_3: "inside door won't shut",
-        example_4: "inside door reaction slow"
+        example_1: "door won't open",
+        example_2: "door won't shut",
+        example_3: "door reaction slow"
     },
     window: {
         example_1: "window scratched",
@@ -36,15 +38,20 @@ var faultCategories = {
         example_3: "window too dirty"
     },
     seat: {
-        example_1: "example",
-        example_2: "example",
-        example_3: "example"
+        example_1: "seat dirty",
+        example_2: "hole in seat",
+        example_3: "ajoined table broken"
     },
-    table: {
-        example_1: "example",
-        example_2: "example",
-        example_3: "example"
+    socket: {
+        example_1: "not charging",
+        example_2: "something stuck in socket",
+        example_3: "socket loose from wall"
     },
+    displayPanel: {
+        example_1: "led's broken",
+        example_2: "not on",
+        example_3: "displaying wrong/old info"
+    }
 };
 
 var noLocationFaults = ['wifi', 'toilet', 'displayPanel', 'HVAC', 'door'];
@@ -340,7 +347,7 @@ function checkInput(page) {
             var selectedFault = $('.faultOption.show').attr("id");
             var otherInput = $('#otherCategory').val();
 
-            if (selectedFault !== 'other' && selectedFault != null) {
+            if (selectedFault !== 'other' && selectedFault !== null) {
 
                 removeFaultDetails('location');
 
@@ -349,6 +356,12 @@ function checkInput(page) {
                 } else {
                     removeFaultDetails('faultCategory');
                 }
+                
+                //set up the detailed description examples on the next page
+                console.log(selectedFault);
+                $("#example_1").text(faultCategories[selectedFault].example_1);
+                $("#example_2").text(faultCategories[selectedFault].example_2);
+                $("#example_3").text(faultCategories[selectedFault].example_3);
 
                 addFaultDetails('faultCategory', selectedFault);
                 switchPages('rf-2', 'rf-3');
@@ -356,7 +369,7 @@ function checkInput(page) {
             } else if (selectedFault === 'other' && otherInput !== '') {
                 addFaultDetails('faultCategory', otherInput);
                 switchPages('rf-2', 'rf-3');
-            } else if (selectedFault == null) {
+            } else if (selectedFault === null) {
                 alert('Please select a fault category');
             } else if (selectedFault === 'other' && otherInput === '') {
                 alert('Please enter a fault category description');
@@ -456,7 +469,7 @@ function removeFaultDetails(key) {
 
 function exampleDescription(detail) {
     var description = $("#" + detail).text();
-    $("#detailedDescription").text(description);
+    $("#description").text(description);
 }
 
 
