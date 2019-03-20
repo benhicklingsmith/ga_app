@@ -2,6 +2,7 @@ $(function () {
     document.getElementById("cantFindID").addEventListener("click", function () {
         switchPages("login", "findID");
     });
+    document.getElementById("selectPic").addEventListener("change", setFaultImage, false);
     //possibly unnessacary? might be useful for mobile devices? unknown. Remove if no use is found. ben 15/3
     //    $('#otherCategory').on("change keyup paste", function () {
     //        setFaultType('other');
@@ -261,8 +262,6 @@ function submitForm() {
     // send fault object to server
 }
 
-
-
 function typeNum(num) {
     //get the maximum seat capacity for the carriage from the object in  local storage
     var carriage = JSON.parse(localStorage.getItem('carDetails'));
@@ -315,7 +314,6 @@ function selectFault(type) {
 
 }
 
-
 // Called when the user selects 'Next'. Checks to ensure that an option has been selected in step 2 and if 'other' 
 // is selected it checks to make sure a description is provided
 function checkInput(page) {
@@ -339,7 +337,7 @@ function checkInput(page) {
                 if (noLocationFaults.includes(selectedFault)) {
                     addFaultDetails('location', selectedFault);
                 }
-                
+
                 //set up the detailed description examples on the next page
                 console.log(selectedFault);
                 $("#example_1").text(faultCategories[selectedFault].example_1);
@@ -444,8 +442,6 @@ function exampleDescription(detail) {
     $("#description").text(description);
 }
 
-
-
 function storeDescription() {
     var description = $('#description').val();
     if (description != "description") {
@@ -516,5 +512,35 @@ function setSummaryPage() {
                 break;
         }
 
+    }
+}
+
+function setFaultImage(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+            continue;
+        }
+
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = (function (theFile) {
+            return function (e) {
+                // Render thumbnail
+
+                console.log(e.target.result);
+
+                $('#sumImg').attr('src', e.target.result);
+
+            };
+        })(f);
+
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
     }
 }

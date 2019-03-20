@@ -19,7 +19,7 @@
     <div class="main">
 
         <!-- Login Page -->
-        <div class="section login">
+        <div class="section login current fade">
             <div class="sectionArea small">
                 <h2>Staff Login</h2>
                 <div id="invalidStaffId" class="issue">
@@ -100,7 +100,7 @@
                 Categorise the fault. User chooses from a range of possible categories.
                 If none a suitable, they can choose other.
             -->
-        <div class="section rf-2 current fade">
+        <div class="section rf-2">
             <div class="sectionArea large">
                 <h3>Report a Fault - Step 2</h3>
                 <h3>
@@ -155,15 +155,20 @@
                 <h3>Report a Fault - Step 3</h3>
                 <h3>Please provide more information about the fault</h3>
                 <div class="example_faults">
-                    <button id="example_1" class="example_fault" onclick="exampleDescription('example_1')">Example 1</button>
-                    <button id="example_2" class="example_fault" onclick="exampleDescription('example_2')">Example 2</button>
-                    <button id="example_3" class="example_fault" onclick="exampleDescription('example_3')">Example 3</button>
+                    <button id="example_1" class="example_fault" onclick="exampleDescription('example_1')">Example
+                        1</button>
+                    <button id="example_2" class="example_fault" onclick="exampleDescription('example_2')">Example
+                        2</button>
+                    <button id="example_3" class="example_fault" onclick="exampleDescription('example_3')">Example
+                        3</button>
                 </div>
                 <textarea id="description" placeholder="Description"></textarea>
                 <h4>Add an Image: </h4>
                 <input type="file" accept="image/*" id="selectPic" style="display:none;">
+
                 <button value="Select/Take Picture" onclick="document.getElementById('selectPic').click();"><span
                         class="glyphicon glyphicon-camera"></span></button>
+                <output id="list"></output>
 
 
             </div>
@@ -234,8 +239,8 @@
                 <h4>Category: <span id="sumCat"></span></h4>
                 <h4>Description: <span id="sumDes"></span></h4>
                 <h4>Location: <span id="sumLoc"></span></h4>
-                <h4>Image: <span id="sumImg"></span></h4>
-                <img src="https://source.unsplash.com/random/320x568" alt="" />
+                <h4>Image: </h4>
+                <img id="sumImg" src="" alt="" />
             </div>
             <div class="footer split">
                 <button class="leftBtn" onclick="back('rf-5')">
