@@ -253,6 +253,10 @@ function submitForm() {
         success: function (rt) {
             console.log(rt);
             console.log("data submitted");
+            var returnedData = JSON.parse(rt);
+            if (returnedData.success) {
+                localStorage.removeItem('reportFault');
+            }
         },
         error: function () {
             alert("there has been an error contacting the server");
@@ -344,11 +348,11 @@ function checkInput(page) {
                 $("#example_2").text(faultCategories[selectedFault].example_2);
                 $("#example_3").text(faultCategories[selectedFault].example_3);
 
-                addFaultDetails('faultCategory', selectedFault);
+                addFaultDetails('category', selectedFault);
                 switchPages('rf-2', 'rf-3');
 
             } else if (selectedFault === 'other' && otherInput !== '') {
-                addFaultDetails('faultCategory', otherInput);
+                addFaultDetails('category', otherInput);
                 switchPages('rf-2', 'rf-3');
             } else if (selectedFault === null) {
                 alert('Please select a fault category');
@@ -462,7 +466,7 @@ function back(page) {
         case 'rf-3':
             // remove location and fault category from reportFault in local storage
             removeFaultDetails('location');
-            removeFaultDetails('faultCategory');
+            removeFaultDetails('category');
             switchPages('rf-3', 'rf-2');
             break;
         case 'rf-4':
@@ -498,7 +502,7 @@ function setSummaryPage() {
                 $("#sumCarNo").empty();
                 $("#sumCarNo").text(reportFaultDetails[key]);
                 break;
-            case 'faultCategory':
+            case 'category':
                 $("#sumCat").empty();
                 $("#sumCat").text(reportFaultDetails[key].charAt(0).toUpperCase() + reportFaultDetails[key].slice(1));
                 break;
@@ -515,32 +519,21 @@ function setSummaryPage() {
     }
 }
 
-function setFaultImage(evt) {
-    var files = evt.target.files; // FileList object
+// When an event listener’s event occurs it calls its associated function and passes a reference to the event object
+// the function below picks up that event 
+function setFaultImage(event) {
 
-    // Loop through the FileList and render image files as thumbnails.
-    for (var i = 0, f; f = files[i]; i++) {
+    // image
+    var file = event.target.files[0];
 
-        // Only process image files.
-        if (!f.type.match('image.*')) {
-            continue;
-        }
+    var reader = new FileReader();
 
-        var reader = new FileReader();
+    reader.onload = function (e) {
+        addFaultDetails('img', e.target.result);
+        $('#sumImg').attr('src', e.target.result);
+        console.log(e.target.result);
+    };
 
-        // Closure to capture the file information.
-        reader.onload = (function (theFile) {
-            return function (e) {
-                // Render thumbnail
+    reader.readAsDataURL(file);
 
-                console.log(e.target.result);
-
-                $('#sumImg').attr('src', e.target.result);
-
-            };
-        })(f);
-
-        // Read in the image file as a data URL.
-        reader.readAsDataURL(f);
-    }
 }
