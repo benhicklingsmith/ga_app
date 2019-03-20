@@ -1,25 +1,31 @@
+@charset "UTF-8";
 html,
 body {
   height: 100%;
   min-width: 300px;
   margin: 0;
   padding: 0;
-  font-family: sans-serif; }
-  html *,
-  body * {
-    box-sizing: border-box; }
+  font-family: sans-serif;
+}
+html *,
+body * {
+  box-sizing: border-box;
+}
 
 header {
   display: grid;
   box-shadow: 0px 0px 13px 3px #dba2a2;
   height: 70px;
-  margin: 0px 0px 10px 0px; }
-  header * {
-    align-self: center;
-    justify-self: center; }
+  margin: 0px 0px 10px 0px;
+}
+header * {
+  align-self: center;
+  justify-self: center;
+}
 
 .main {
-  height: calc(100% - 80px); }
+  height: calc(100% - 80px);
+}
 
 button {
   display: block;
@@ -31,32 +37,41 @@ button {
   justify-self: center;
   font-size: 1.2rem;
   color: white;
-  background-color: #cfc8c6; }
-  button.show {
-    background-color: #d70428; }
-  button.hide {
-    display: none; }
+  background-color: #cfc8c6;
+}
+button.show {
+  background-color: #d70428;
+}
+button.hide {
+  display: none;
+}
 
 .numberPad {
   display: grid;
-  grid-template-areas: "1 2 3" "4 5 6" "7 8 9" "0 minus minus";
-  grid-gap: 5px; }
-  .numberPad * {
-    height: 50px; }
-  .numberPad #minus {
-    background-color: #d70428;
-    grid-area: minus; }
+  grid-template-areas: "1 2 3" "4 5 6" "7 8 9" "0 minus minus";
+  grid-gap: 5px;
+}
+.numberPad * {
+  height: 50px;
+}
+.numberPad #minus {
+  background-color: #d70428;
+  grid-area: minus;
+}
 
 .faultOptions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 5px;
-  margin-bottom: 5px; }
-  .faultOptions * {
-    height: 60px; }
+  margin-bottom: 5px;
+}
+.faultOptions * {
+  height: 60px;
+}
 
 .faultOption {
-  height: 60px; }
+  height: 60px;
+}
 
 .footer {
   padding: 10px 10px 10px 10px;
@@ -69,96 +84,123 @@ button {
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%; }
-  .footer.split {
-    grid-template-columns: 35% 65%; }
-    .footer.split * {
-      justify-self: left;
-      width: calc(100% - 5px); }
-  .footer button {
-    background-color: #d70428; }
-    .footer button:active {
-      background-color: #a5031f; }
+  width: 100%;
+}
+.footer.split {
+  grid-template-columns: 35% 65%;
+}
+.footer.split * {
+  justify-self: left;
+  width: calc(100% - 5px);
+}
+.footer button {
+  background-color: #d70428;
+}
+.footer button:active {
+  background-color: #a5031f;
+}
 
 .section {
   height: calc(100% - 70px);
   display: none;
   transition: opacity 0.5s;
   opacity: 0;
-  overflow: scroll; }
-  .section.footless {
-    height: 100%; }
-  .section.current {
-    display: grid; }
-  .section.fade {
-    opacity: 1; }
-  .section .sectionArea {
-    display: grid;
-    align-self: end;
-    justify-self: center;
-    margin: 10px 10px 15px 10px;
-    width: calc(100% - 20px); }
-    .section .sectionArea.small {
-      grid-gap: 10px; }
-  .section.rf-5 img {
-    border-radius: 5px;
-    width: 100%; }
+  overflow: scroll;
+}
+.section.footless {
+  height: 100%;
+}
+.section.current {
+  display: grid;
+}
+.section.fade {
+  opacity: 1;
+}
+.section .sectionArea {
+  display: grid;
+  align-self: end;
+  justify-self: center;
+  margin: 10px 10px 15px 10px;
+  width: calc(100% - 20px);
+}
+.section .sectionArea.small {
+  grid-gap: 10px;
+}
+.section.rf-5 img {
+  border-radius: 5px;
+  width: 100%;
+}
 
 .optionBtn {
-  height: 60px; }
-  .optionBtn:focus {
-    background-color: #897873; }
+  height: 60px;
+}
+.optionBtn:focus {
+  background-color: #897873;
+}
 
 .issue {
   display: block;
-  color: white; }
-  .issue.show {
-    color: #d70428; }
+  color: white;
+}
+.issue.show {
+  color: #d70428;
+}
 
 .faultLocator {
-  display: none; }
-  .faultLocator.show {
-    display: grid; }
+  display: none;
+}
+.faultLocator.show {
+  display: grid;
+}
 
 #otherCategory {
-  display: none; }
-  #otherCategory.show {
-    display: grid;
-    height: 40px;
-    border: none;
-    font-size: 1rem;
-    color: black;
-    padding: 2px;
-    margin-bottom: 5px; }
+  display: none;
+}
+#otherCategory.show {
+  display: grid;
+  height: 40px;
+  border: none;
+  font-size: 1rem;
+  color: black;
+  padding: 2px;
+  margin-bottom: 5px;
+}
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   form.large {
-    width: 70%; } }
-
+    width: 70%;
+  }
+}
 @font-face {
-  font-family: 'Glyphicons Halflings';
+  font-family: "Glyphicons Halflings";
   src: url("../fonts/glyphicons-halflings-regular.eot");
-  src: url("../fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
-
+  src: url("../fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+}
 .glyphicon {
   position: relative;
   top: 1px;
   display: inline-block;
-  font-family: 'Glyphicons Halflings';
+  font-family: "Glyphicons Halflings";
   font-style: normal;
   font-weight: normal;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+  -moz-osx-font-smoothing: grayscale;
+}
 
 .glyphicon-exclamation-sign:before {
-  content: "\e101"; }
+  content: "";
+}
 
 .glyphicon-camera:before {
-  content: "\e046"; }
+  content: "";
+}
 
 .example_faults {
   display: grid;
   grid-template-columns: 33% 33% 33%;
   grid-gap: 2px;
-  padding: 3px; }
+  padding: 3px;
+}
+
+/*# sourceMappingURL=main.css.map */

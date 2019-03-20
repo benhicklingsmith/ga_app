@@ -59,6 +59,7 @@ CREATE TABLE fault
     staffID INTEGER,
     dateReported TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status CHAR DEFAULT 'N',
+    img TEXT,
     notes VARCHAR(1000),
     CONSTRAINT fault_pk PRIMARY KEY (faultNo),
     CONSTRAINT fault_fk1 FOREIGN KEY (carriageNo) REFERENCES carriage,
@@ -78,7 +79,7 @@ CREATE TABLE fault_update
     CONSTRAINT fault_update_pk PRIMARY KEY (faultNo,dateUpdated),
     CONSTRAINT fault_update_fk1 FOREIGN KEY (faultNo) REFERENCES fault,
     CONSTRAINT fault_update_fk2 FOREIGN KEY (staffID) REFERENCES staff
-)
+);
 
 CREATE TABLE faultImage
 (
@@ -117,7 +118,7 @@ CREATE OR REPLACE FUNCTION check_ID
 (IN INTEGER)
 RETURNS BOOLEAN AS $$
 DECLARE id
-INTEGER:
+INTEGER
 = $1;
 BEGIN
     IF id IN (SELECT staffID
@@ -141,7 +142,7 @@ CREATE OR REPLACE FUNCTION car_exists
 (IN INTEGER)
 RETURNS BOOLEAN AS $$
 DECLARE id
-INTEGER:
+INTEGER
 = $1;
 BEGIN
     IF id IN (SELECT carriageno
@@ -185,11 +186,16 @@ IF;
 LANGUAGE PLPGSQL;
 
 CREATE OR REPLACE FUNCTION insert_fault
-(INTEGER, VARCHAR
-(100), VARCHAR
-(100), VARCHAR
-(1000), INTEGER)
+(INTEGER, 
+VARCHAR
+(100), 
+VARCHAR
+(100), 
+VARCHAR
+(1000), 
+INTEGER,
+TEXT)
 RETURNS VOID AS
-  'INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID)
-	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5);'
+  'INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID, img)
+	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5, $6);'
 LANGUAGE SQL;

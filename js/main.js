@@ -14,13 +14,13 @@ var faultCategories = {
     wifi: {
         name: 'wifi',
         example_1: "slow connection",
-        example_2: "can't connect",
+        example_2: "cant connect",
         example_3: "cannot find wifi"
     },
     toilet: {
         name: 'toilet',
-        example_1: "toilet won't flush",
-        example_2: "sink doesn't work",
+        example_1: "toilet wont flush",
+        example_2: "sink doesnt work",
         example_3: "no toilet paper"
     },
     HVAC: {
@@ -29,8 +29,8 @@ var faultCategories = {
         example_3: "air smells weird"
     },
     door: {
-        example_1: "door won't open",
-        example_2: "door won't shut",
+        example_1: "door wont open",
+        example_2: "door wont shut",
         example_3: "door reaction slow"
     },
     window: {
@@ -49,9 +49,9 @@ var faultCategories = {
         example_3: "socket loose from wall"
     },
     displayPanel: {
-        example_1: "led's broken",
+        example_1: "leds broken",
         example_2: "not on",
-        example_3: "displaying wrong/old info"
+        example_3: "displaying wrong or old info"
     }
 };
 
@@ -245,7 +245,9 @@ function submitForm() {
     var reportFault = JSON.parse(localStorage.getItem('reportFault'));
     var userDetails = JSON.parse(localStorage.getItem('userDetails'));
     reportFault.userID = userDetails.userID;
+    console.log(reportFault);
     var json = JSON.stringify(reportFault);
+    console.log(json);
     $.ajax({
         url: "http://localhost:8081/submit_form",
         type: "POST",
@@ -535,5 +537,25 @@ function setFaultImage(event) {
     };
 
     reader.readAsDataURL(file);
+}
 
+function showImage(){
+    var json = JSON.stringify('carriageNo');
+    $.ajax({
+        url: "http://localhost:8081/show_image",
+        type: "POST",
+        data: json,
+        success: function (rt) {
+            
+            var json = JSON.parse(rt);
+            console.log(json);
+            console.log(json[0].img);
+            $('#imagetest').attr('src', json[0].img);
+            
+        },
+        error: function () {
+            alert("there has been an error contacting the server");
+            console.log("data not submitted");
+        }
+    });
 }

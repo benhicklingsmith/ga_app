@@ -12,10 +12,10 @@ var host = '127.0.0.1';
 var port = 5432;
 
 /* uni login*/
-// var user = 'student';
-// var database = 'studentdb';
-// var password = 'dbpassword';
-// var searchPath = "studentdb, ga_app;"
+ var user = 'student';
+ var database = 'studentdb';
+ var password = 'dbpassword';
+ var searchPath = "studentdb, ga_app;"
 
 
 /* Jasmine login */
@@ -25,10 +25,10 @@ var port = 5432;
 // var searchPath = " ga_app;";
 
 /* Will login */
-var user = 'postgres';
-var database = 'projects';
-var password = 'password';
-var searchPath = "projects, ga_app;";
+//var user = 'postgres';
+//var database = 'projects';
+//var password = 'password';
+//var searchPath = "projects, ga_app;";
 
 // the quick and dirty trick which prevents crashing.
 process.on('uncaughtException', function (err) {
@@ -127,19 +127,29 @@ http.createServer(async function (req, res) {
             break;
         case '/submit_form':
             if (req.method == 'POST') {
-                req.on('data', async function (data) {
+                var body = '';
+                req.on('data', function (data) {
+                    console.log(data);
+                    body += data;
+                    console.log("Body: " + body);
+                });
+                req.on('end', async function () {
                     var result = new Object();
+                    
                     try {
-                        var json = JSON.parse(data);
+                        var json = JSON.parse(body);
                         console.log(json);
                         sqlQuery = "SELECT * FROM insert_fault($1,$2,$3,$4,$5,$6)";
                         var values = [json.carriage, json.category, json.location, json.description, json.userID, json.img];
-                        console.log(values);
-                        const sqlQueryResult = await client.query(sqlQuery, values);
+                        sqlQuery = "SELECT * FROM insert_fault(" + json.carriage + ", '" + json.category + "', '" + json.location + "', '" + json.description + "', " + json.userID + ", '" + json.img + "');";
+                        console.log(sqlQuery);
+                        //console.log(values);
+                        const sqlQueryResult = await client.query(sqlQuery);
+                        console.log(sqlQueryResult);
                         result.success = true;
                     }
                     catch (err) {
-                        console.log("error");
+                        console.log(err);
                         result.success = false;
                     }
                     var json_res = JSON.stringify(result);
@@ -147,6 +157,21 @@ http.createServer(async function (req, res) {
                     res.end(json_res);
                 });
                 // enters fault details into database 
+            }
+            break;
+        case '/show_image':
+            if(req.method === 'POST'){
+                req.on('data', async function (data) {
+                
+                sqlQuery = "select * from fault where faultno = 25;"
+                const sqlQueryResult = await client.query(sqlQuery);
+                
+                result = sqlQueryResult.rows;
+                
+                var json_res = JSON.stringify(result);
+                console.log(result);
+                res.end(json_res);
+                });
             }
             break;
         default:
