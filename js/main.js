@@ -10,7 +10,6 @@ $(function () {
     })
 });
 
-
 //object of objects that can be used to populate 
 var faultCategories = {
     wifi: {
@@ -270,6 +269,42 @@ function submitForm() {
         }
     });
     // send fault object to server
+}
+
+function getUsersFaults() {
+    var userDetails = localStorage.getItem('userDetails');
+    $.ajax({
+        url: "http://localhost:8081/get_users_faults",
+        type: "POST",
+        data: userDetails,
+        success: function (rt) {
+            console.log(JSON.parse(rt));
+        },
+        error: function () {
+            console.log("error")
+        }
+    })
+}
+// gets all faults reported by the user 
+// returns an array of objects with each fault as an object
+
+function filterFaults() {
+    var filters = new Object();
+    filters.category = "wifi";
+    filters.carriageNo = 12345;
+    filters.status = 'N';
+    var json = JSON.stringify(filters);
+    $.ajax({
+        url: "http://localhost:8081/filter_faults",
+        type: "POST",
+        data: json,
+        success: function (rt) {
+            console.log(JSON.parse(rt));
+        },
+        error: function () {
+            console.log("error")
+        }
+    })
 }
 
 function typeNum(num) {
