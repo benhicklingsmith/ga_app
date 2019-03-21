@@ -1,307 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link rel="stylesheet" href="css/main.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="js/main.js"></script>
-        <title>Document</title>
-        <link rel='shortcut icon' type='image/x-icon' href='imgs/ga-flavicon.ico' />
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <title>Document</title>
+    <link rel='shortcut icon' type='image/x-icon' href='imgs/ga-flavicon.ico' />
+</head>
 
-    <body>
-        <header>
-            <img src="imgs/galogo_xs.jpg" alt="ga">
-        </header>
-        <div class="main">
+<body>
+    <header>
+        <button onclick="overlay('toggle')">
+            <div class="btn-line"></div>
+            <div class="btn-line"></div>
+            <div class="btn-line"></div>
+        </button>
+        <img src="imgs/galogo_xs.jpg" alt="ga">
+    </header>
 
-            <!-- Login Page -->
-            <div class="section login">
-                <div class="sectionArea small">
-                    <h2>Staff Login</h2>
-                    <div id="invalidStaffId" class="issue">
-                        <h5><span class="glyphicon glyphicon-exclamation-sign"></span> Please enter a valid staff ID</h5>
-                    </div>
-                    <input id='idInputBox' type="text" name="staffID" placeholder="Staff ID" />
-                    <a href="#" id="cantFindID">Can't remember your staff ID?</a>
+    <div class="sideNav">
+        <a href="javascript:void(0)" class="closeBtn" onclick="overlay('toggle')">&times;</a>
+        <div class="optionLinks">
+            <a class="link rf-1" href="#" onclick="overlay('rf-1')">Report a Fault</a>
+            <a class="link vf-1" href="#" onclick="overlay('vf-1')">View my Faults</a>
+            <a class="link uf-1" href="#" onclick="overlay('uf-1')">Update a Fault</a>
+        </div>
+        <div class="accessibility">
+            <a class="link" id="signOut" href="javascript:void(0)" onclick="overlay('signOut')">Sign
+                out</a>
+            <button id="fontSize">Aa</button>
+        </div>
+    </div>
+
+    <div class="main" id="main">
+
+        <!-- Login Page -->
+        <div class="section login current fade">
+            <div class="sectionArea small">
+                <h2>Staff Login</h2>
+                <div id="invalidStaffId" class="issue">
+                    <h5><span class="glyphicon glyphicon-exclamation-sign"></span> Please enter a valid staff ID</h5>
                 </div>
-                <div class="footer">
-                    <button onclick="login('login')">
-                        Login
-                    </button>
-                </div>
+                <input id='idInputBox' type="text" name="staffID" placeholder="Staff ID" />
+                <a href="#" id="cantFindID">Can't remember your staff ID?</a>
             </div>
-
-            <!-- If "cant remember id" link clicked, this page loads -->
-            <div class="section findID">
-                <div class="sectionArea small">
-                    <button value="X" onclick="switchPages('findID', 'login')">X</button>
-                    <input id="fname" type="text" name="name" placeholder="First Name" required />
-                    <input id="sname" type="text" name="name" placeholder="Surname" required />
-                    <input id="dob" type="text" name="DOB" placeholder="Date of Birth (yyyy-mm-dd)" required />
-                </div>
-                <div class="footer">
-                    <button onclick="login('findID')">
-                        Login
-                    </button>
-                </div>
+            <div class="footer">
+                <button onclick="login('login')">
+                    Login
+                </button>
             </div>
+        </div>
 
-            <!-- Task options -->
-            <div class="section options ">
-                <div class="sectionArea small">
-                    <button class="optionBtn" value="Report a Fault" onclick="switchPages('options', 'rf-1')">Report a
-                        Fault</button>
-
-                    <button class="optionBtn" value="View a Fault" onclick="switchPages('options', 'vf-1')">View a
-                        Fault</button>
-
-                    <button class="optionBtn" value="Update a Fault" onclick="switchPages('options', 'uf-1')">Update a
-                        Fault</button>
-                </div>
-                <div class="footer">
-                    <button class="leftBtn" id="rf-2Back" onclick="switchPages('options', 'login')">
-                        Back
-                    </button>
-                </div>
-
+        <!-- If "cant remember id" link clicked, this page loads -->
+        <div class="section findID">
+            <div class="sectionArea small">
+                <button value="X" onclick="switchPages('findID', 'login')">X</button>
+                <input id="fname" type="text" name="name" placeholder="First Name" required />
+                <input id="sname" type="text" name="name" placeholder="Surname" required />
+                <input id="dob" type="text" name="DOB" placeholder="Date of Birth (yyyy-mm-dd)" required />
             </div>
+            <div class="footer">
+                <button onclick="login('findID')">
+                    Login
+                </button>
+            </div>
+        </div>
 
-            <!-- Report Fault Page 1 
+        <!-- Task options -->
+        <div class="section options footless">
+            <div class="sectionArea small">
+                <button class="optionBtn" value="Report a Fault" onclick="switchPages('options', 'rf-1')">Report a
+                    Fault</button>
+
+                <button class="optionBtn" value="View a Fault" onclick="switchPages('options', 'vf-1')">View a
+                    Fault</button>
+
+                <button class="optionBtn" value="Update a Fault" onclick="switchPages('options', 'uf-1')">Update a
+                    Fault</button>
+            </div>
+        </div>
+
+        <!-- Report Fault Page 1 
                     Enter carriage Number. If they dont know it they can choose 
                     to enter different details about the train to locate it. 
             -->
-            <div class="section rf-1">
-                <div class="sectionArea large">
-                    <h3 id="fieldTitle">Report a Fault - Step 1</h3>
-                    <div id="invalidCarriageId" class="issue">
-                        <h5><span class="glyphicon glyphicon-exclamation-sign"></span> A carriage with that ID does not
-                            exist</h5>
-                    </div>
-                    <input type="text" name="CarriageNumber" placeholder="Carriage Number" id="carNum" />
+        <div class="section rf-1">
+            <div class="sectionArea large">
+                <h3 id="fieldTitle">Report a Fault - Step 1</h3>
+                <div id="invalidCarriageId" class="issue">
+                    <h5><span class="glyphicon glyphicon-exclamation-sign"></span> A carriage with that ID does not
+                        exist</h5>
+                </div>
+                <input type="text" name="CarriageNumber" placeholder="Carriage Number" id="carNum" />
 
-                </div>
-                <div class="footer split">
-                    <button class="leftBtn" id="rf-1Back" onclick="switchPages('rf-1', 'options'); clearIssues()">
-                        Back
-                    </button>
-                    <!-- use checkCar() for no server and set carExists to true within it. 
-                        If using server use getCarriageDetails() -->
-                    <button class="rightBtn" id="rf-1Next" onclick="checkInput('rf-1')">
-                        Next
-                    </button>
-                </div>
             </div>
+            <div class="footer split">
+                <button class="leftBtn" id="rf-1Back" onclick="switchPages('rf-1', 'options'); clearIssues()">
+                    Back
+                </button>
+                <!-- use checkCar() for no server and set carExists to true within it. 
+                        If using server use getCarriageDetails() -->
+                <button class="rightBtn" id="rf-1Next" onclick="checkInput('rf-1')">
+                    Next
+                </button>
+            </div>
+        </div>
 
-            <!-- Report Fault Page 2 
+        <!-- Report Fault Page 2 
                     Categorise the fault. User chooses from a range of possible categories.
                     If none a suitable, they can choose other.
             -->
-            <div class="section rf-2">
-                <div class="sectionArea large">
-                    <h3>Report a Fault - Step 2</h3>
-                    <h3>
-                        Select the category that best fits the fault, if no category is
-                        suitable please select other
-                    </h3>
-                    <div class="faultOptions">
+        <div class="section rf-2">
+            <div class="sectionArea large">
+                <h3>Report a Fault - Step 2</h3>
+                <h3>
+                    Select the category that best fits the fault, if no category is
+                    suitable please select other
+                </h3>
+                <div class="faultOptions">
 
-                        <button class="faultOption" id="wifi" onclick="selectFault('wifi')">Wifi</button>
+                    <button class="faultOption" id="wifi" onclick="selectFault('wifi')">Wifi</button>
 
-                        <button class="faultOption" id="socket" onclick="selectFault('socket')">Socket</button>
+                    <button class="faultOption" id="socket" onclick="selectFault('socket')">Socket</button>
 
-                        <button class="faultOption" id="toilet" onclick="selectFault('toilet')">Toilet</button>
+                    <button class="faultOption" id="toilet" onclick="selectFault('toilet')">Toilet</button>
 
-                        <button class="faultOption" id="displayPanel" onclick="selectFault('displayPanel')">Display
-                            Panel</button>
+                    <button class="faultOption" id="displayPanel" onclick="selectFault('displayPanel')">Display
+                        Panel</button>
 
-                        <button class="faultOption" id="HVAC" onclick="selectFault('HVAC')">Heating/Air Con</button>
+                    <button class="faultOption" id="HVAC" onclick="selectFault('HVAC')">Heating/Air Con</button>
 
-                        <button class="faultOption" id="door" onclick="selectFault('door')">Door</button>
+                    <button class="faultOption" id="door" onclick="selectFault('door')">Door</button>
 
-                        <button class="faultOption" id="window" onclick="selectFault('window')">Window</button>
+                    <button class="faultOption" id="window" onclick="selectFault('window')">Window</button>
 
-                        <button class="faultOption" id="seat" onclick="selectFault('seat')">Seat</button>
+                    <button class="faultOption" id="seat" onclick="selectFault('seat')">Seat</button>
 
-                        <button class="faultOption" id="other" onclick="selectFault('other')">Other</button>
-
-                    </div>
-
-                    <input type="text" name="faultDescription" placeholder="Fault Category Description"
-                           id="otherCategory" />
+                    <button class="faultOption" id="other" onclick="selectFault('other')">Other</button>
 
                 </div>
-                <div class="footer split">
-                    <button class="leftBtn" id="rf-2Back" onclick="back('rf-2')">
-                        Back
-                    </button>
-                    <button class="rightBtn" id="rf-2Next" onclick="checkInput('rf-2')">
-                        Next
-                    </button>
-                </div>
+
+                <input type="text" name="faultDescription" placeholder="Fault Category Description"
+                    id="otherCategory" />
+
             </div>
+            <div class="footer split">
+                <button class="leftBtn" id="rf-2Back" onclick="back('rf-2')">
+                    Back
+                </button>
+                <button class="rightBtn" id="rf-2Next" onclick="checkInput('rf-2')">
+                    Next
+                </button>
+            </div>
+        </div>
 
-            <!-- Report Fault Page 3
+        <!-- Report Fault Page 3
                     User gives more information about the fault. This stage is optional 
                     Can add a brief textual input or select from some common suggestions
                     Or can add an image to the report which can be either taken on the spot
                     or added from photo library. 
             -->
-            <div class="section rf-3">
-                <div class="sectionArea large">
-                    <h3>Report a Fault - Step 3</h3>
-                    <h3>Please provide more information about the fault.</h3>
-                    <div id="addDescription" class="additionalDescription show">
-                        <h5>Feel free to select some a common fault from the three options below.</h5>
-                        <div class="example_faults">
+        <div class="section rf-3">
+            <div class="sectionArea large">
+                <h3>Report a Fault - Step 3</h3>
+                <h3>Please provide more information about the fault.</h3>
+                <div id="addDescription" class="additionalDescription show">
+                    <h5>Feel free to select some a common fault from the three options below.</h5>
+                    <div class="example_faults">
 
-                            <button id="example_1" class="example_fault" onclick="exampleDescription('example_1')">Example
-                                1</button>
-                            <button id="example_2" class="example_fault" onclick="exampleDescription('example_2')">Example
-                                2</button>
-                            <button id="example_3" class="example_fault" onclick="exampleDescription('example_3')">Example
-                                3</button>
-                        </div>
-                        <input id="description" type="text" name="description" placeholder="Description"/>
+                        <button id="example_1" class="example_fault" onclick="exampleDescription('example_1')">Example
+                            1</button>
+                        <button id="example_2" class="example_fault" onclick="exampleDescription('example_2')">Example
+                            2</button>
+                        <button id="example_3" class="example_fault" onclick="exampleDescription('example_3')">Example
+                            3</button>
                     </div>
-                    <div id="addPhoto" class="additionalDescription">
-                        <h4>Add an Image: </h4>
-                        <input type="file" accept="image/*" id="selectPic" style="display:none;">
-
-                        <button value="Select/Take Picture" onclick="document.getElementById('selectPic').click();"><span
-                                class="glyphicon glyphicon-camera"></span></button>
-                        <output id="list"></output>
-                    </div>
+                    <input id="description" type="text" name="description" placeholder="Description" />
                 </div>
-                <div class="footer split">
-                    <button class="leftBtn" onclick="back('rf-3');">
-                        Back
-                    </button>
-                    <button class="rightBtn" onclick="checkInput('rf-3');">
-                        Next
-                    </button>
+                <div id="addPhoto" class="additionalDescription">
+                    <h4>Add an Image: </h4>
+                    <input type="file" accept="image/*" id="selectPic" style="display:none;">
+
+                    <button value="Select/Take Picture" onclick="document.getElementById('selectPic').click();"><span
+                            class="glyphicon glyphicon-camera"></span></button>
+                    <output id="list"></output>
                 </div>
             </div>
+            <div class="footer split">
+                <button class="leftBtn" onclick="back('rf-3');">
+                    Back
+                </button>
+                <button class="rightBtn" onclick="checkInput('rf-3');">
+                    Next
+                </button>
+            </div>
+        </div>
 
-            <!-- Report Fault Page 4 
+        <!-- Report Fault Page 4 
                     This page asks user to further identify where the fault is. Different page loads
                     depending on the type of the carriage/type of fault. If it has seat numbers then the user has to 
                     select the seat number closest to the fault or select the section of the train closest
                     to the fault.
             -->
-            <div class="section rf-4 current fade">
-                <div class="sectionArea large">
-                    <h3>Report a Fault - Step 4</h3>
-                    <div class="faultLocator seats show" id="seats">
-                        <h3>Please select your seat number:</h3>
-                        <h4>Seat's on this carriage : <span id='maxSeatNo'>50</span></h4>
-                        <div id="invalidSeatNo" class="issue">
-                            <h5><span class="glyphicon glyphicon-exclamation-sign"></span><span id="seatNoIssueMsg">Please enter a valid seat number</span></h5>
-                        </div>
-                        <h3>Seat Number: <span id="seatNo"></span></h3>
-                        <div class="numberPad">
-                            <button class="numberPadBtn" onclick="typeNum('1')">1</button>
-                            <button class="numberPadBtn" onclick="typeNum('2')">2</button>
-                            <button class="numberPadBtn" onclick="typeNum('3')">3</button>
-                            <button class="numberPadBtn" onclick="typeNum('4')">4</button>
-                            <button class="numberPadBtn" onclick="typeNum('5')">5</button>
-                            <button class="numberPadBtn" onclick="typeNum('6')">6</button>
-                            <button class="numberPadBtn" onclick="typeNum('7')">7</button>
-                            <button class="numberPadBtn" onclick="typeNum('8')">8</button>
-                            <button class="numberPadBtn" onclick="typeNum('9')">9</button>
-                            <button class="numberPadBtn" onclick="typeNum('0')">0</button>
-                            <button class="numberPadBtn" id="minus" onclick="typeNum('-1')">&#171;</button>
-                        </div>
+        <div class="section rf-4">
+            <div class="sectionArea large">
+                <h3>Report a Fault - Step 4</h3>
+                <div class="faultLocator seats show" id="seats">
+                    <h3>Please select your seat number:</h3>
+                    <h4>Seat's on this carriage : <span id='maxSeatNo'>50</span></h4>
+                    <div id="invalidSeatNo" class="issue">
+                        <h5><span class="glyphicon glyphicon-exclamation-sign"></span><span id="seatNoIssueMsg">Please
+                                enter a valid seat number</span></h5>
                     </div>
-                    <div class="faultLocator region" id="region">
-                        <h3>Please select the region of the train the fault was in:</h3>
-                        <input type="button" value="Option 1" />
-                        <input type="button" value="Option 2" />
-                        <input type="button" value="Option 3" />
-                        <input type="button" value="Option 4" />
-                        <h4>Please state the seat row:</h4>
-                        <!--<input type="text" name="" />-->
+                    <h3>Seat Number: <span id="seatNo"></span></h3>
+                    <div class="numberPad">
+                        <button class="numberPadBtn" onclick="typeNum('1')">1</button>
+                        <button class="numberPadBtn" onclick="typeNum('2')">2</button>
+                        <button class="numberPadBtn" onclick="typeNum('3')">3</button>
+                        <button class="numberPadBtn" onclick="typeNum('4')">4</button>
+                        <button class="numberPadBtn" onclick="typeNum('5')">5</button>
+                        <button class="numberPadBtn" onclick="typeNum('6')">6</button>
+                        <button class="numberPadBtn" onclick="typeNum('7')">7</button>
+                        <button class="numberPadBtn" onclick="typeNum('8')">8</button>
+                        <button class="numberPadBtn" onclick="typeNum('9')">9</button>
+                        <button class="numberPadBtn" onclick="typeNum('0')">0</button>
+                        <button class="numberPadBtn" id="minus" onclick="typeNum('-1')">&#171;</button>
                     </div>
                 </div>
-                <div class="footer split">
-                    <button class="leftBtn" onclick="back('rf-4')">
-                        Back
-                    </button>
-                    <button class="rightBtn" onclick="checkInput('rf-4')">
-                        Next
-                    </button>
+                <div class="faultLocator region" id="region">
+                    <h3>Please select the region of the train the fault was in:</h3>
+                    <input type="button" value="Option 1" />
+                    <input type="button" value="Option 2" />
+                    <input type="button" value="Option 3" />
+                    <input type="button" value="Option 4" />
+                    <h4>Please state the seat row:</h4>
+                    <!--<input type="text" name="" />-->
                 </div>
             </div>
+            <div class="footer split">
+                <button class="leftBtn" onclick="back('rf-4')">
+                    Back
+                </button>
+                <button class="rightBtn" onclick="checkInput('rf-4')">
+                    Next
+                </button>
+            </div>
+        </div>
 
-            <!-- Report Fault Page 5
+        <!-- Report Fault Page 5
                     This page provides a summary of the fault before allowing them to submit it. 
             -->
-            <div class="section rf-5">
-                <div class="sectionArea large">
-                    <h3>Report a Fault - Step 5</h3>
-                    <h3>Summary</h3>
-                    <span></span>
-                    <h4>Carriage: <span id="sumCarNo" class="sumPageInfo"></span></h4>
-                    <h4>Category: <span id="sumCat" class="sumPageInfo"></span></h4>
-                    <h4>Description: <span id="sumDes" class="sumPageInfo"></span></h4>
-                    <h4>Location: <span id="sumLoc" class="sumPageInfo"></span></h4>
-                    
-                    <img id="sumImg" src="" alt="" />
-                </div>
-                <div class="footer split">
-                    <button class="leftBtn" onclick="back('rf-5')">
-                        Back
-                    </button>
-                    <button class="rightBtn" onclick="switchPages('rf-5', 'rf-6'); submitForm()">
-                        Submit
-                    </button>
-                </div>
-            </div>
+        <div class="section rf-5">
+            <div class="sectionArea large">
+                <h3>Report a Fault - Step 5</h3>
+                <h3>Summary</h3>
+                <span></span>
+                <h4>Carriage: <span id="sumCarNo" class="sumPageInfo"></span></h4>
+                <h4>Category: <span id="sumCat" class="sumPageInfo"></span></h4>
+                <h4>Description: <span id="sumDes" class="sumPageInfo"></span></h4>
+                <h4>Location: <span id="sumLoc" class="sumPageInfo"></span></h4>
 
-            <!-- Report Fault Page 6
+                <img id="sumImg" src="" alt="" />
+            </div>
+            <div class="footer split">
+                <button class="leftBtn" onclick="back('rf-5')">
+                    Back
+                </button>
+                <button class="rightBtn" onclick="switchPages('rf-5', 'rf-6'); submitForm()">
+                    Submit
+                </button>
+            </div>
+        </div>
+
+        <!-- Report Fault Page 6
                     Confirmation page providing the user with confirmation their fault has been reported or
                     if it was unsuccessful then further details will be provided. 
             -->
-            <div class="section rf-6">
-                <div class="sectionArea large">
-                    <h3>Your fault has been reported successfully</h3>
-                </div>
-                <div class="footer">
-                    <button onclick="switchPages('rf-6', 'options')">
-                        Return to options
-                    </button>
-                </div>
+        <div class="section rf-6">
+            <div class="sectionArea large">
+                <h3>Your fault has been reported successfully</h3>
             </div>
-
-            <!-- View Fault Page 1
-                    Currently just contains return to main button
-            -->
-            <div class="section vf-1">
-                <div class="sectionArea large">
-                    <img id="imagetest" src="" alt="image failed"/>
-                    <button onclick="showImage()">Show Fault Image</button>
-                </div>
-                <div class="footer">
-                    <button onclick="switchPages('vf-1', 'options')">
-                        Return to options
-                    </button>
-                </div>
-            </div>
-
-            <!-- Update Fault Page 1
-                    Currently just contains return to main button
-            -->
-            <div class="section uf-1">
-                <div class="footer">
-                    <button onclick="switchPages('uf-1', 'options')">
-                        Return to options
-                    </button>
-                </div>
+            <div class="footer">
+                <button onclick="switchPages('rf-6', 'options')">
+                    Return to options
+                </button>
             </div>
         </div>
-    </body>
+
+        <!-- View Fault Page 1
+                    Currently just contains return to main button
+            -->
+        <div class="section vf-1">
+            <div class="sectionArea large">
+                <img id="imagetest" src="" alt="image failed" />
+                <button onclick="showImage()">Show Fault Image</button>
+            </div>
+            <div class="footer">
+                <button onclick="switchPages('vf-1', 'options')">
+                    Return to options
+                </button>
+            </div>
+        </div>
+
+        <!-- Update Fault Page 1
+                    Currently just contains return to main button
+            -->
+        <div class="section uf-1">
+            <div class="footer">
+                <button onclick="switchPages('uf-1', 'options')">
+                    Return to options
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
 
 </html>

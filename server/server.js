@@ -12,10 +12,10 @@ var host = '127.0.0.1';
 var port = 5432;
 
 /* uni login*/
- var user = 'student';
- var database = 'studentdb';
- var password = 'dbpassword';
- var searchPath = "studentdb, ga_app;"
+//  var user = 'student';
+//  var database = 'studentdb';
+//  var password = 'dbpassword';
+//  var searchPath = "studentdb, ga_app;"
 
 
 /* Jasmine login */
@@ -25,10 +25,10 @@ var port = 5432;
 // var searchPath = " ga_app;";
 
 /* Will login */
-//var user = 'postgres';
-//var database = 'projects';
-//var password = 'password';
-//var searchPath = "projects, ga_app;";
+var user = 'postgres';
+var database = 'projects';
+var password = 'password';
+var searchPath = "projects, ga_app;";
 
 /* ben login */
 //var user = 'postgres';
@@ -141,7 +141,7 @@ http.createServer(async function (req, res) {
                 });
                 req.on('end', async function () {
                     var result = new Object();
-                    
+
                     try {
                         var json = JSON.parse(body);
                         console.log(json);
@@ -166,17 +166,17 @@ http.createServer(async function (req, res) {
             }
             break;
         case '/show_image':
-            if(req.method === 'POST'){
+            if (req.method === 'POST') {
                 req.on('data', async function (data) {
-                
-                sqlQuery = "select * from fault where faultno = 25;"
-                const sqlQueryResult = await client.query(sqlQuery);
-                
-                result = sqlQueryResult.rows;
-                
-                var json_res = JSON.stringify(result);
-                console.log(result);
-                res.end(json_res);
+
+                    sqlQuery = "select * from fault where faultno = 25;"
+                    const sqlQueryResult = await client.query(sqlQuery);
+
+                    result = sqlQueryResult.rows;
+
+                    var json_res = JSON.stringify(result);
+                    console.log(result);
+                    res.end(json_res);
                 });
             }
             break;

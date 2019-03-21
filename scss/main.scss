@@ -13,10 +13,12 @@ body {
     box-sizing: border-box;
   }
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
 header {
   display: grid;
+  grid-template-columns: 50px auto;
   * {
     align-self: center;
     justify-self: center;
@@ -24,10 +26,27 @@ header {
   box-shadow: 0px 0px 13px 3px rgba(219, 162, 162, 1);
   height: 70px;
   margin: 0px 0px 10px 0px;
+  button{
+    background-color: white;
+    padding: 0px;
+  }
+  .btn-line {
+    width: 25px;
+    height: 3px;
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+    background: $tertiary_colour;
+    &:nth-child(1) {
+      margin-top: 5px;
+    }
+  }
+  transition: all 0.5s;
 }
 
 .main {
   height: calc(100% - 80px);
+  width: 100%;
+  transition: all 0.5s;
 }
 
 button {
@@ -47,6 +66,10 @@ button {
   &.hide{
     display: none;
   }
+  &:focus{
+    outline: none;
+  }
+
 }
 
 .numberPad {
@@ -105,6 +128,7 @@ button {
       background-color: darken($primary_colour, 10%);
     }
   }
+  transition: all 0.5s;
 }
 
 .section {
@@ -250,5 +274,89 @@ h4{
 .sumPageInfo{
     float: right;
 }
+
+.sideNav{
+  height: 100%;
+  width: 0px;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: -4px;
+  overflow: hidden;
+  background-color: $primary_colour;
+  transition: 0.5s;
+  display: grid;
+  box-shadow: 0px 0px 5px 4px rgba(0,0,0,0.5);
+  a{
+    text-decoration: none;
+    color: white;
+  }
+
+  .closeBtn{
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 2rem;
+  }
+
+  .optionLinks{
+    position: absolute;
+    left: 0px;
+    top: 20%;
+    width: 100%;
+    a{
+      padding: 8px 8px 8px 20px;
+      text-decoration: none;
+      font-size: 25px;
+      color: white;
+      display: block;
+      &:hover{
+        background-color: darken($primary_colour, 20);
+      }
+    }
+  }
+
+  .link{
+    transition: 0.2s ease-in-out;
+    transform: translate3d(-350px, 0, 0);
+    opacity: 0.4;
+  }
+
+  .accessibility{
+
+    #signOut{
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      padding: 0px;;
+    }
+
+    #fontSize{
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      font-size: 2rem;
+      height: 50px;
+      width: 50px;
+      text-align: center;
+      padding: 0;
+    }
+
+  }
+
+  &.show{
+    width: 250px;
+    .link{
+      transition: 0.5s ease-in-out;
+      transform: translate3d(0, 0, 0);
+    }  
+  }
+
+  &.loggedIn{
+
+  }
+}
+
+
 
 
