@@ -13,45 +13,45 @@ $(function () {
 var faultCategories = {
     wifi: {
         name: 'wifi',
-        example_1: "slow connection",
-        example_2: "cant connect",
-        example_3: "cannot find wifi"
+        example_1: "Slow connection",
+        example_2: "Cannot connect",
+        example_3: "Cannot find wifi"
     },
     toilet: {
         name: 'toilet',
-        example_1: "toilet wont flush",
-        example_2: "sink doesnt work",
-        example_3: "no toilet paper"
+        example_1: "Toilet does not flush",
+        example_2: "Sink does not work",
+        example_3: "No toilet paper"
     },
     HVAC: {
-        example_1: "carriage too hot",
-        example_2: "carriage too cold",
-        example_3: "air smells weird"
+        example_1: "Carriage too hot",
+        example_2: "Carriage too cold",
+        example_3: "Air smells weird"
     },
     door: {
-        example_1: "door wont open",
-        example_2: "door wont shut",
-        example_3: "door reaction slow"
+        example_1: "Door will not open",
+        example_2: "Door will not shut",
+        example_3: "Door reaction slow"
     },
     window: {
-        example_1: "window scratched",
-        example_2: "window cracked",
-        example_3: "window too dirty"
+        example_1: "Window scratched",
+        example_2: "Window cracked",
+        example_3: "Window too dirty"
     },
     seat: {
-        example_1: "seat dirty",
-        example_2: "hole in seat",
-        example_3: "ajoined table broken"
+        example_1: "Seat dirty",
+        example_2: "Hole in seat",
+        example_3: "Ajoined table broken"
     },
     socket: {
-        example_1: "not charging",
-        example_2: "something stuck in socket",
-        example_3: "socket loose from wall"
+        example_1: "Not charging",
+        example_2: "Something stuck in socket",
+        example_3: "Socket loose from wall"
     },
     displayPanel: {
-        example_1: "leds broken",
-        example_2: "not on",
-        example_3: "displaying wrong or old info"
+        example_1: "Leds broken",
+        example_2: "Not on",
+        example_3: "Displaying wrong or old info"
     }
 };
 
@@ -190,7 +190,7 @@ function checkStaffDetails() {
             console.log(rt);
             output = JSON.parse(rt);
             console.log(output);
-            if (output.staffid != false) {
+            if (output.staffid !== false) {
                 var userDetails = new Object();
                 userDetails.userID = output.staffid;
                 localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -275,6 +275,7 @@ function typeNum(num) {
 
     //get the current number shown on the screen. second line removes the prepended text
     var seatNoStr = $("#seatNo").text();
+    console.log(seatNoStr);
     var currentSeatStr = seatNoStr.split(": ").pop();
 
     //append new digit
@@ -288,14 +289,20 @@ function typeNum(num) {
     //do not delete anything. otherwise display error message.
     if (newSeatInt <= maxSeats) {
         console.log('valid seat');
-        if (num === "-1" && seatNoStr !== 'Seat Number: ') {
+        if (num === "-1") {
             $("#seatNo").text(function (_, txt) {
                 return txt.slice(0, -1);
             });
-        } else if (num !== "-1") {
+        } else if (num === '0') {
+            if (seatNoStr !== '') {
+                $("#seatNo").append(num);
+            }
+        } else {
             $("#seatNo").append(num);
         }
     } else {
+        $("#seatNoIssueMsg").text("Seat number too large");
+        $("#invalidSeatNo").addClass("show");
         console.log('seat number too large');
     }
 }
@@ -313,7 +320,7 @@ function selectFault(type) {
 
     if (type === 'other') {
         $("#otherCategory").addClass('show');
-        $('.section.rf-2').animate({ scrollTop: $('.section.rf-2')[0].scrollHeight }, 2000);
+        $('.section.rf-2').animate({scrollTop: $('.section.rf-2')[0].scrollHeight}, 2000);
     } else {
         $("#otherCategory").removeClass('show');
     }
@@ -337,29 +344,52 @@ function checkInput(page) {
 
             var selectedFault = $('.faultOption.show').attr("id");
             var otherInput = $('#otherCategory').val();
-
-            if (selectedFault !== 'other' && selectedFault !== null) {
-
-                if (noLocationFaults.includes(selectedFault)) {
-                    addFaultDetails('location', selectedFault);
-                }
-
-                //set up the detailed description examples on the next page
-                console.log(selectedFault);
-                $("#example_1").text(faultCategories[selectedFault].example_1);
-                $("#example_2").text(faultCategories[selectedFault].example_2);
-                $("#example_3").text(faultCategories[selectedFault].example_3);
-
-                addFaultDetails('category', selectedFault);
-                switchPages('rf-2', 'rf-3');
-
-            } else if (selectedFault === 'other' && otherInput !== '') {
-                addFaultDetails('category', otherInput);
-                switchPages('rf-2', 'rf-3');
-            } else if (selectedFault === null) {
-                alert('Please select a fault category');
-            } else if (selectedFault === 'other' && otherInput === '') {
-                alert('Please enter a fault category description');
+            console.log(selectedFault);
+            switch (selectedFault) {
+                case 'wifi':
+                    requiresImage(false);
+                    step2ToStep3(selectedFault);
+                    break;
+                case 'toilet':
+                    requiresImage(true);
+                    step2ToStep3(selectedFault);
+                    break;
+                case 'HVAC':
+                    requiresImage(false);
+                    step2ToStep3(selectedFault);
+                    break;
+                case 'door':
+                    requiresImage(true);
+                    step2ToStep3(selectedFault);
+                    break;
+                case 'window':
+                    requiresImage(true);
+                    step2ToStep3(selectedFault);
+                    break;
+                case 'seat':
+                    requiresImage(true);
+                    step2ToStep3(selectedFault);
+                    break;
+                case 'socket':
+                    requiresImage(true);
+                    step2ToStep3(selectedFault);
+                    break;
+                case 'displayPanel':
+                    requiresImage(true);
+                    step2ToStep3(selectedFault);
+                    break;
+                case 'other':
+                    requiresImage(true);
+                    addFaultDetails('category', otherInput);
+                    switchPages('rf-2', 'rf-3');
+                    break;
+                default:
+                    //nothing selected.
+                    if (selectedFault === undefined) {
+                        alert('Please select a fault category');
+                    } else if (selectedFault === 'other' && otherInput === '') {
+                        alert('Please enter a fault category description');
+                    }
             }
 
             break;
@@ -386,15 +416,18 @@ function checkInput(page) {
 
             if (noLocationFaults.includes(reportFault.location)) {
                 setSummaryPage();
-                switchPages('rf-3', 'rf-5')
+                switchPages('rf-3', 'rf-5');
             } else {
                 // set page 4 location input method
                 if (carDetails.seats > 0) {
+                    var carriage = JSON.parse(localStorage.getItem('carDetails'));
+                    var maxSeats = carriage.seats;
                     $("#seats").addClass("show");
+                    $("#maxSeatNo").text(maxSeats);
                 } else {
                     $("#region").addClass("show");
                 }
-                switchPages('rf-3', 'rf-4')
+                switchPages('rf-3', 'rf-4');
             }
 
             break;
@@ -431,6 +464,35 @@ function checkInput(page) {
 
 }
 
+//function added by ben.
+//used when transitioning from rf page 2 to rf page 3 
+function step2ToStep3(selectedFault) {
+    if (noLocationFaults.includes(selectedFault)) {
+        addFaultDetails('location', selectedFault);
+    }
+
+    //set up the detailed description examples on the next page
+    console.log(selectedFault);
+    $("#example_1").text(faultCategories[selectedFault].example_1);
+    $("#example_2").text(faultCategories[selectedFault].example_2);
+    $("#example_3").text(faultCategories[selectedFault].example_3);
+
+    addFaultDetails('category', selectedFault);
+    switchPages('rf-2', 'rf-3');
+}
+
+//function added by ben.
+//used when transitioning from rf page 2 to rf page 3 
+//called with true if a category requires a photo to be added when on rf page 3
+//called with false if not
+function requiresImage(bool) {
+    if (bool) {
+        $('#addPhoto').addClass("show");
+    } else {
+        $('#addPhoto').removeClass("show");
+    }
+}
+
 function addFaultDetails(key, value) {
     var reportFault = JSON.parse(localStorage.getItem('reportFault'));
     reportFault[key] = value;
@@ -445,12 +507,12 @@ function removeFaultDetails(key) {
 
 function exampleDescription(detail) {
     var description = $("#" + detail).text();
-    $("#description").text(description);
+    $("#description").val(description);
 }
 
 function storeDescription() {
     var description = $('#description').val();
-    if (description != "description") {
+    if (description !== "description") {
         var reportFault = JSON.parse(localStorage.getItem('reportFault'));
         reportFault.description = description;
         localStorage.setItem('reportFault', JSON.stringify(reportFault));
@@ -539,19 +601,19 @@ function setFaultImage(event) {
     reader.readAsDataURL(file);
 }
 
-function showImage(){
+function showImage() {
     var json = JSON.stringify('carriageNo');
     $.ajax({
         url: "http://localhost:8081/show_image",
         type: "POST",
         data: json,
         success: function (rt) {
-            
+
             var json = JSON.parse(rt);
             console.log(json);
             console.log(json[0].img);
             $('#imagetest').attr('src', json[0].img);
-            
+
         },
         error: function () {
             alert("there has been an error contacting the server");

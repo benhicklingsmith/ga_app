@@ -12,10 +12,10 @@ var host = '127.0.0.1';
 var port = 5432;
 
 /* uni login*/
- var user = 'student';
- var database = 'studentdb';
- var password = 'dbpassword';
- var searchPath = "studentdb, ga_app;"
+// var user = 'student';
+// var database = 'studentdb';
+// var password = 'dbpassword';
+// var searchPath = "studentdb, ga_app;"
 
 
 /* Jasmine login */
@@ -29,6 +29,12 @@ var port = 5432;
 //var database = 'projects';
 //var password = 'password';
 //var searchPath = "projects, ga_app;";
+
+/* ben login */
+var user = 'postgres';
+var database = 'category';
+var password = 'dbpassword';
+var searchPath = "categories, coursework_schema;";
 
 // the quick and dirty trick which prevents crashing.
 process.on('uncaughtException', function (err) {

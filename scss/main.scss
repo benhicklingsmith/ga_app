@@ -151,8 +151,10 @@ button {
 .issue {
   display: block;
   color: white;
+  font-size: 18pt;
   &.show {
     color: $primary_colour;
+    font-size: 18pt;
   }
 }
 
@@ -161,6 +163,13 @@ button {
   &.show {
     display: grid;
   }
+}
+
+.additionalDescription{
+    display: none;
+    &.show{
+        display: block;
+    }
 }
 
 #otherCategory{
@@ -216,6 +225,21 @@ button {
     grid-template-columns: 33% 33% 33%;
     grid-gap: 2px;
     padding: 3px; 
+}
+
+input{
+    height:50px;
+    font-size: 20pt;
+}
+
+#description{
+    height:40px;
+    font-size: 14pt;
+}
+
+h5{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 

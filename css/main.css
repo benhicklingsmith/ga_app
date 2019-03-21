@@ -141,9 +141,11 @@ button.hide {
 .issue {
   display: block;
   color: white;
+  font-size: 18pt;
 }
 .issue.show {
   color: #d70428;
+  font-size: 18pt;
 }
 
 .faultLocator {
@@ -151,6 +153,13 @@ button.hide {
 }
 .faultLocator.show {
   display: grid;
+}
+
+.additionalDescription {
+  display: none;
+}
+.additionalDescription.show {
+  display: block;
 }
 
 #otherCategory {
@@ -201,6 +210,21 @@ button.hide {
   grid-template-columns: 33% 33% 33%;
   grid-gap: 2px;
   padding: 3px;
+}
+
+input {
+  height: 50px;
+  font-size: 20pt;
+}
+
+#description {
+  height: 40px;
+  font-size: 14pt;
+}
+
+h5 {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /*# sourceMappingURL=main.css.map */
