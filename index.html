@@ -19,7 +19,7 @@
         <div class="main">
 
             <!-- Login Page -->
-            <div class="section login current fade">
+            <div class="section login">
                 <div class="sectionArea small">
                     <h2>Staff Login</h2>
                     <div id="invalidStaffId" class="issue">
@@ -192,7 +192,7 @@
                     select the seat number closest to the fault or select the section of the train closest
                     to the fault.
             -->
-            <div class="section rf-4">
+            <div class="section rf-4 current fade">
                 <div class="sectionArea large">
                     <h3>Report a Fault - Step 4</h3>
                     <div class="faultLocator seats show" id="seats">
@@ -243,11 +243,12 @@
                 <div class="sectionArea large">
                     <h3>Report a Fault - Step 5</h3>
                     <h3>Summary</h3>
-                    <h4>Carriage: <span id="sumCarNo"></span></h4>
-                    <h4>Category: <span id="sumCat"></span></h4>
-                    <h4>Description: <span id="sumDes"></span></h4>
-                    <h4>Location: <span id="sumLoc"></span></h4>
-                    <h4>Image: </h4>
+                    <span></span>
+                    <h4>Carriage: <span id="sumCarNo" class="sumPageInfo"></span></h4>
+                    <h4>Category: <span id="sumCat" class="sumPageInfo"></span></h4>
+                    <h4>Description: <span id="sumDes" class="sumPageInfo"></span></h4>
+                    <h4>Location: <span id="sumLoc" class="sumPageInfo"></span></h4>
+                    
                     <img id="sumImg" src="" alt="" />
                 </div>
                 <div class="footer split">

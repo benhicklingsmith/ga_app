@@ -227,4 +227,13 @@ h5 {
   margin-bottom: 10px;
 }
 
+h4 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.sumPageInfo {
+  float: right;
+}
+
 /*# sourceMappingURL=main.css.map */
