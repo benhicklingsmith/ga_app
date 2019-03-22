@@ -25,10 +25,10 @@ var port = 5432;
 //var searchPath = " ga_app;";
 
 /* Will login */
-//var user = 'postgres';
-//var database = 'projects';
-//var password = 'password';
-//var searchPath = "projects, ga_app;";
+// var user = 'postgres';
+// var database = 'projects';
+// var password = 'password';
+// var searchPath = "projects, ga_app;";
 
 /* ben login */
 //var user = 'postgres';
@@ -141,7 +141,7 @@ http.createServer(async function (req, res) {
                 });
                 req.on('end', async function () {
                     var result = new Object();
-                    
+
                     try {
                         var json = JSON.parse(body);
                         console.log(json);
@@ -166,31 +166,31 @@ http.createServer(async function (req, res) {
             }
             break;
         case '/show_image':
-            if(req.method === 'POST'){
+            if (req.method === 'POST') {
                 req.on('data', async function (data) {
-                
-                sqlQuery = "select * from fault where faultno = 25;"
-                const sqlQueryResult = await client.query(sqlQuery);
-                
-                result = sqlQueryResult.rows;
-                
-                var json_res = JSON.stringify(result);
-                console.log(result);
-                res.end(json_res);
+
+                    sqlQuery = "select * from fault where faultno = 25;"
+                    const sqlQueryResult = await client.query(sqlQuery);
+
+                    result = sqlQueryResult.rows;
+
+                    var json_res = JSON.stringify(result);
+                    console.log(result);
+                    res.end(json_res);
                 });
             }
             break;
-            case '/get_users_faults':
-            if (req.method === 'POST'){
-                req.on('data', async function (data){
+        case '/get_users_faults':
+            if (req.method === 'POST') {
+                req.on('data', async function (data) {
                     var json = JSON.parse(data);
                     var result;
-                    try{
+                    try {
                         sqlQuery = "SELECT faultNo,carriageNo, category,location, faultDesc, dateReported, status FROM fault WHERE staffID = " + json.userID + ";";
                         const sqlQueryResult = await client.query(sqlQuery);
                         result = sqlQueryResult.rows;
                     }
-                    catch(err){
+                    catch (err) {
                         result = new Object();
                     }
                     var json_res = JSON.stringify(result);
@@ -198,37 +198,37 @@ http.createServer(async function (req, res) {
                 });
             }
             break;
-    case '/filter_faults':
-        if(req.method === 'POST'){
-            req.on('data', async function (data){
-                var json = JSON.parse(data);
-                var result;
-                var filterCount = 0;
-                sqlStatement = "SELECT faultNo,carriageNo, category,location, faultDesc, dateReported, status FROM fault";
-                for (var filter in json){
-                        if (filterCount == 0){
+        case '/filter_faults':
+            if (req.method === 'POST') {
+                req.on('data', async function (data) {
+                    var json = JSON.parse(data);
+                    var result;
+                    var filterCount = 0;
+                    sqlStatement = "SELECT faultNo,carriageNo, category,location, faultDesc, dateReported, status FROM fault";
+                    for (var filter in json) {
+                        if (filterCount == 0) {
                             sqlStatement += " WHERE";
                         }
-                        if (filterCount >= 1){
+                        if (filterCount >= 1) {
                             sqlStatement += ' AND';
                         }
                         sqlStatement += " " + filter + " = " + json[filter];
                         filterCount += 1;
                     }
-                sqlStatement += " ORDER BY datereported;";
-                console.log(sqlStatement);
-                try{
-                    const sqlQueryResult = await client.query(sqlStatement);
-                    result = sqlQueryResult.rows;
-                    console.log(result);
+                    sqlStatement += " ORDER BY datereported;";
+                    console.log(sqlStatement);
+                    try {
+                        const sqlQueryResult = await client.query(sqlStatement);
+                        result = sqlQueryResult.rows;
+                        console.log(result);
 
-                }
-                catch(err){
-                    console.log(err);
-                }
-            });
-        }
-        break;
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+                });
+            }
+            break;
         default:
             res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end('error');

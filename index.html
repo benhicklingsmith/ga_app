@@ -14,12 +14,32 @@
 
     <body>
         <header>
+            <button onclick="overlay('toggle')">
+                <div class="btn-line"></div>
+                <div class="btn-line"></div>
+                <div class="btn-line"></div>
+            </button>
             <img src="imgs/galogo_xs.jpg" alt="ga">
         </header>
-        <div class="main">
+
+        <div class="sideNav">
+            <a href="javascript:void(0)" class="closeBtn" onclick="overlay('toggle')">&times;</a>
+            <div class="optionLinks">
+                <a class="link rf-1" href="#" onclick="overlay('rf-1')">Report a Fault</a>
+                <a class="link vf-1" href="#" onclick="overlay('vf-1')">View my Faults</a>
+                <a class="link uf-1" href="#" onclick="overlay('uf-1')">Update a Fault</a>
+            </div>
+            <div class="accessibility">
+                <a class="link" id="signOut" href="javascript:void(0)" onclick="overlay('signOut')">Sign
+                    out</a>
+                <button id="fontSize">Aa</button>
+            </div>
+        </div>
+
+        <div class="main" id="main">
 
             <!-- Login Page -->
-            <div class="section login">
+            <div class="section login current fade">
                 <div class="sectionArea small">
                     <h2>Staff Login</h2>
                     <div id="invalidStaffId" class="issue">
@@ -51,28 +71,22 @@
             </div>
 
             <!-- Task options -->
-            <div class="section options ">
+            <div class="section options footless">
                 <div class="sectionArea small">
                     <button class="optionBtn" value="Report a Fault" onclick="switchPages('options', 'rf-1')">Report a
                         Fault</button>
 
-                    <button class="optionBtn" value="View a Fault" onclick="switchPages('options', 'vf-1'); getUsersFaults()">View a
+                    <button class="optionBtn" value="View a Fault" onclick="switchPages('options', 'vf-1')">View a
                         Fault</button>
 
-                    <button class="optionBtn" value="Update a Fault" onclick="switchPages('options', 'uf-1'); filterFaults()">Update a
+                    <button class="optionBtn" value="Update a Fault" onclick="switchPages('options', 'uf-1')">Update a
                         Fault</button>
                 </div>
-                <div class="footer">
-                    <button class="leftBtn" id="rf-2Back" onclick="switchPages('options', 'login')">
-                        Back
-                    </button>
-                </div>
-
             </div>
 
             <!-- Report Fault Page 1 
-                    Enter carriage Number. If they dont know it they can choose 
-                    to enter different details about the train to locate it. 
+                        Enter carriage Number. If they dont know it they can choose 
+                        to enter different details about the train to locate it. 
             -->
             <div class="section rf-1">
                 <div class="sectionArea large">
@@ -89,7 +103,7 @@
                         Back
                     </button>
                     <!-- use checkCar() for no server and set carExists to true within it. 
-                        If using server use getCarriageDetails() -->
+                            If using server use getCarriageDetails() -->
                     <button class="rightBtn" id="rf-1Next" onclick="checkInput('rf-1')">
                         Next
                     </button>
@@ -97,8 +111,8 @@
             </div>
 
             <!-- Report Fault Page 2 
-                    Categorise the fault. User chooses from a range of possible categories.
-                    If none a suitable, they can choose other.
+                        Categorise the fault. User chooses from a range of possible categories.
+                        If none a suitable, they can choose other.
             -->
             <div class="section rf-2">
                 <div class="sectionArea large">
@@ -145,10 +159,10 @@
             </div>
 
             <!-- Report Fault Page 3
-                    User gives more information about the fault. This stage is optional 
-                    Can add a brief textual input or select from some common suggestions
-                    Or can add an image to the report which can be either taken on the spot
-                    or added from photo library. 
+                        User gives more information about the fault. This stage is optional 
+                        Can add a brief textual input or select from some common suggestions
+                        Or can add an image to the report which can be either taken on the spot
+                        or added from photo library. 
             -->
             <div class="section rf-3">
                 <div class="sectionArea large">
@@ -165,7 +179,7 @@
                             <button id="example_3" class="example_fault" onclick="exampleDescription('example_3')">Example
                                 3</button>
                         </div>
-                        <input id="description" type="text" name="description" placeholder="Description"/>
+                        <input id="description" type="text" name="description" placeholder="Description" />
                     </div>
                     <div id="addPhoto" class="additionalDescription">
                         <h4>Add an Image: </h4>
@@ -187,19 +201,20 @@
             </div>
 
             <!-- Report Fault Page 4 
-                    This page asks user to further identify where the fault is. Different page loads
-                    depending on the type of the carriage/type of fault. If it has seat numbers then the user has to 
-                    select the seat number closest to the fault or select the section of the train closest
-                    to the fault.
+                        This page asks user to further identify where the fault is. Different page loads
+                        depending on the type of the carriage/type of fault. If it has seat numbers then the user has to 
+                        select the seat number closest to the fault or select the section of the train closest
+                        to the fault.
             -->
-            <div class="section rf-4 current fade">
+            <div class="section rf-4">
                 <div class="sectionArea large">
                     <h3>Report a Fault - Step 4</h3>
                     <div class="faultLocator seats show" id="seats">
                         <h3>Please select your seat number:</h3>
                         <h4>Seat's on this carriage : <span id='maxSeatNo'>50</span></h4>
                         <div id="invalidSeatNo" class="issue">
-                            <h5><span class="glyphicon glyphicon-exclamation-sign"></span><span id="seatNoIssueMsg">Please enter a valid seat number</span></h5>
+                            <h5><span class="glyphicon glyphicon-exclamation-sign"></span><span id="seatNoIssueMsg">Please
+                                    enter a valid seat number</span></h5>
                         </div>
                         <h3>Seat Number: <span id="seatNo"></span></h3>
                         <div class="numberPad">
@@ -237,8 +252,9 @@
             </div>
 
             <!-- Report Fault Page 5
-                    This page provides a summary of the fault before allowing them to submit it. 
+                        This page provides a summary of the fault before allowing them to submit it. 
             -->
+
             <div class="section rf-5">
                 <div class="sectionArea large">
                     <h3>Report a Fault - Step 5</h3>
@@ -261,8 +277,8 @@
             </div>
 
             <!-- Report Fault Page 6
-                    Confirmation page providing the user with confirmation their fault has been reported or
-                    if it was unsuccessful then further details will be provided. 
+                        Confirmation page providing the user with confirmation their fault has been reported or
+                        if it was unsuccessful then further details will be provided. 
             -->
             <div class="section rf-6">
                 <div class="sectionArea large">
@@ -294,7 +310,7 @@
                     </button>
                 </div>
             </div>
-            
+
             <!-- View Fault Page 2
                     view further details about the selected fault. 
             -->
@@ -316,7 +332,7 @@
             </div>
 
             <!-- Update Fault Page 1
-                    Currently just contains return to main button
+                        Currently just contains return to main button
             -->
             <div class="section uf-1">
                 <div class="footer">

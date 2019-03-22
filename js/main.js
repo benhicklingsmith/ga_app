@@ -3,14 +3,11 @@ $(function () {
         switchPages("login", "findID");
     });
     document.getElementById("selectPic").addEventListener("change", setFaultImage, false);
-    //possibly unnessacary? might be useful for mobile devices? unknown. Remove if no use is found. ben 15/3
-    //    $('#otherCategory').on("change keyup paste", function () {
-    //        setFaultType('other');
-    //    });
-});
-
-$(function () {
-    switchPages("rf-4","login");
+    $('.section').click(function (e) {
+        if (e.target.className !== "sideNav") {
+            overlayToggle('close');
+        }
+    })
 });
 
 //object of objects that can be used to populate 
@@ -124,6 +121,7 @@ function checkStaffID() {
                     userDetails.userID = userID;
                     localStorage.setItem("userDetails", JSON.stringify(userDetails));
                     switchPages("login", "options");
+                    $('.link').css('opacity', '1');
                 } else {
                     console.log("invalid user id");
                     $("#invalidStaffId").addClass("show");
@@ -262,6 +260,7 @@ function submitForm() {
             var returnedData = JSON.parse(rt);
             if (returnedData.success) {
                 localStorage.removeItem('reportFault');
+                reset();
             }
         },
         error: function () {
@@ -272,7 +271,7 @@ function submitForm() {
     // send fault object to server
 }
 
-function getUsersFaults(){
+function getUsersFaults() {
     var userDetails = localStorage.getItem('userDetails');
     $.ajax({
         url: "http://localhost:8081/get_users_faults",
@@ -295,13 +294,12 @@ function getUsersFaults(){
             }
         },
         error: function () {
-            console.log("error - ");
-        }   
-     })
+            console.log("error")
+        }
+    })
 }
 // gets all faults reported by the user 
 // returns an array of objects with each fault as an object
-
 function viewFaultDetails(i){
     var userFaults = localStorage.getItem('userFaults');
     var fault = userFaults[i];
@@ -313,7 +311,7 @@ function viewFaultDetails(i){
     switchPages('vf-1', 'vf-2');
 }
 
-function filterFaults(){
+function filterFaults() {
     var filters = new Object();
     filters.category = "wifi";
     filters.carriageNo = 12345;
@@ -328,8 +326,8 @@ function filterFaults(){
         },
         error: function () {
             console.log("error")
-        }   
-     })
+        }
+    })
 }
 
 function typeNum(num) {
@@ -384,7 +382,7 @@ function selectFault(type) {
 
     if (type === 'other') {
         $("#otherCategory").addClass('show');
-        $('.section.rf-2').animate({scrollTop: $('.section.rf-2')[0].scrollHeight}, 2000);
+        $('.section.rf-2').animate({ scrollTop: $('.section.rf-2')[0].scrollHeight }, 2000);
     } else {
         $("#otherCategory").removeClass('show');
     }
@@ -585,6 +583,9 @@ function storeDescription() {
 
 function back(page) {
     switch (page) {
+        case 'signOut':
+            switchPages('section', 'login');
+            break;
         case 'rf-2':
             // empty local storage
             localStorage.removeItem('carDetails');
@@ -684,4 +685,68 @@ function showImage() {
             console.log("data not submitted");
         }
     });
+}
+
+function overlay(scenario) {
+
+    var loginStatus = localStorage.getItem('userDetails');
+    console.log(loginStatus);
+
+    switch (scenario) {
+        case 'toggle':
+            overlayToggle();
+            break;
+        case 'rf-1':
+        case 'vf-1':
+        case 'uf-1':
+            // check login status. if legit switch pages and toggle
+            if (loginStatus !== null) {
+                switchPages('section', scenario);
+                overlayToggle();
+            }
+            break;
+        case 'signOut':
+
+            if (loginStatus !== null) {
+                localStorage.clear();
+                switchPages('section', 'login');
+                overlayToggle();
+                $('.link').css('opacity', '0.4');
+                // empty #idInputBox input (on sign out not submission)
+                // empty carriage number input (on sign out not submission)
+                $('#idInputBox').val('');
+                $('#carNum').val('');
+                reset();
+            }
+            break;
+    }
+
+}
+
+function overlayToggle(task) {
+
+    var sideNav = $('.sideNav.show').length;
+
+    if (task === 'close' || sideNav === 1) {
+        $('.sideNav').removeClass('show');
+        $('.main').css('margin-left', '0px');
+        $('header').css('margin-left', '0px');
+        $('.footer').css('margin-left', '0px');
+    } else {
+        $('.sideNav').addClass('show');
+        $('.main').css('margin-left', '250px');
+        $('header').css('margin-left', '250px');
+        $('.footer').css('margin-left', '250px');
+    }
+}
+
+// called if the user clicks sign out from overlay or they report a fault successfully
+function reset() {
+    $('.faultOption').removeClass('show');
+    $('#otherCategory').val('');
+    $('#otherCategory').removeClass('show');
+    $('#description').val('');
+    $('#maxSeatNumber').empty('');
+    $('.section').scrollTop(0);
+    $('.issue').removeClass('show');
 }
