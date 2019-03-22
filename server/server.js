@@ -12,17 +12,17 @@ var host = '127.0.0.1';
 var port = 5432;
 
 /* uni login*/
-//  var user = 'student';
-//  var database = 'studentdb';
-//  var password = 'dbpassword';
-//  var searchPath = "studentdb, ga_app;"
+  var user = 'student';
+  var database = 'studentdb';
+  var password = 'dbpassword';
+  var searchPath = "studentdb, ga_app;"
 
 
 /* Jasmine login */
-var user = 'postgres';
-var database = 'postgres';
-var password = 'password';
-var searchPath = " ga_app;";
+//var user = 'postgres';
+//var database = 'postgres';
+//var password = 'password';
+//var searchPath = " ga_app;";
 
 /* Will login */
 //var user = 'postgres';

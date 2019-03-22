@@ -236,4 +236,14 @@ h4 {
   float: right;
 }
 
+.faultView {
+  text-align: left;
+  margin: 10px;
+  padding: 10px;
+  border: solid;
+  border-color: #cfc8c6;
+  background-color: #cfc8c6;
+  color: white;
+}
+
 /*# sourceMappingURL=main.css.map */

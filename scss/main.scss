@@ -247,8 +247,19 @@ h4{
     margin-bottom: 5px;
 }
 
+//floats the values on the summary page to the right
 .sumPageInfo{
     float: right;
 }
 
+//custom button used on vf-1 to display users faults
+.faultView{
+    text-align: left;
+    margin: 10px;
+    padding: 10px;
+    border: solid;
+    border-color: $tertiary_colour;
+    background-color: $tertiary_colour;
+    color: white;
+}
 

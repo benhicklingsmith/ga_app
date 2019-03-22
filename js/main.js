@@ -279,15 +279,39 @@ function getUsersFaults(){
         type: "POST",
         data: userDetails,
         success: function (rt) {
-            console.log(JSON.parse(rt));
+            
+            var userFaults = JSON.parse(rt);
+            console.log(userFaults);
+            
+            localStorage.setItem('userFaults', rt);
+            //$('#viewUserFaults').empty();
+            for(var i = 0; i < userFaults.length; i++){
+                console.log("fault to be displayed - " + i);
+                
+                $('#viewUserFaults').append("<a class='faultView' onclick='viewFaultDetails(" + i + ")'>"
+                       +  "<h3>" + userFaults[i].carriageno + " - " + userFaults[i].category + " </h3>"
+                       + "<h4>" + userFaults[i].faultdesc + " </h4>"
+                    + "</a>");
+            }
         },
         error: function () {
-            console.log("error")
+            console.log("error - ");
         }   
      })
 }
 // gets all faults reported by the user 
 // returns an array of objects with each fault as an object
+
+function viewFaultDetails(i){
+    var userFaults = localStorage.getItem('userFaults');
+    var fault = userFaults[i];
+    
+    $('#detCarNo').text(fault.carriageno);
+    $('#detCat').text(fault.category);
+    $('#detDes').text(fault.faultdesc);
+    $('#detLoc').text(fault.location);
+    switchPages('vf-1', 'vf-2');
+}
 
 function filterFaults(){
     var filters = new Object();
