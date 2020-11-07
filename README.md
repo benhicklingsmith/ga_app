@@ -1,5 +1,6 @@
 # ga_app
 
+Disclaimer - app not endorsed, managed or sponsored by Greater Anglia. 
 
 ## Overview
 
@@ -46,3 +47,7 @@ Add some test data into the database from ga_app_data.sql
 Edit the database information in the top of the express.js file.
 
 Restart server if it is already running.
+
+## Images
+
+![App login page](/resources/ga_app_login.png?raw=true "Login Page")
