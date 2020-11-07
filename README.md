@@ -1,6 +1,6 @@
 # ga_app
 
-Disclaimer - app not endorsed, managed or sponsored by Greater Anglia. 
+Disclaimer - app not endorsed, managed or sponsored by Greater Anglia. Application not released and only developed for research purposes.
 
 ## Overview
 
