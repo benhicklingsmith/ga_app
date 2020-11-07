@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/benhicklingsmith/ga_app#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "node-sass": "^4.11.0"
   },
   "devDependencies": {}
