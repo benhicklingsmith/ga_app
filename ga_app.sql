@@ -1,17 +1,36 @@
 SET SEARCH_PATH
 TO ga_app;
 
-DROP TABLE IF EXISTS faultImage;
-DROP TABLE IF EXISTS fault;
-DROP TABLE IF EXISTS journey;
-DROP TABLE IF EXISTS carriage;
-DROP TABLE IF EXISTS carriageClass;
-DROP TABLE IF EXISTS staff;
-DROP TABLE IF EXISTS station;
+DROP TABLE IF EXISTS faultImage
+CASCADE;
+DROP TABLE IF EXISTS fault_update
+CASCADE;
+DROP TABLE IF EXISTS fault
+CASCADE;
+DROP TABLE IF EXISTS journey
+CASCADE;
+DROP TABLE IF EXISTS carriage
+CASCADE;
+DROP TABLE IF EXISTS carriageClass
+CASCADE;
+DROP TABLE IF EXISTS staff
+CASCADE;
+DROP TABLE IF EXISTS station
+CASCADE;
 DROP FUNCTION IF EXISTS carriage_details
 (integer);
 DROP FUNCTION IF EXISTS carExists
 (integer);
+
+DROP FUNCTION IF EXISTS insert_fault(INTEGER, 
+VARCHAR
+(100), 
+VARCHAR
+(100), 
+VARCHAR
+(1000), 
+INTEGER,
+TEXT);
 
 CREATE TABLE carriageClass
 (
@@ -48,7 +67,6 @@ CREATE TABLE staff
 );
 -- information to verify staff ID at login (add some dummy data for demo)
 -- name and dob allows staff to login if they don't know their staff ID
-
 CREATE TABLE fault
 (
     faultNo INTEGER,
@@ -57,17 +75,20 @@ CREATE TABLE fault
     location VARCHAR(100),
     faultDesc VARCHAR(1000),
     staffID INTEGER,
-    dateReported TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status CHAR DEFAULT 'N',
+    dateReported DATE DEFAULT CURRENT_DATE,
+    timeReported TIME DEFAULT CURRENT_TIME,
     img TEXT,
+    status CHAR DEFAULT 'R',
+    assignedTo INTEGER,
     notes VARCHAR(1000),
     CONSTRAINT fault_pk PRIMARY KEY (faultNo),
     CONSTRAINT fault_fk1 FOREIGN KEY (carriageNo) REFERENCES carriage,
-    CONSTRAINT fault_pk2 FOREIGN KEY (staffID) REFERENCES staff
+    CONSTRAINT fault_fk2 FOREIGN KEY (staffID) REFERENCES staff,
+    CONSTRAINT fault_fk3 FOREIGN KEY (assignedTo) REFERENCES staff
 );
 -- this is assuming carriage will always be obtained, but might need to add another table if we could only get the train 
 -- (ie a list of carriages) if they only know where the train was and at what time (ie on a rural train where the carriages don't have letters)
--- fault status- N = not started, I = in progress, F = fixed
+-- fault status- R = not reported, I = in progress, F = fixed
 
 CREATE TABLE fault_update
 (
@@ -75,8 +96,9 @@ CREATE TABLE fault_update
     staffID INTEGER,
     status CHAR,
     notes VARCHAR(1000),
-    dateUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fault_update_pk PRIMARY KEY (faultNo,dateUpdated),
+    dateReported DATE DEFAULT CURRENT_DATE,
+    timeReported TIME DEFAULT CURRENT_TIME,
+    CONSTRAINT fault_update_pk PRIMARY KEY (faultNo),
     CONSTRAINT fault_update_fk1 FOREIGN KEY (faultNo) REFERENCES fault,
     CONSTRAINT fault_update_fk2 FOREIGN KEY (staffID) REFERENCES staff
 );
@@ -115,26 +137,24 @@ CREATE TABLE journey
 -- information to identify a train if they don't know the carriage number
 
 CREATE OR REPLACE FUNCTION check_ID
-(IN INTEGER)
-RETURNS BOOLEAN AS $$
-DECLARE id
-INTEGER
-= $1;
+(IN INTEGER) RETURNS BOOLEAN AS $$
+DECLARE id INTEGER = $1;
 BEGIN
     IF id IN (SELECT staffID
     FROM staff) 
-THEN
+	THEN
     RETURN TRUE;
 END
 IF;
-IF id NOT IN (SELECT staffID
+	IF id NOT IN (SELECT staffID
 FROM staff) 
 --THEN RAISE EXCEPTION 'staff id not found';
-THEN
+	THEN
 RETURN FALSE;
 END
 IF;
- END;$$
+ END;
+ $$
 LANGUAGE PLPGSQL;
 
 
@@ -174,7 +194,8 @@ THEN
     FROM car_exists($1) NATURAL JOIN
         (SELECT carriage.carriageclass, carriage.carriageno, carriageclass.numberofseats, carriageclass.toilet, carriageclass.plugsockets, carriageclass.wifi, carriageclass.displayPanel
         FROM carriage, carriageclass
-        WHERE carriage.carriageclass = carriageclass.carriageclass AND carriage.carriageno = $1) AS info ;
+        WHERE carriage.carriageclass = carriageclass.carriageclass AND carriage.carriageno = $1) AS info 
+;
 END
 IF;
 If $1 NOT IN (SELECT carriageno
@@ -185,8 +206,22 @@ IF;
  END;$$
 LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION insert_fault
-(INTEGER, 
+-- CREATE OR REPLACE FUNCTION insert_fault
+-- (INTEGER, 
+-- VARCHAR
+-- (100), 
+-- VARCHAR
+-- (100), 
+-- VARCHAR
+-- (1000), 
+-- INTEGER,
+-- TEXT)
+-- RETURNS VOID AS
+--   'INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID, img)
+-- 	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5, $6);'
+-- LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION insert_fault(INTEGER, 
 VARCHAR
 (100), 
 VARCHAR
@@ -195,7 +230,17 @@ VARCHAR
 (1000), 
 INTEGER,
 TEXT)
+RETURNS table(fault_no INTEGER) AS $$
+BEGIN
+INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID, img)
+VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5, $6);
+RETURN QUERY SELECT COALESCE(MAX(faultNo),0) FROM fault;
+ END;$$
+LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION assign_fault
+(INTEGER,INTEGER)
 RETURNS VOID AS
-  'INSERT INTO fault(faultNo, carriageNo, category, location, faultDesc, staffID, img)
-	VALUES ((SELECT COALESCE(MAX(faultNo),0) FROM fault) + 1, $1, $2, $3, $4, $5, $6);'
+  'UPDATE fault SET assignedTo = $2, status = ''I'' where faultNo = $1;'
 LANGUAGE SQL;
+--function to assign a fault to a member of staff and change the fault status to 'in progress'
